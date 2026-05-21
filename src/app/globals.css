@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -11,23 +10,20 @@
     --card-foreground: 240 10% 3.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 3.9%;
-    /* Primary (CTA): Roxo bem forte #6d28d9 */
     --primary: 263 70% 50%;
     --primary-foreground: 0 0% 100%;
     --secondary: 240 4.8% 95.9%;
     --secondary-foreground: 240 5.9% 10%;
     --muted: 240 4.8% 95.9%;
     --muted-foreground: 240 3.8% 46.1%;
-    /* Accent: Roxo bem forte */
     --accent: 263 70% 50%;
     --accent-foreground: 0 0% 100%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    /* Bordas na cor do CTA conforme solicitado */
     --border: 263 70% 50%;
     --input: 263 70% 50%;
     --ring: 263 70% 50%;
-    --radius: 1rem;
+    --radius: 1.25rem;
     --chart-1: 263 70% 50%;
     --chart-2: 263 40% 70%;
   }
@@ -41,11 +37,10 @@
     @apply bg-background text-foreground font-body selection:bg-primary/20;
   }
   h1, h2, h3, h4, h5, h6 {
-    @apply font-headline;
+    @apply font-headline tracking-tight;
   }
 }
 
-/* Custom transitions */
 .page-transition-enter {
   opacity: 0;
   transform: translateX(20px);
