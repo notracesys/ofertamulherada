@@ -134,7 +134,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
         return (
           <div className="space-y-8 text-center px-4">
             <h2 className="text-3xl font-bold text-foreground leading-tight">
-              Você já experimentou treinos de <span className="text-primary">pilates na parede</span> antes?
+              Você já experimentou o <span className="text-primary">Programa Feminino de Definição</span> antes?
             </h2>
             <div className="space-y-4">
               {[
@@ -166,7 +166,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
               ))}
             </div>
             <div className="relative w-full aspect-square max-w-[300px] mx-auto mt-8">
-              <Image src="/step4.webp" alt="Pilates" fill className="object-contain" />
+              <Image src="/step4.webp" alt="Treino" fill className="object-contain" />
             </div>
           </div>
         );
