@@ -168,11 +168,10 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
             <h2 className="text-2xl font-bold text-center text-primary leading-tight">Qual transformação você mais deseja ver no espelho?</h2>
             <div className="grid grid-cols-1 gap-3">
               {[
-                "Cintura visivelmente mais fina",
-                "Barriga chapada e definida",
-                "Pernas mais grossas e torneadas",
-                "Glúteos maiores e empinados",
-                "Corpo mais seco e estético"
+                "Barriga",
+                "Glúteos",
+                "Peito",
+                "Pernas"
               ].map((opt) => (
                 <Button 
                   key={opt}
@@ -258,7 +257,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                   key={opt}
                   className="py-12 text-2xl font-bold rounded-3xl flex flex-col gap-1 border-2"
                   variant="outline"
-                  onClick={() => { updateState("focusAreasSummary", opt); nextStep(); }}
+                  onClick={() => { updateState("dedicationTime", opt); nextStep(); }}
                 >
                   {opt}
                   <span className="text-[10px] font-normal uppercase tracking-widest opacity-60">por dia</span>
@@ -357,7 +356,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
               </Card>
               <Card className="p-4 border-primary/20 bg-secondary/30">
                 <span className="text-[10px] uppercase font-bold text-muted-foreground">Objetivo</span>
-                <p className="font-bold">Cintura Fina</p>
+                <p className="font-bold">{state.goalTransformation || "Cintura Fina"}</p>
               </Card>
             </div>
 
