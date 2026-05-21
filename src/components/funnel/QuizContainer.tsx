@@ -14,7 +14,7 @@ import { generatePersonalizedAfricanMethodPlan, type GeneratePersonalizedAfrican
 import { QuizStep } from "./QuizStep";
 import { cn } from "@/lib/utils";
 
-const TOTAL_STEPS = 17;
+const TOTAL_STEPS = 18;
 const STORAGE_KEY = "fitness_fem_quiz_state";
 
 const INITIAL_STATE: GeneratePersonalizedAfricanMethodPlanInput = {
@@ -28,6 +28,7 @@ const INITIAL_STATE: GeneratePersonalizedAfricanMethodPlanInput = {
   increaseRegion: "",
   dedicationTime: "",
   exerciseFrequency: "",
+  walkingFrequency: "",
   emotionalGoal: "",
   flexibility: "",
   physicalLimitations: "",
@@ -510,6 +511,41 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
 
       case 13:
         return (
+          <div className="space-y-8 text-center px-4">
+            <h2 className="text-3xl font-bold text-foreground leading-tight">
+              Com que frequência você sai para caminhadas?
+            </h2>
+            <div className="space-y-4 pt-4">
+              {[
+                { label: "Quase todos os dias", value: "diario", emoji: "😎" },
+                { label: "3-4 vezes por semana", value: "3-4x", emoji: "💪" },
+                { label: "1-2 vezes por semana", value: "1-2x", emoji: "😊" },
+                { label: "Uma vez por mês", value: "mensal", emoji: "👍" }
+              ].map((opt) => (
+                <Button 
+                  key={opt.value}
+                  variant={state.walkingFrequency === opt.value ? "default" : "outline"}
+                  className={cn(
+                    "w-full py-8 text-lg rounded-2xl border-2 transition-all flex justify-start items-center px-6 gap-6 bg-white",
+                    state.walkingFrequency === opt.value ? "border-primary shadow-lg ring-1 ring-primary" : "border-primary/10 hover:border-primary/40"
+                  )}
+                  onClick={() => { 
+                    updateState("walkingFrequency", opt.value); 
+                    setTimeout(nextStep, 300);
+                  }}
+                >
+                  <span className="text-4xl">{opt.emoji}</span>
+                  <span className={cn("font-bold", state.walkingFrequency === opt.value ? "text-primary" : "text-foreground")}>
+                    {opt.label}
+                  </span>
+                </Button>
+              ))}
+            </div>
+          </div>
+        );
+
+      case 14:
+        return (
           <div className="space-y-6">
             <h2 className="text-2xl font-bold text-center text-primary">Quanto tempo você tem para cuidar de si mesma por dia?</h2>
             <div className="grid grid-cols-2 gap-4">
@@ -528,7 +564,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           </div>
         );
 
-      case 14:
+      case 15:
         return (
           <div className="space-y-3">
             <h2 className="text-2xl font-bold text-center text-primary">Como você quer se sentir daqui a 30 dias?</h2>
@@ -552,7 +588,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           </div>
         );
 
-      case 15:
+      case 16:
         return (
           <div className="space-y-8 py-4">
             <h2 className="text-2xl font-bold text-center text-primary">Mulheres reais, resultados reais.</h2>
@@ -579,7 +615,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           </div>
         );
 
-      case 16:
+      case 17:
         return (
           <LoadingScreen 
             title="Seu plano feminino personalizado está sendo criado..." 
@@ -589,7 +625,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           />
         );
 
-      case 17:
+      case 18:
         return (
           <div className="space-y-8 text-center py-6">
             <Badge className="bg-green-500 hover:bg-green-600 text-white border-none py-1 px-4 mb-2">Análise Concluída</Badge>
