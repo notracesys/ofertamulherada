@@ -13,12 +13,13 @@ import { generatePersonalizedAfricanMethodPlan, type GeneratePersonalizedAfrican
 import { QuizStep } from "./QuizStep";
 import { cn } from "@/lib/utils";
 
-const TOTAL_STEPS = 12;
+const TOTAL_STEPS = 13;
 const STORAGE_KEY = "fitness_fem_quiz_state";
 
 const INITIAL_STATE: GeneratePersonalizedAfricanMethodPlanInput = {
   ageRange: "30 a 39 anos",
   pilatesExperience: "",
+  bodyDescription: "",
   mainConcern: "",
   goalTransformation: "",
   weightDifficulty: "",
@@ -68,10 +69,10 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
     try {
       const result = await generatePersonalizedAfricanMethodPlan(state);
       setQuizOutput(result);
-      setTimeout(() => router.push(`/step/12`), 2000);
+      setTimeout(() => router.push(`/step/${TOTAL_STEPS}`), 2000);
     } catch (error) {
       console.error(error);
-      router.push(`/step/12`);
+      router.push(`/step/${TOTAL_STEPS}`);
     } finally {
       setLoading(false);
     }
@@ -166,7 +167,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
               ))}
             </div>
             <div className="relative w-full aspect-square max-w-full mx-auto mt-8">
-              <Image src="/step4.webp" alt="Treino" fill className="object-contain" />
+              <Image src="/step4.webp" alt="Programa" fill className="object-contain" />
             </div>
           </div>
         );
@@ -269,6 +270,41 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
 
       case 7:
         return (
+          <div className="space-y-6 text-center">
+            <h2 className="text-3xl font-bold text-foreground leading-tight">Como você descreveria seu físico?</h2>
+            <p className="text-muted-foreground">Escolha uma opção para avançar</p>
+            <div className="space-y-4 pt-4">
+              {[
+                { label: "Magro", imageUrl: "/magro.webp" },
+                { label: "Médio", imageUrl: "/magro.webp" },
+                { label: "Maior", imageUrl: "/gordo.webp" },
+                { label: "Com excesso de peso", imageUrl: "/gordo.webp" }
+              ].map((opt) => (
+                <Card 
+                  key={opt.label} 
+                  className={cn(
+                    "p-0 flex items-center cursor-pointer border-2 transition-all overflow-hidden h-24",
+                    state.bodyDescription === opt.label ? "bg-primary border-primary" : "bg-white border-primary/10 hover:border-primary/40"
+                  )}
+                  onClick={() => { updateState("bodyDescription", opt.label); nextStep(); }}
+                >
+                  <div className="flex-1 px-8 text-left">
+                    <span className={cn("font-bold text-xl", state.bodyDescription === opt.label ? "text-white" : "text-foreground")}>
+                      {opt.label}
+                    </span>
+                  </div>
+                  <div className={cn("h-full w-1", state.bodyDescription === opt.label ? "bg-white/20" : "bg-primary")} />
+                  <div className="relative w-32 h-full shrink-0">
+                    <Image src={opt.imageUrl} alt={opt.label} fill className="object-cover" />
+                  </div>
+                </Card>
+              ))}
+            </div>
+          </div>
+        );
+
+      case 8:
+        return (
           <div className="space-y-6">
             <h2 className="text-2xl font-bold text-center text-primary leading-tight">Qual região você mais deseja aumentar e tonificar?</h2>
             <div className="grid grid-cols-2 gap-4">
@@ -291,7 +327,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           </div>
         );
 
-      case 8:
+      case 9:
         return (
           <div className="space-y-6">
             <h2 className="text-2xl font-bold text-center text-primary">Quanto tempo você tem para cuidar de si mesma por dia?</h2>
@@ -311,7 +347,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           </div>
         );
 
-      case 9:
+      case 10:
         return (
           <div className="space-y-3">
             <h2 className="text-2xl font-bold text-center text-primary">Como você quer se sentir daqui a 30 dias?</h2>
@@ -335,7 +371,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           </div>
         );
 
-      case 10:
+      case 11:
         return (
           <div className="space-y-8 py-4">
             <h2 className="text-2xl font-bold text-center text-primary">Mulheres reais, resultados reais.</h2>
@@ -362,7 +398,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           </div>
         );
 
-      case 11:
+      case 12:
         return (
           <LoadingScreen 
             title="Seu plano feminino personalizado está sendo criado..." 
@@ -372,7 +408,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           />
         );
 
-      case 12:
+      case 13:
         return (
           <div className="space-y-8 text-center py-6">
             <Badge className="bg-green-500 hover:bg-green-600 text-white border-none py-1 px-4 mb-2">Análise Concluída</Badge>
@@ -433,7 +469,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
         </div>
       )}
 
-      <div className={cn("w-full pt-20 pb-20 flex-1 flex flex-col items-center", stepId >= 11 ? "pt-10" : "")}>
+      <div className={cn("w-full pt-20 pb-20 flex-1 flex flex-col items-center", stepId >= 12 ? "pt-10" : "")}>
         <AnimatePresence mode="wait">
           <QuizStep key={stepId} stepId={stepId}>
             {renderStep()}
