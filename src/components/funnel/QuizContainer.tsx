@@ -1030,13 +1030,12 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     animationDuration={2000}
                   />
                   
-                  {/* Ponto Inicial - Apenas Peso */}
                   <ReferenceDot 
                     x="Hoje" 
                     y={currentWeight} 
                     r={6} 
-                    fill="#EF4444" 
-                    stroke="#fff" 
+                    fill="#fff" 
+                    stroke="#EF4444" 
                     strokeWidth={2}
                     label={{ 
                       position: 'top', 
@@ -1045,19 +1044,18 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                         const { x, y } = props;
                         if (typeof x !== 'number' || typeof y !== 'number' || isNaN(x) || isNaN(y)) return null;
                         return (
-                          <text x={x} y={y - 10} textAnchor="middle" fill="#EF4444" fontSize="16" fontWeight="bold">{currentWeight}kg</text>
+                          <text x={x} y={y - 10} textAnchor="middle" fill="#EF4444" fontSize="16" fontWeight="black">{currentWeight}kg</text>
                         );
                       }
                     }}
                   />
                   
-                  {/* Ponto Final - Apenas Peso */}
                   <ReferenceDot 
                     x="21 dias" 
                     y={targetWeight} 
                     r={6} 
-                    fill="#10B981" 
-                    stroke="#fff" 
+                    fill="#fff" 
+                    stroke="#10B981" 
                     strokeWidth={2}
                     label={{ 
                       position: 'top', 
@@ -1066,7 +1064,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                         const { x, y } = props;
                         if (typeof x !== 'number' || typeof y !== 'number' || isNaN(x) || isNaN(y)) return null;
                         return (
-                          <text x={x} y={y - 10} textAnchor="middle" fill="#10B981" fontSize="16" fontWeight="bold">{targetWeight}kg</text>
+                          <text x={x} y={y - 10} textAnchor="middle" fill="#10B981" fontSize="16" fontWeight="black">{targetWeight}kg</text>
                         );
                       }
                     }}
@@ -1198,11 +1196,11 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
       case 24:
         return (
           <div className="flex flex-col items-center w-full max-w-md mx-auto px-4 pb-10">
-            <div className="w-full h-1.5 bg-secondary/30 rounded-full mb-8 overflow-hidden">
-               <div className="h-full bg-primary w-full" />
+            <div className="w-full h-1.5 bg-primary/20 rounded-full mb-8 overflow-hidden relative">
+               <div className="absolute top-0 left-0 h-full bg-primary w-full" />
             </div>
 
-            <div className="relative w-full h-[320px] mb-6">
+            <div className="relative w-full h-[280px] mb-8">
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={weightData} margin={{ top: 60, right: 40, left: 40, bottom: 20 }}>
                   <defs>
@@ -1225,7 +1223,6 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                       if (typeof x !== 'number' || typeof y !== 'number' || isNaN(x) || isNaN(y)) return null;
                       let label = "";
                       if (payload.value === "Hoje") label = "SEMANA 1";
-                      if (payload.value === "7 dias") return null;
                       if (payload.value === "14 dias") label = "SEMANA 2";
                       if (payload.value === "21 dias") label = "SEMANA 3";
                       if (!label) return null;
@@ -1236,7 +1233,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                       );
                     }}
                   />
-                  <YAxis hide domain={['dataMin - 5', 'dataMax + 5']} />
+                  <YAxis hide domain={['dataMin - 15', 'dataMax + 15']} />
                   <Area 
                     type="monotone" 
                     dataKey="weight" 
@@ -1246,13 +1243,12 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     animationDuration={2000}
                   />
                   
-                  {/* Ponto Inicial - Apenas Peso */}
                   <ReferenceDot 
                     x="Hoje" 
                     y={currentWeight} 
                     r={5} 
                     fill="#fff" 
-                    stroke="#cbd5e1" 
+                    stroke="#EF4444" 
                     strokeWidth={2} 
                     label={{ 
                       position: 'top', 
@@ -1261,7 +1257,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                         const { x, y } = props;
                         if (typeof x !== 'number' || typeof y !== 'number' || isNaN(x) || isNaN(y)) return null;
                         return (
-                          <text x={x} y={y - 10} textAnchor="middle" fill="#000" fontSize="14" fontWeight="bold">{currentWeight}kg</text>
+                          <text x={x} y={y - 12} textAnchor="middle" fill="#000" fontSize="16" fontWeight="black">{currentWeight}kg</text>
                         );
                       }
                     }} 
@@ -1269,13 +1265,12 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                   
                   <ReferenceDot x="14 dias" y={currentWeight - (currentWeight - targetWeight) * 0.8} r={5} fill="#fff" stroke="#cbd5e1" strokeWidth={2} />
                   
-                  {/* Ponto Final - Apenas Peso */}
                   <ReferenceDot 
                     x="21 dias" 
                     y={targetWeight} 
                     r={5} 
                     fill="#fff" 
-                    stroke="#cbd5e1" 
+                    stroke="#22c55e" 
                     strokeWidth={2} 
                     label={{ 
                       position: 'top', 
@@ -1284,7 +1279,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                         const { x, y } = props;
                         if (typeof x !== 'number' || typeof y !== 'number' || isNaN(x) || isNaN(y)) return null;
                         return (
-                          <text x={x} y={y - 10} textAnchor="middle" fill="#000" fontSize="14" fontWeight="bold">{targetWeight}kg</text>
+                          <text x={x} y={y - 12} textAnchor="middle" fill="#000" fontSize="16" fontWeight="black">{targetWeight}kg</text>
                         );
                       }
                     }} 
@@ -1293,15 +1288,15 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
               </ResponsiveContainer>
             </div>
 
-            <div className="space-y-4 mb-8 text-center">
-              <h2 className="text-2xl md:text-3xl font-black text-[#0F172A] leading-tight uppercase italic">
+            <div className="space-y-4 mb-8 text-center px-4">
+              <h2 className="text-2xl md:text-3xl font-black text-[#0F172A] leading-tight uppercase italic tracking-tight">
                 seu plano de treino de definição de 3 semanas está pronto!
               </h2>
             </div>
 
-            <div className="bg-[#E6F9EF] p-6 rounded-2xl text-center space-y-2 border border-[#BFF2D6] w-full mb-6">
+            <div className="bg-[#E6F9EF] p-6 rounded-[2rem] text-center space-y-2 border border-[#BFF2D6] w-full mb-8 shadow-sm">
               <h3 className="text-xl font-black text-[#166534]">Mudança para sempre</h3>
-              <p className="text-sm text-[#166534] font-medium leading-relaxed">
+              <p className="text-sm text-[#166534]/80 font-medium leading-relaxed">
                 Assim que atingir o seu peso ideal, utilizaremos as últimas semanas do seu programa para o ajudar a criar hábitos saudáveis que lhe permitam manter o seu peso!
               </p>
             </div>
