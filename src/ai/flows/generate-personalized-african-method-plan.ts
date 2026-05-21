@@ -131,25 +131,25 @@ Tempo Diário Dedicado ao Corpo: {{{dailyTimeDedication}}}
 
 --- Instruções para o Plano ---
 1.  **Cálculos para Geração (LLM deve realizar):**
-    *   **BMI (Índice de Massa Corporal):** Use a fórmula \`peso (kg) / (altura (m))^2\`. A altura deve ser convertida de cm para metros. Arredonde para duas casas decimais.
-    *   **Peso a Perder:** Calcule a diferença entre \`currentWeightKg\` e \`targetWeightKg\`. Se o resultado for negativo ou zero, o objetivo de peso já foi atingido ou superado, então o \`weightLossGoalKg\` deve ser 0.
+    *   **BMI (Índice de Massa Corporal):** Use a fórmula 'peso (kg) / (altura (m))^2'. A altura deve ser convertida de cm para metros. Arredonde para duas casas decimais.
+    *   **Peso a Perder:** Calcule a diferença entre 'currentWeightKg' e 'targetWeightKg'. Se o resultado for negativo ou zero, o objetivo de peso já foi atingido ou superado, então o 'weightLossGoalKg' deve ser 0.
     *   **SuggestedDurationDays:** Sempre use 21 dias, pois o "Método Africano" é um "Protocolo de 21 dias".
 2.  **Level (Nível):** Determine se a usuária é 'Iniciante', 'Intermediário' ou 'Avançado' com base na sua frequência de exercícios, rotina de trabalho, tempo dedicado e fôlego nas escadas.
-    *   \`Iniciante\`: Pouca ou nenhuma atividade física, dificuldades significativas, pouco tempo dedicado, fôlego fraco.
-    *   \`Intermediário\`: Alguma atividade regular, tempo moderado dedicado, fôlego razoável.
-    *   \`Avançado\`: Alta frequência de atividade, bom tempo dedicado, bom fôlego, flexibilidade.
+    *   'Iniciante': Pouca ou nenhuma atividade física, dificuldades significativas, pouco tempo dedicado, fôlego fraco.
+    *   'Intermediário': Alguma atividade regular, tempo moderado dedicado, fôlego razoável.
+    *   'Avançado': Alta frequência de atividade, bom tempo dedicado, bom fôlego, flexibilidade.
 3.  **focusAreasSummary:** Combine as "Regiões de Foco" e qualquer menção a saciedade ou rotina simples. Se nenhuma região de foco for especificada, ou se o foco principal for saciedade e rotina, priorize "Saciedade + Rotina Simples".
     *   Exemplo: "Foco: saciedade + rotina simples" ou "Foco: Barriga, Pernas".
 4.  **methodDescription:** Descreva o "Método Africano" como um protocolo alimentar natural focado em hábitos, receitas e rotina diária para controlar apetite, melhorar saciedade e apoiar a perda de peso, conectando-o às necessidades específicas da usuária.
 5.  **Recomendações:** Baseie todas as recomendações nas respostas fornecidas, usando uma linguagem encorajadora e prática.
-    *   \`dietary\`: Mencione os tipos de dieta preferidos, horários de refeição e dificuldades como "vontade de doces à noite" ou "ansiedade alimentar". Sugira pequenas mudanças e opções naturais.
-    *   \`hydration\`: Dê dicas específicas para atingir/melhorar o consumo de água, como levar uma garrafa ou usar lembretes.
-    *   \`sleep\`: Enfatize a importância do sono para o bem-estar e o controle de peso, e dê dicas para melhorar a frequência de sono com base na entrada da usuária.
-    *   \`activity\`: Sugira atividades adequadas ao nível e rotina (sedentária vs. ativa, tempo diário, caminhadas, exercícios), sempre focando no "possível" e na "constância".
-    *   \`mindset\`: Aborde as dificuldades emocionais, ansiedade alimentar, e a importância da consistência sobre a perfeição. Use frases como "Não é sobre perfeição. É sobre constância." e "Pequenos hábitos. Grandes mudanças.".
+    *   'dietary': Mencione os tipos de dieta preferidos, horários de refeição e dificuldades como "vontade de doces à noite" ou "ansiedade alimentar". Sugira pequenas mudanças e opções naturais.
+    *   'hydration': Dê dicas específicas para atingir/melhorar o consumo de água, como levar uma garrafa ou usar lembretes.
+    *   'sleep': Enfatize a importância do sono para o bem-estar e o controle de peso, e dê dicas para melhorar a frequência de sono com base na entrada da usuária.
+    *   'activity': Sugira atividades adequadas ao nível e rotina (sedentária vs. ativa, tempo diário, caminhadas, exercícios), sempre focando no "possível" e na "constância".
+    *   'mindset': Aborde as dificuldades emocionais, ansiedade alimentar, e a importância da consistência sobre a perfeição. Use frases como "Não é sobre perfeição. É sobre constância." e "Pequenos hábitos. Grandes mudanças.".
 6.  **Tone:** Mantenha um tom que seja ao mesmo tempo acolhedor, empoderador e informativo. Use a primeira pessoa do plural para prometer apoio ("Nós vamos te ajudar").
 
-Gere o JSON de saída estritamente conforme o \`GeneratePersonalizedAfricanMethodPlanOutputSchema\`, sem adicionar qualquer texto extra antes ou depois do JSON.
+Gere o JSON de saída estritamente conforme o 'GeneratePersonalizedAfricanMethodPlanOutputSchema', sem adicionar qualquer texto extra antes ou depois do JSON.
 `,
 });
 

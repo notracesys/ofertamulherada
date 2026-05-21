@@ -128,10 +128,10 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
   const progress = (stepId / TOTAL_STEPS) * 100;
 
   const ageRanges = [
-    { label: "18 a 29 anos", imageId: "age-18-29" },
-    { label: "30 a 39 anos", imageId: "age-30-39" },
-    { label: "40 a 49 anos", imageId: "age-40-49" },
-    { label: "50+ anos", imageId: "age-50-plus" }
+    { label: "18 a 29 anos", imageUrl: "/18-29y.webp" },
+    { label: "30 a 39 anos", imageUrl: "/29-39y.webp" },
+    { label: "40 a 49 anos", imageUrl: "/39-49y.webp" },
+    { label: "50+ anos", imageUrl: "/+50y.webp" }
   ];
 
   const renderStep = () => {
@@ -143,27 +143,23 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
             <p className="text-muted-foreground">Isso nos ajuda a adaptar seu plano ao seu momento atual.</p>
             <div className="grid grid-cols-2 gap-4">
               {ageRanges.map((range) => {
-                const img = PlaceHolderImages.find(p => p.id === range.imageId);
                 return (
                   <Card 
                     key={range.label} 
-                    className={cn(
-                      "p-3 flex flex-col items-center gap-2 cursor-pointer border-2 transition-all hover:border-primary overflow-hidden", 
-                      state.ageRange === range.label ? "border-primary bg-primary/5" : "border-primary/20"
-                    )}
+                    className="p-0 flex flex-col items-center cursor-pointer border-2 border-primary transition-all hover:scale-[1.02] overflow-hidden bg-white"
                     onClick={() => { updateState("ageRange", range.label); nextStep(); }}
                   >
-                    <div className="relative w-full aspect-square rounded-lg overflow-hidden mb-2">
+                    <div className="relative w-full aspect-square">
                       <Image 
-                        src={img?.imageUrl || ''} 
+                        src={range.imageUrl} 
                         alt={range.label} 
                         fill 
                         className="object-cover"
-                        data-ai-hint={img?.imageHint}
                       />
                     </div>
-                    <span className="font-semibold text-xs">{range.label}</span>
-                    <Button variant={state.ageRange === range.label ? "default" : "outline"} size="sm" className="w-full text-[10px] h-7 border-primary text-primary hover:bg-primary hover:text-white">Selecionar</Button>
+                    <div className="py-4 w-full text-center">
+                      <span className="font-bold text-lg text-primary">{range.label}</span>
+                    </div>
                   </Card>
                 );
               })}
