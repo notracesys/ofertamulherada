@@ -86,7 +86,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
       case 1:
         return (
           <div className="space-y-6 text-center">
-            <h1 className="text-3xl font-bold leading-tight">Qual sua idade?</h1>
+            <h1 className="text-3xl font-bold leading-tight text-foreground">Qual sua idade?</h1>
             <p className="text-muted-foreground">Isso nos ajuda a adaptar seu plano ao seu momento atual.</p>
             <div className="grid grid-cols-2 gap-4">
               {[
@@ -119,7 +119,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
               Mais de 500.000 mulheres
             </h2>
             <p className="text-lg text-muted-foreground leading-snug">
-              em seus <span className="font-bold text-foreground">+20 anos</span> já experimentaram o nosso programa feminino de definição
+              com <span className="font-bold text-foreground">+20 anos</span> já experimentaram o nosso programa feminino de definição
             </p>
             <div className="relative w-full aspect-[4/5] max-w-sm mx-auto">
               <Image src="/mulheres.webp" alt="Mulheres" fill className="object-contain" priority />
@@ -165,7 +165,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 </Button>
               ))}
             </div>
-            <div className="relative w-full aspect-square max-w-[300px] mx-auto mt-8">
+            <div className="relative w-full aspect-square max-w-full mx-auto mt-8">
               <Image src="/step4.webp" alt="Treino" fill className="object-contain" />
             </div>
           </div>
