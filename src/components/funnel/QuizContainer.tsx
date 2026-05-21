@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
 import { Check, ArrowRight, Star, ShieldCheck, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -18,6 +19,7 @@ const TOTAL_STEPS = 22;
 const STORAGE_KEY = "fitness_fem_quiz_state";
 
 const INITIAL_STATE: GeneratePersonalizedAfricanMethodPlanInput = {
+  age: "",
   ageRange: "30 a 39 anos",
   pilatesExperience: "",
   bodyDescription: "",
@@ -874,21 +876,41 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
 
       case 18:
         return (
-          <div className="space-y-6">
-            <h2 className="text-2xl font-bold text-center text-primary">Quanto tempo você tem para cuidar de si mesma por dia?</h2>
-            <div className="grid grid-cols-2 gap-4">
-              {["5 min", "10 min", "20 min", "30 min"].map((opt) => (
-                <Button 
-                  key={opt}
-                  className="py-12 text-2xl font-bold rounded-3xl flex flex-col gap-1 border-2 bg-white"
-                  variant="outline"
-                  onClick={() => { updateState("dedicationTime", opt); nextStep(); }}
-                >
-                  {opt}
-                  <span className="text-[10px] font-normal uppercase tracking-widest opacity-60">por dia</span>
-                </Button>
-              ))}
+          <div className="space-y-8 text-center px-4 max-w-sm mx-auto">
+            <div className="space-y-2">
+              <h2 className="text-4xl font-bold text-[#0F172A] leading-tight">Qual sua idade?</h2>
+              <p className="text-muted-foreground font-medium text-sm px-6">
+                Perguntamos a sua idade para personalizar o seu plano
+              </p>
             </div>
+            
+            <div className="pt-4">
+              <Input 
+                type="number" 
+                placeholder="Exemplo: 39" 
+                className="h-16 rounded-3xl text-center text-xl italic border-primary/20 bg-white shadow-sm focus-visible:ring-primary"
+                value={state.age}
+                onChange={(e) => updateState("age", e.target.value)}
+              />
+            </div>
+
+            <div className="bg-[#EBF5FF] p-6 rounded-3xl text-left space-y-2 border border-blue-100 mt-4">
+              <div className="flex gap-2">
+                <div className="bg-green-500 rounded p-0.5 w-5 h-5 flex items-center justify-center shrink-0 mt-0.5">
+                  <Check className="w-3 h-3 text-white" />
+                </div>
+                <p className="font-bold text-[#1E40AF] text-sm leading-tight">
+                  Perguntamos a sua idade para personalizar o seu plano
+                </p>
+              </div>
+              <p className="text-[13px] text-[#3B82F6] leading-relaxed pl-7">
+                As pessoas mais velhas tendem a ter mais gordura corporal que os mais novos com o mesmo IMC
+              </p>
+            </div>
+
+            <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl shadow-primary/30 uppercase bg-primary text-white mt-4">
+              PRÓXIMO PASSO
+            </Button>
           </div>
         );
 

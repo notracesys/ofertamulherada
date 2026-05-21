@@ -7,6 +7,7 @@ import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
 const GeneratePersonalizedAfricanMethodPlanInputSchema = z.object({
+  age: z.string().optional().describe("User's exact age."),
   ageRange: z.string().describe("User's age range."),
   pilatesExperience: z.string().describe("Whether the user has tried the method before."),
   bodyDescription: z.string().describe("How the user describes their current physique."),
@@ -60,7 +61,7 @@ const prompt = ai.definePrompt({
   name: 'generatePersonalizedAfricanMethodPlanPrompt',
   input: { schema: GeneratePersonalizedAfricanMethodPlanInputSchema },
   output: { schema: GeneratePersonalizedAfricanMethodPlanOutputSchema },
-  prompt: 'Você é uma especialista em transformação corporal feminina e estética (foco em cintura, glúteos e pernas). Gere um plano personalizado chamado "Programa Feminino de Definição" baseado nestas respostas: Idade: {{{ageRange}}}, Altura: {{{height}}}, Peso Atual: {{{weight}}}, Peso Ideal: {{{targetWeight}}}, Experiência prévia: {{{pilatesExperience}}}, Físico atual: {{{bodyDescription}}}, Corpo dos sonhos: {{{dreamBody}}}, O que incomoda: {{{mainConcern}}}, Objetivo: {{{goalTransformation}}}, Dificuldade: {{{weightDifficulty}}}, Região para aumentar: {{{increaseRegion}}}, Tempo: {{{dedicationTime}}}, Frequência de exercício: {{{exerciseFrequency}}}, Caminhadas: {{{walkingFrequency}}}, Energia no dia: {{{energyLevel}}}, Desejo emocional: {{{emotionalGoal}}}, Flexibilidade: {{{flexibility}}}, Limitações: {{{physicalLimitations}}}. Crie um tom acolhedor, premium e motivador. O foco deve ser em resultados reais e naturais em 21 dias.',
+  prompt: 'Você é uma especialista em transformação corporal feminina e estética (foco em cintura, glúteos e pernas). Gere um plano personalizado chamado "Programa Feminino de Definição" baseado nestas respostas: Idade Exata: {{{age}}}, Faixa Etária: {{{ageRange}}}, Altura: {{{height}}}, Peso Atual: {{{weight}}}, Peso Ideal: {{{targetWeight}}}, Experiência prévia: {{{pilatesExperience}}}, Físico atual: {{{bodyDescription}}}, Corpo dos sonhos: {{{dreamBody}}}, O que incomoda: {{{mainConcern}}}, Objetivo: {{{goalTransformation}}}, Dificuldade: {{{weightDifficulty}}}, Região para aumentar: {{{increaseRegion}}}, Tempo: {{{dedicationTime}}}, Frequência de exercício: {{{exerciseFrequency}}}, Caminhadas: {{{walkingFrequency}}}, Energia no dia: {{{energyLevel}}}, Desejo emocional: {{{emotionalGoal}}}, Flexibilidade: {{{flexibility}}}, Limitações: {{{physicalLimitations}}}. Crie um tom acolhedor, premium e motivador. O foco deve ser em resultados reais e naturais em 21 dias.',
 });
 
 const generatePersonalizedAfricanMethodPlanFlow = ai.defineFlow(
