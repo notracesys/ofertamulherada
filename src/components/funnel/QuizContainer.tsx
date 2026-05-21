@@ -562,15 +562,18 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                   key={opt.value}
                   variant={state.energyLevel === opt.value ? "default" : "outline"}
                   className={cn(
-                    "w-full py-6 text-lg rounded-2xl border-2 transition-all flex justify-between items-center px-6 bg-white text-left h-auto min-h-[85px] relative",
-                    state.energyLevel === opt.value ? "border-primary shadow-md" : "border-primary/10 hover:border-primary/30"
+                    "w-full px-6 py-6 min-h-[85px] h-auto rounded-2xl border-2 transition-all flex justify-between items-center bg-white text-left",
+                    state.energyLevel === opt.value ? "border-primary shadow-md ring-1 ring-primary" : "border-primary/10 hover:border-primary/30"
                   )}
                   onClick={() => { 
                     updateState("energyLevel", opt.value); 
                     setTimeout(nextStep, 300);
                   }}
                 >
-                  <span className={cn("font-bold flex-1 pr-6 leading-tight", state.energyLevel === opt.value ? "text-primary" : "text-foreground")}>
+                  <span className={cn(
+                    "font-bold text-lg leading-tight flex-1 pr-4", 
+                    state.energyLevel === opt.value ? "text-primary" : "text-foreground"
+                  )}>
                     {opt.label}
                   </span>
                   <div className={cn(
