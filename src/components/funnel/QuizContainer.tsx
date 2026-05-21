@@ -14,7 +14,7 @@ import { generatePersonalizedAfricanMethodPlan, type GeneratePersonalizedAfrican
 import { QuizStep } from "./QuizStep";
 import { cn } from "@/lib/utils";
 
-const TOTAL_STEPS = 18;
+const TOTAL_STEPS = 19;
 const STORAGE_KEY = "fitness_fem_quiz_state";
 
 const INITIAL_STATE: GeneratePersonalizedAfricanMethodPlanInput = {
@@ -29,6 +29,7 @@ const INITIAL_STATE: GeneratePersonalizedAfricanMethodPlanInput = {
   dedicationTime: "",
   exerciseFrequency: "",
   walkingFrequency: "",
+  energyLevel: "",
   emotionalGoal: "",
   flexibility: "",
   physicalLimitations: "",
@@ -546,6 +547,49 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
 
       case 14:
         return (
+          <div className="space-y-8 text-center px-4">
+            <h2 className="text-3xl font-bold text-foreground leading-tight">
+              Como são os seus níveis de energia durante o dia?
+            </h2>
+            <div className="space-y-3 pt-4">
+              {[
+                { label: "Baixo, me sinto cansada durante o dia", value: "baixo" },
+                { label: "Sinto uma queda de energia depois do almoço", value: "queda" },
+                { label: "Me arrasto entre as refeições", value: "arrasto" },
+                { label: "Elevados e estáveis", value: "elevados" }
+              ].map((opt) => (
+                <Button 
+                  key={opt.value}
+                  variant={state.energyLevel === opt.value ? "default" : "outline"}
+                  className={cn(
+                    "w-full py-6 text-lg rounded-2xl border-2 transition-all flex justify-between items-center px-6 bg-white text-left h-auto min-h-[80px]",
+                    state.energyLevel === opt.value ? "border-primary shadow-lg ring-1 ring-primary" : "border-primary/10 hover:border-primary/40"
+                  )}
+                  onClick={() => { 
+                    updateState("energyLevel", opt.value); 
+                    setTimeout(nextStep, 300);
+                  }}
+                >
+                  <span className={cn("font-bold flex-1 pr-4", state.energyLevel === opt.value ? "text-primary" : "text-foreground")}>
+                    {opt.label}
+                  </span>
+                  <div className={cn(
+                    "w-7 h-7 rounded-full border-2 flex items-center justify-center transition-colors shrink-0",
+                    state.energyLevel === opt.value ? "bg-primary border-primary text-white" : "border-primary/20"
+                  )}>
+                    {state.energyLevel === opt.value && <Check className="w-4 h-4" />}
+                  </div>
+                </Button>
+              ))}
+            </div>
+            <div className="relative w-full aspect-square max-w-[320px] mx-auto mt-6">
+              <Image src="/step14.webp" alt="Energia" fill className="object-contain" priority />
+            </div>
+          </div>
+        );
+
+      case 15:
+        return (
           <div className="space-y-6">
             <h2 className="text-2xl font-bold text-center text-primary">Quanto tempo você tem para cuidar de si mesma por dia?</h2>
             <div className="grid grid-cols-2 gap-4">
@@ -564,7 +608,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           </div>
         );
 
-      case 15:
+      case 16:
         return (
           <div className="space-y-3">
             <h2 className="text-2xl font-bold text-center text-primary">Como você quer se sentir daqui a 30 dias?</h2>
@@ -588,7 +632,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           </div>
         );
 
-      case 16:
+      case 17:
         return (
           <div className="space-y-8 py-4">
             <h2 className="text-2xl font-bold text-center text-primary">Mulheres reais, resultados reais.</h2>
@@ -615,7 +659,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           </div>
         );
 
-      case 17:
+      case 18:
         return (
           <LoadingScreen 
             title="Seu plano feminino personalizado está sendo criado..." 
@@ -625,7 +669,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           />
         );
 
-      case 18:
+      case 19:
         return (
           <div className="space-y-8 text-center py-6">
             <Badge className="bg-green-500 hover:bg-green-600 text-white border-none py-1 px-4 mb-2">Análise Concluída</Badge>
@@ -686,7 +730,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
         </div>
       )}
 
-      <div className={cn("w-full pt-20 pb-20 flex-1 flex flex-col items-center", stepId >= 16 ? "pt-10" : "")}>
+      <div className={cn("w-full pt-20 pb-20 flex-1 flex flex-col items-center", stepId >= TOTAL_STEPS - 2 ? "pt-10" : "")}>
         <AnimatePresence mode="wait">
           <QuizStep key={stepId} stepId={stepId}>
             {renderStep()}
