@@ -64,6 +64,9 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
   const startX = useRef(0);
   const scrollLeft = useRef(0);
 
+  // State for animated progress in analysis steps
+  const [step19Progress, setStep19Progress] = useState(30);
+
   useEffect(() => {
     setIsClient(true);
     const saved = localStorage.getItem(STORAGE_KEY);
@@ -96,8 +99,24 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
         const tw = parseInt(state.targetWeight || "60");
         targetWeightRulerRef.current.scrollLeft = (tw - 25) * 10;
       }
+      
+      // Auto-animate Step 19
+      if (stepId === 19) {
+        setStep19Progress(30);
+        const timer = setInterval(() => {
+          setStep19Progress(p => {
+            if (p >= 100) {
+              clearInterval(timer);
+              setTimeout(() => router.push("/step/20"), 800);
+              return 100;
+            }
+            return p + 2;
+          });
+        }, 50);
+        return () => clearInterval(timer);
+      }
     }
-  }, [stepId, isClient, state.height, state.weight, state.targetWeight]);
+  }, [stepId, isClient, state.height, state.weight, state.targetWeight, router]);
 
   const nextStep = () => {
     if (stepId < TOTAL_STEPS) {
@@ -928,9 +947,9 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
             <div className="space-y-4">
               <div className="flex justify-between items-center mb-1">
                 <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Analisando o seu perfil...</span>
-                <span className="text-[10px] font-bold text-primary">30%</span>
+                <span className="text-[10px] font-bold text-primary">{step19Progress}%</span>
               </div>
-              <Progress value={30} className="h-1.5 bg-secondary" />
+              <Progress value={step19Progress} className="h-1.5 bg-secondary" />
               <p className="text-sm text-muted-foreground italic">aguarde um momento ...</p>
             </div>
 
@@ -957,10 +976,6 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 </p>
               </Card>
             </div>
-
-            <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl shadow-primary/30 uppercase bg-primary text-white mt-4">
-              Continuar
-            </Button>
           </div>
         );
 
