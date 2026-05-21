@@ -11,24 +11,25 @@
     --card-foreground: 240 10% 3.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 3.9%;
-    /* Primary: #ff4fa0 (332 100% 65%) */
-    --primary: 332 100% 65%;
+    /* Primary (CTA): Roxo bem forte #6d28d9 */
+    --primary: 263 70% 50%;
     --primary-foreground: 0 0% 100%;
     --secondary: 240 4.8% 95.9%;
     --secondary-foreground: 240 5.9% 10%;
     --muted: 240 4.8% 95.9%;
     --muted-foreground: 240 3.8% 46.1%;
-    /* Accent: #16c964 (146 80% 44%) */
-    --accent: 146 80% 44%;
+    /* Accent: Roxo bem forte */
+    --accent: 263 70% 50%;
     --accent-foreground: 0 0% 100%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 332 100% 65%;
+    /* Bordas na cor do CTA conforme solicitado */
+    --border: 263 70% 50%;
+    --input: 263 70% 50%;
+    --ring: 263 70% 50%;
     --radius: 1rem;
-    --chart-1: 332 100% 65%;
-    --chart-2: 146 80% 44%;
+    --chart-1: 263 70% 50%;
+    --chart-2: 263 40% 70%;
   }
 }
 

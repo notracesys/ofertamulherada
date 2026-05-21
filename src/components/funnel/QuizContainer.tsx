@@ -12,7 +12,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 import { Check, ArrowRight, Activity, Users, Star, Lock, Heart, Clock, Utensils, Droplets, Zap } from "lucide-react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import { generatePersonalizedAfricanMethodPlan, type GeneratePersonalizedAfricanMethodPlanInput, type GeneratePersonalizedAfricanMethodPlanOutput } from "@/ai/flows/generate-personalized-african-method-plan";
 import { QuizStep } from "./QuizStep";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
@@ -66,7 +66,6 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
   const [loading, setLoading] = useState(false);
   const [quizOutput, setQuizOutput] = useState<GeneratePersonalizedAfricanMethodPlanOutput | null>(null);
   const [isClient, setIsClient] = useState(false);
-
   const [state, setState] = useState<GeneratePersonalizedAfricanMethodPlanInput>(INITIAL_STATE);
 
   useEffect(() => {
@@ -150,7 +149,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     key={range.label} 
                     className={cn(
                       "p-3 flex flex-col items-center gap-2 cursor-pointer border-2 transition-all hover:border-primary overflow-hidden", 
-                      state.ageRange === range.label ? "border-primary bg-primary/5" : "border-transparent"
+                      state.ageRange === range.label ? "border-primary bg-primary/5" : "border-primary/20"
                     )}
                     onClick={() => { updateState("ageRange", range.label); nextStep(); }}
                   >
@@ -164,7 +163,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                       />
                     </div>
                     <span className="font-semibold text-xs">{range.label}</span>
-                    <Button variant="outline" size="sm" className="w-full text-[10px] h-7">Selecionar</Button>
+                    <Button variant={state.ageRange === range.label ? "default" : "outline"} size="sm" className="w-full text-[10px] h-7 border-primary text-primary hover:bg-primary hover:text-white">Selecionar</Button>
                   </Card>
                 );
               })}
@@ -177,11 +176,11 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           <div className="space-y-6 text-center">
             <h2 className="text-2xl font-bold">Mulheres comuns estão transformando seus hábitos</h2>
             <div className="space-y-4">
-              <Card className="overflow-hidden border-none shadow-md">
+              <Card className="overflow-hidden border-primary shadow-md">
                 <Image src="https://picsum.photos/seed/before-after1/400/300" alt="Success Story" width={400} height={300} className="w-full object-cover" />
                 <div className="p-3 bg-white text-xs italic text-muted-foreground">*Resultado individual pode variar</div>
               </Card>
-              <div className="flex items-center gap-2 justify-center text-accent font-semibold">
+              <div className="flex items-center gap-2 justify-center text-primary font-semibold">
                 <Users className="w-5 h-5" /> <span>+50.000 vidas transformadas</span>
               </div>
             </div>
@@ -203,7 +202,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 "Acesso imediato no celular"
               ].map((item, i) => (
                 <div key={i} className="flex items-center gap-3">
-                  <div className="w-6 h-6 rounded-full bg-accent flex items-center justify-center shrink-0">
+                  <div className="w-6 h-6 rounded-full bg-primary flex items-center justify-center shrink-0">
                     <Check className="w-4 h-4 text-white" />
                   </div>
                   <span className="text-sm font-medium">{item}</span>
@@ -213,7 +212,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
             <div className="relative h-48 w-full mt-4">
               <Image src={PlaceHolderImages.find(img => img.id === 'mockup-phone')?.imageUrl || ''} alt="Mockup" fill className="object-contain" />
             </div>
-            <Button onClick={nextStep} variant="secondary" className="w-full py-6 text-lg rounded-full bg-accent hover:bg-accent/90 text-white">Continuar</Button>
+            <Button onClick={nextStep} className="w-full py-6 text-lg rounded-full">Continuar</Button>
           </div>
         );
 
@@ -233,16 +232,16 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
         return (
           <div className="space-y-6">
             <h2 className="text-2xl font-bold text-center">Seu possível progresso</h2>
-            <div className="bg-white p-6 rounded-2xl shadow-inner h-48 flex items-end justify-around gap-2">
+            <div className="bg-white p-6 rounded-2xl shadow-inner h-48 flex items-end justify-around gap-2 border border-primary/20">
               {[40, 60, 50, 80, 70, 95, 100].map((h, i) => (
                 <div key={i} className="w-full bg-primary/20 rounded-t-lg transition-all" style={{ height: `${h}%` }}>
-                  {i === 6 && <div className="h-full bg-accent rounded-t-lg" />}
+                  {i === 6 && <div className="h-full bg-primary rounded-t-lg" />}
                 </div>
               ))}
             </div>
-            <div className="bg-accent/10 border border-accent/20 p-4 rounded-xl flex gap-3">
-              <Zap className="w-6 h-6 text-accent shrink-0" />
-              <p className="text-sm text-accent-foreground font-medium">Plano criado para ser simples, leve e realista.</p>
+            <div className="bg-primary/5 border border-primary p-4 rounded-xl flex gap-3">
+              <Zap className="w-6 h-6 text-primary shrink-0" />
+              <p className="text-sm text-primary font-medium">Plano criado para ser simples, leve e realista.</p>
             </div>
             <Button onClick={nextStep} className="w-full py-6 text-lg rounded-full">Continuar</Button>
           </div>
@@ -256,7 +255,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
               value={state.name} 
               onChange={(e) => updateState("name", e.target.value)} 
               placeholder="Digite seu nome" 
-              className="text-center py-6 text-xl rounded-xl"
+              className="text-center py-6 text-xl rounded-xl border-primary"
             />
             <Button disabled={!state.name} onClick={nextStep} className="w-full py-6 text-lg rounded-full">Continuar</Button>
           </div>
@@ -274,7 +273,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
               />
             </div>
             <p className="text-muted-foreground">47% concluído</p>
-            <Card className="p-4 bg-accent/5 border-accent/20 text-left">
+            <Card className="p-4 bg-primary/5 border-primary text-left">
               <p className="text-sm italic">&quot;Milhares de mulheres já buscaram uma rotina mais leve e simples.&quot;</p>
               <div className="flex items-center gap-2 mt-3">
                 <div className="w-8 h-8 rounded-full bg-gray-200" />
@@ -293,11 +292,11 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
               {["1 a 2 dias", "3 a 5 dias", "Todos os dias"].map((opt) => (
                 <Card 
                   key={opt}
-                  className={cn("p-5 flex items-center justify-between cursor-pointer border-2 transition-all", state.weeklyRoutineConsistency === opt ? "border-primary" : "border-transparent")}
+                  className={cn("p-5 flex items-center justify-between cursor-pointer border-2 transition-all", state.weeklyRoutineConsistency === opt ? "border-primary bg-primary/5" : "border-primary/20")}
                   onClick={() => { updateState("weeklyRoutineConsistency", opt); nextStep(); }}
                 >
                   <span className="font-semibold">{opt}</span>
-                  <div className="w-6 h-6 rounded-full border border-primary flex items-center justify-center">
+                  <div className="w-6 h-6 rounded-full border-2 border-primary flex items-center justify-center">
                     {state.weeklyRoutineConsistency === opt && <div className="w-3 h-3 rounded-full bg-primary" />}
                   </div>
                 </Card>
@@ -315,7 +314,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 <Button 
                   key={opt}
                   variant={state.dailyTimeDedication === opt ? "default" : "outline"}
-                  className="py-10 text-lg rounded-2xl flex flex-col gap-1"
+                  className={cn("py-10 text-lg rounded-2xl flex flex-col gap-1 border-primary", state.dailyTimeDedication === opt ? "" : "text-primary hover:bg-primary/10")}
                   onClick={() => { updateState("dailyTimeDedication", opt); nextStep(); }}
                 >
                   {opt}
@@ -339,7 +338,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 </motion.div>
               </div>
             </div>
-            <Card className="p-4 bg-accent text-white border-none">
+            <Card className="p-4 bg-primary text-white border-none">
               <p className="text-sm font-medium">Protocolo de 21 dias quase pronto. Baseado nas suas respostas, vamos montar uma recomendação simples para sua rotina.</p>
             </Card>
             <Button onClick={nextStep} className="w-full py-6 text-lg rounded-full">Continuar</Button>
@@ -350,7 +349,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
         return (
           <div className="space-y-8 text-center">
             <h2 className="text-xl font-bold">Analisando seu perfil...</h2>
-            <div className="w-full bg-secondary rounded-full h-4 overflow-hidden">
+            <div className="w-full bg-secondary rounded-full h-4 overflow-hidden border border-primary/20">
               <motion.div 
                 initial={{ width: 0 }} 
                 animate={{ width: "55%" }} 
@@ -375,7 +374,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 <Button 
                   key={opt}
                   variant={state.importantEvent === opt ? "default" : "outline"}
-                  className="py-8 rounded-xl"
+                  className="py-8 rounded-xl border-primary"
                   onClick={() => { updateState("importantEvent", opt); nextStep(); }}
                 >
                   {opt}
@@ -396,8 +395,9 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
               max={80} 
               step={1} 
               onValueChange={([val]) => updateState("age", val)}
+              className="text-primary"
             />
-            <div className="bg-blue-50 p-4 rounded-xl text-blue-700 text-sm flex gap-2">
+            <div className="bg-primary/10 p-4 rounded-xl text-primary text-sm flex gap-2 border border-primary/20">
               <Activity className="shrink-0 w-5 h-5" />
               <span>A recomendação muda conforme idade, rotina e objetivo.</span>
             </div>
@@ -434,10 +434,10 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
               step={1} 
               onValueChange={([val]) => updateState("currentWeightKg", val)}
             />
-            <div className="flex justify-between items-center px-4 py-2 bg-secondary rounded-full text-xs font-bold">
+            <div className="flex justify-between items-center px-4 py-2 bg-secondary rounded-full text-xs font-bold border border-primary/20">
               <span>Atual: {state.currentWeightKg}kg</span>
-              <ArrowRight className="w-3 h-3" />
-              <span className="text-accent">Meta: {state.targetWeightKg}kg</span>
+              <ArrowRight className="w-3 h-3 text-primary" />
+              <span className="text-primary">Meta: {state.targetWeightKg}kg</span>
             </div>
             <Button onClick={nextStep} className="w-full py-6 text-lg rounded-full">Próxima etapa</Button>
           </div>
@@ -455,7 +455,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
               step={1} 
               onValueChange={([val]) => updateState("heightCm", val)}
             />
-            <div className="bg-blue-50 p-4 rounded-xl text-blue-700 text-sm">
+            <div className="bg-primary/5 p-4 rounded-xl text-primary text-sm border border-primary/20">
               Combinamos sua altura com objetivo para montar uma recomendação mais coerente.
             </div>
             <Button onClick={nextStep} className="w-full py-6 text-lg rounded-full">Próxima etapa</Button>
@@ -479,7 +479,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
               ].map((opt) => (
                 <Card 
                   key={opt}
-                  className={cn("p-4 flex items-center gap-3 cursor-pointer transition-all", state.eventsLeadingToWeightGain.includes(opt as any) ? "border-primary bg-primary/5" : "")}
+                  className={cn("p-4 flex items-center gap-3 cursor-pointer transition-all border-2", state.eventsLeadingToWeightGain.includes(opt as any) ? "border-primary bg-primary/5" : "border-primary/20")}
                   onClick={() => {
                     const current = state.eventsLeadingToWeightGain;
                     if (current.includes(opt as any)) {
@@ -489,7 +489,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     }
                   }}
                 >
-                  <Checkbox checked={state.eventsLeadingToWeightGain.includes(opt as any)} readOnly />
+                  <Checkbox checked={state.eventsLeadingToWeightGain.includes(opt as any)} className="border-primary" readOnly />
                   <span className="text-sm font-medium">{opt}</span>
                 </Card>
               ))}
@@ -504,10 +504,10 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
             <h2 className="text-2xl font-bold text-center">Que tipo de dieta você prefere?</h2>
             <div className="space-y-4">
               <div>
-                <p className="text-xs font-bold text-muted-foreground uppercase mb-2">OPÇÕES</p>
+                <p className="text-xs font-bold text-primary uppercase mb-2">OPÇÕES</p>
                 <div className="grid grid-cols-2 gap-2">
                   {["Tradicional", "Keto", "Vegetariana", "Vegana", "Mediterrânea", "Sem lactose", "Sem glúten"].map(d => (
-                    <Button key={d} variant={state.preferredDietType.includes(d as any) ? "default" : "outline"} onClick={() => updateState("preferredDietType", [d])}>{d}</Button>
+                    <Button key={d} variant={state.preferredDietType.includes(d as any) ? "default" : "outline"} className="border-primary" onClick={() => updateState("preferredDietType", [d])}>{d}</Button>
                   ))}
                 </div>
               </div>
@@ -522,7 +522,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
             <h2 className="text-2xl font-bold text-center">Que horas você janta?</h2>
             <div className="space-y-3">
               {["Entre 18h00 e 19h00", "Entre 19h00 e 20h00", "Entre 20h00 e 21h00", "Eu normalmente pulo o jantar"].map(opt => (
-                <Button key={opt} variant={state.mealTimes.dinner === opt ? "default" : "outline"} className="w-full py-8 text-lg rounded-2xl" onClick={() => { updateMealTime("dinner", opt); nextStep(); }}>{opt}</Button>
+                <Button key={opt} variant={state.mealTimes.dinner === opt ? "default" : "outline"} className="w-full py-8 text-lg rounded-2xl border-primary" onClick={() => { updateMealTime("dinner", opt); nextStep(); }}>{opt}</Button>
               ))}
             </div>
           </div>
@@ -534,7 +534,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
             <h2 className="text-2xl font-bold text-center">E o almoço?</h2>
             <div className="space-y-3">
               {["Entre 11h00 e meio-dia", "Entre meio-dia e 13h00", "Entre 13h00 e 14h00", "Eu normalmente pulo o almoço"].map(opt => (
-                <Button key={opt} variant={state.mealTimes.lunch === opt ? "default" : "outline"} className="w-full py-8 text-lg rounded-2xl" onClick={() => { updateMealTime("lunch", opt); nextStep(); }}>{opt}</Button>
+                <Button key={opt} variant={state.mealTimes.lunch === opt ? "default" : "outline"} className="w-full py-8 text-lg rounded-2xl border-primary" onClick={() => { updateMealTime("lunch", opt); nextStep(); }}>{opt}</Button>
               ))}
             </div>
           </div>
@@ -546,7 +546,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
             <h2 className="text-2xl font-bold text-center">Quando você normalmente toma café da manhã?</h2>
             <div className="space-y-3">
               {["Entre 6h00 e 8h00", "Entre 8h00 e 10h00", "Entre 10h00 e meio-dia", "Eu normalmente pulo o café da manhã"].map(opt => (
-                <Button key={opt} variant={state.mealTimes.breakfast === opt ? "default" : "outline"} className="w-full py-8 text-lg rounded-2xl" onClick={() => { updateMealTime("breakfast", opt); nextStep(); }}>{opt}</Button>
+                <Button key={opt} variant={state.mealTimes.breakfast === opt ? "default" : "outline"} className="w-full py-8 text-lg rounded-2xl border-primary" onClick={() => { updateMealTime("breakfast", opt); nextStep(); }}>{opt}</Button>
               ))}
             </div>
           </div>
@@ -556,12 +556,12 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
         return (
           <div className="space-y-6 text-center">
             <h2 className="text-2xl font-bold">Com que frequência você dorme?</h2>
-            <div className="relative w-40 h-40 mx-auto rounded-full overflow-hidden mb-6">
+            <div className="relative w-40 h-40 mx-auto rounded-full overflow-hidden mb-6 border-4 border-primary">
               <Image src={PlaceHolderImages.find(img => img.id === 'sleep-woman')?.imageUrl || ''} alt="Sleep" fill className="object-cover" />
             </div>
             <div className="grid grid-cols-2 gap-3">
               {["Menos de 5 horas", "6-7 horas", "8-9 horas", "Mais de 9 horas"].map(opt => (
-                <Button key={opt} variant={state.sleepFrequency === opt ? "default" : "outline"} className="py-8 rounded-xl" onClick={() => { updateState("sleepFrequency", opt); nextStep(); }}>{opt}</Button>
+                <Button key={opt} variant={state.sleepFrequency === opt ? "default" : "outline"} className="py-8 rounded-xl border-primary" onClick={() => { updateState("sleepFrequency", opt); nextStep(); }}>{opt}</Button>
               ))}
             </div>
           </div>
@@ -571,12 +571,12 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
         return (
           <div className="space-y-6 text-center">
             <h2 className="text-2xl font-bold">Quantos copos de água você bebe diariamente?</h2>
-            <div className="relative w-40 h-40 mx-auto rounded-full overflow-hidden mb-6">
+            <div className="relative w-40 h-40 mx-auto rounded-full overflow-hidden mb-6 border-4 border-primary">
               <Image src={PlaceHolderImages.find(img => img.id === 'water-woman')?.imageUrl || ''} alt="Water" fill className="object-cover" />
             </div>
             <div className="grid grid-cols-2 gap-3">
               {["Tento apenas não ter sede", "Cerca de 2 copos", "2 a 6 copos", "Mais de 6 copos"].map(opt => (
-                <Button key={opt} variant={state.waterIntake === opt ? "default" : "outline"} className="py-8 rounded-xl" onClick={() => { updateState("waterIntake", opt); nextStep(); }}>{opt}</Button>
+                <Button key={opt} variant={state.waterIntake === opt ? "default" : "outline"} className="py-8 rounded-xl border-primary" onClick={() => { updateState("waterIntake", opt); nextStep(); }}>{opt}</Button>
               ))}
             </div>
           </div>
@@ -585,9 +585,9 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
       case 24:
         return (
           <div className="space-y-6 text-center">
-            <h2 className="text-3xl font-bold text-accent">Nós vamos te ajudar</h2>
-            <div className="w-20 h-20 bg-accent/20 rounded-full flex items-center justify-center mx-auto">
-              <Heart className="w-10 h-10 text-accent" />
+            <h2 className="text-3xl font-bold text-primary">Nós vamos te ajudar</h2>
+            <div className="w-20 h-20 bg-primary/20 rounded-full flex items-center justify-center mx-auto border-2 border-primary">
+              <Heart className="w-10 h-10 text-primary" />
             </div>
             <p className="text-muted-foreground text-lg leading-relaxed">Com base nas suas respostas, vamos montar uma recomendação simples para você começar sem precisar mudar tudo de uma vez.</p>
             <Button onClick={nextStep} className="w-full py-6 text-lg rounded-full">Continuar</Button>
@@ -605,7 +605,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 "Me arrasto entre as refeições",
                 "Elevados e estáveis"
               ].map(opt => (
-                <Button key={opt} variant={state.energyLevels === opt ? "default" : "outline"} className="w-full py-6 px-4 text-left justify-start rounded-2xl h-auto" onClick={() => { updateState("energyLevels", opt); nextStep(); }}>
+                <Button key={opt} variant={state.energyLevels === opt ? "default" : "outline"} className="w-full py-6 px-4 text-left justify-start rounded-2xl h-auto border-primary" onClick={() => { updateState("energyLevels", opt); nextStep(); }}>
                   <Zap className={cn("shrink-0 mr-3 w-5 h-5", state.energyLevels === opt ? "text-white" : "text-primary")} />
                   <span className="text-sm font-semibold">{opt}</span>
                 </Button>
@@ -624,7 +624,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 "Sou ativa poucas vezes",
                 "Estou de pé o dia todo"
               ].map(opt => (
-                <Button key={opt} variant={state.typicalDayDescription === opt ? "default" : "outline"} className="w-full py-8 text-lg rounded-2xl" onClick={() => { updateState("typicalDayDescription", opt); nextStep(); }}>{opt}</Button>
+                <Button key={opt} variant={state.typicalDayDescription === opt ? "default" : "outline"} className="w-full py-8 text-lg rounded-2xl border-primary" onClick={() => { updateState("typicalDayDescription", opt); nextStep(); }}>{opt}</Button>
               ))}
             </div>
           </div>
@@ -641,8 +641,8 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 "Trabalho em turnos",
                 "Estou aposentada / não estou trabalhando"
               ].map(opt => (
-                <Button key={opt} variant={state.workRoutine === opt ? "default" : "outline"} className="w-full py-6 h-auto text-left justify-start px-4 rounded-2xl" onClick={() => { updateState("workRoutine", opt); nextStep(); }}>
-                  <Clock className="w-5 h-5 mr-3 shrink-0" />
+                <Button key={opt} variant={state.workRoutine === opt ? "default" : "outline"} className="w-full py-6 h-auto text-left justify-start px-4 rounded-2xl border-primary" onClick={() => { updateState("workRoutine", opt); nextStep(); }}>
+                  <Clock className="w-5 h-5 mr-3 shrink-0 text-primary" />
                   <span className="font-semibold">{opt}</span>
                 </Button>
               ))}
@@ -656,7 +656,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
             <h2 className="text-2xl font-bold text-center">Com que frequência você sai para caminhadas?</h2>
             <div className="grid grid-cols-2 gap-3">
               {["Quase todos os dias", "De vez em quando", "1-2 vezes p/ semana", "Uma vez p/ mês"].map(opt => (
-                <Button key={opt} variant={state.walkingFrequency === opt ? "default" : "outline"} className="py-8 rounded-xl h-auto" onClick={() => { updateState("walkingFrequency", opt); nextStep(); }}>{opt}</Button>
+                <Button key={opt} variant={state.walkingFrequency === opt ? "default" : "outline"} className="py-8 rounded-xl h-auto border-primary" onClick={() => { updateState("walkingFrequency", opt); nextStep(); }}>{opt}</Button>
               ))}
             </div>
           </div>
@@ -666,12 +666,12 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
         return (
           <div className="space-y-6 text-center">
             <h2 className="text-2xl font-bold">Quantas vezes você faz exercício?</h2>
-            <div className="relative w-full h-40 rounded-2xl overflow-hidden mb-6">
+            <div className="relative w-full h-40 rounded-2xl overflow-hidden mb-6 border-4 border-primary">
               <Image src={PlaceHolderImages.find(img => img.id === 'exercise-woman')?.imageUrl || ''} alt="Exercise" fill className="object-cover" />
             </div>
             <div className="grid grid-cols-2 gap-3">
               {["Quase todos os dias", "Várias vezes por semana", "Várias vezes por mês", "Nunca"].map(opt => (
-                <Button key={opt} variant={state.exerciseFrequency === opt ? "default" : "outline"} className="py-8 rounded-xl h-auto" onClick={() => { updateState("exerciseFrequency", opt); nextStep(); }}>{opt}</Button>
+                <Button key={opt} variant={state.exerciseFrequency === opt ? "default" : "outline"} className="py-8 rounded-xl h-auto border-primary" onClick={() => { updateState("exerciseFrequency", opt); nextStep(); }}>{opt}</Button>
               ))}
             </div>
           </div>
@@ -688,7 +688,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 "Me sinto OK depois de subir escadas",
                 "Consigo subir vários lances"
               ].map(opt => (
-                <Button key={opt} variant={state.breathlessnessOnStairs === opt ? "default" : "outline"} className="w-full py-8 text-lg rounded-2xl h-auto px-4" onClick={() => { updateState("breathlessnessOnStairs", opt); nextStep(); }}>{opt}</Button>
+                <Button key={opt} variant={state.breathlessnessOnStairs === opt ? "default" : "outline"} className="w-full py-8 text-lg rounded-2xl h-auto px-4 border-primary" onClick={() => { updateState("breathlessnessOnStairs", opt); nextStep(); }}>{opt}</Button>
               ))}
             </div>
           </div>
@@ -707,7 +707,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
               ].map(opt => (
                 <Card 
                   key={opt}
-                  className={cn("p-4 flex items-center gap-3 cursor-pointer", state.difficulties.includes(opt as any) ? "border-primary bg-primary/5" : "")}
+                  className={cn("p-4 flex items-center gap-3 cursor-pointer border-2 transition-all", state.difficulties.includes(opt as any) ? "border-primary bg-primary/5" : "border-primary/20")}
                   onClick={() => {
                     const current = state.difficulties;
                     if (current.includes(opt as any)) {
@@ -717,7 +717,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     }
                   }}
                 >
-                  <Checkbox checked={state.difficulties.includes(opt as any)} readOnly />
+                  <Checkbox checked={state.difficulties.includes(opt as any)} className="border-primary" readOnly />
                   <span className="font-medium">{opt}</span>
                 </Card>
               ))}
@@ -735,7 +735,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
               {["Barriga", "Glúteos", "Pernas", "Braços"].map(opt => (
                 <Card 
                   key={opt}
-                  className={cn("p-6 flex flex-col items-center gap-2 cursor-pointer transition-all border-2", state.focusAreas.includes(opt as any) ? "border-primary bg-primary/5" : "border-transparent")}
+                  className={cn("p-6 flex flex-col items-center gap-2 cursor-pointer transition-all border-2", state.focusAreas.includes(opt as any) ? "border-primary bg-primary/5" : "border-primary/20")}
                   onClick={() => {
                     const current = state.focusAreas;
                     if (current.includes(opt as any)) {
@@ -745,7 +745,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     }
                   }}
                 >
-                  <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center">
+                  <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center border border-primary/20">
                     <Heart className="w-6 h-6 text-primary" />
                   </div>
                   <span className="font-bold">{opt}</span>
@@ -760,12 +760,12 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
         return (
           <div className="space-y-6 text-center">
             <h2 className="text-2xl font-bold">Você se considera flexível?</h2>
-            <div className="relative w-40 h-40 mx-auto rounded-full overflow-hidden mb-6">
+            <div className="relative w-40 h-40 mx-auto rounded-full overflow-hidden mb-6 border-4 border-primary">
               <Image src="https://picsum.photos/seed/yoga/400/400" alt="Flexibility" fill className="object-cover" />
             </div>
             <div className="grid grid-cols-2 gap-3">
               {["Bastante flexível", "Estou começando", "Não muito", "Não tenho certeza"].map(opt => (
-                <Button key={opt} variant={state.flexibility === opt ? "default" : "outline"} className="py-8 rounded-xl h-auto" onClick={() => { updateState("flexibility", opt); nextStep(); }}>{opt}</Button>
+                <Button key={opt} variant={state.flexibility === opt ? "default" : "outline"} className="py-8 rounded-xl h-auto border-primary" onClick={() => { updateState("flexibility", opt); nextStep(); }}>{opt}</Button>
               ))}
             </div>
           </div>
@@ -777,7 +777,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
             <h2 className="text-2xl font-bold text-center">Há quanto tempo você esteve no melhor físico da sua vida?</h2>
             <div className="space-y-3">
               {["Há menos de 1 ano", "Faz 1 a 3 anos", "Há mais de 3 anos", "Nunca"].map(opt => (
-                <Button key={opt} variant={state.timeSinceBestPhysique === opt ? "default" : "outline"} className="w-full py-8 text-lg rounded-2xl h-auto" onClick={() => { updateState("timeSinceBestPhysique", opt); nextStep(); }}>{opt}</Button>
+                <Button key={opt} variant={state.timeSinceBestPhysique === opt ? "default" : "outline"} className="w-full py-8 text-lg rounded-2xl h-auto border-primary" onClick={() => { updateState("timeSinceBestPhysique", opt); nextStep(); }}>{opt}</Button>
               ))}
             </div>
           </div>
@@ -793,7 +793,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 "Eu ganho peso facilmente",
                 "Eu ganho peso facilmente mas tenho dificuldade para perder"
               ].map(opt => (
-                <Button key={opt} variant={state.weightChangeTendency === opt ? "default" : "outline"} className="w-full py-8 h-auto text-center px-4 rounded-2xl" onClick={() => { updateState("weightChangeTendency", opt); nextStep(); }}>{opt}</Button>
+                <Button key={opt} variant={state.weightChangeTendency === opt ? "default" : "outline"} className="w-full py-8 h-auto text-center px-4 rounded-2xl border-primary" onClick={() => { updateState("weightChangeTendency", opt); nextStep(); }}>{opt}</Button>
               ))}
             </div>
           </div>
@@ -805,7 +805,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
             <h2 className="text-2xl font-bold text-center">Qual é o seu corpo dos sonhos?</h2>
             <div className="grid grid-cols-2 gap-3">
               {["Magra", "Definida", "Com curvas", "Fitness"].map(opt => (
-                <Button key={opt} variant={state.dreamBodyType === opt ? "default" : "outline"} className="py-10 rounded-2xl h-auto font-bold" onClick={() => { updateState("dreamBodyType", opt); nextStep(); }}>{opt}</Button>
+                <Button key={opt} variant={state.dreamBodyType === opt ? "default" : "outline"} className="py-10 rounded-2xl h-auto font-bold border-primary" onClick={() => { updateState("dreamBodyType", opt); nextStep(); }}>{opt}</Button>
               ))}
             </div>
           </div>
@@ -817,7 +817,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
             <h2 className="text-2xl font-bold text-center">Como você descreveria seu físico?</h2>
             <div className="space-y-3">
               {["Magra", "Gordinha", "Maior", "Com excesso de peso"].map(opt => (
-                <Button key={opt} variant={state.currentPhysiqueDescription === opt ? "default" : "outline"} className="w-full py-8 text-lg rounded-2xl h-auto" onClick={() => { updateState("currentPhysiqueDescription", opt); nextStep(); }}>{opt}</Button>
+                <Button key={opt} variant={state.currentPhysiqueDescription === opt ? "default" : "outline"} className="w-full py-8 text-lg rounded-2xl h-auto border-primary" onClick={() => { updateState("currentPhysiqueDescription", opt); nextStep(); }}>{opt}</Button>
               ))}
             </div>
           </div>
@@ -835,8 +835,8 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 "Reduzir o estresse e ansiedade",
                 "Melhorar a postura"
               ].map(opt => (
-                <Button key={opt} variant={state.mainGoal === opt ? "default" : "outline"} className="w-full py-6 h-auto text-left px-4 rounded-2xl" onClick={() => { updateState("mainGoal", opt); nextStep(); }}>
-                  <Star className="w-5 h-5 mr-3 shrink-0" />
+                <Button key={opt} variant={state.mainGoal === opt ? "default" : "outline"} className="w-full py-6 h-auto text-left px-4 rounded-2xl border-primary" onClick={() => { updateState("mainGoal", opt); nextStep(); }}>
+                  <Star className="w-5 h-5 mr-3 shrink-0 text-primary" />
                   <span className="font-semibold">{opt}</span>
                 </Button>
               ))}
@@ -848,7 +848,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
         return (
           <div className="space-y-6 text-center">
             <h2 className="text-3xl font-bold">Você vai arrasar!</h2>
-            <div className="w-32 h-32 rounded-full overflow-hidden mx-auto border-4 border-accent">
+            <div className="w-32 h-32 rounded-full overflow-hidden mx-auto border-4 border-primary">
               <Image src="https://picsum.photos/seed/happy/300/300" alt="Happy" width={128} height={128} className="object-cover" />
             </div>
             <p className="text-lg text-muted-foreground">Estamos montando sua recomendação com base nas suas respostas. Pequenos hábitos podem criar grandes mudanças quando são simples de seguir.</p>
@@ -861,11 +861,11 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           <div className="space-y-6 text-center">
             <h2 className="text-2xl font-bold">Você já experimentou métodos de emagrecimento antes?</h2>
             <div className="grid grid-cols-2 gap-4">
-              <Button variant={state.triedMethodsBefore ? "default" : "outline"} className="py-12 rounded-2xl flex flex-col gap-2" onClick={() => { updateState("triedMethodsBefore", true); nextStep(); }}>
+              <Button variant={state.triedMethodsBefore ? "default" : "outline"} className="py-12 rounded-2xl flex flex-col gap-2 border-primary" onClick={() => { updateState("triedMethodsBefore", true); nextStep(); }}>
                 <Check className="w-6 h-6" />
                 <span>Sim, já tentei</span>
               </Button>
-              <Button variant={!state.triedMethodsBefore ? "default" : "outline"} className="py-12 rounded-2xl flex flex-col gap-2" onClick={() => { updateState("triedMethodsBefore", false); nextStep(); }}>
+              <Button variant={!state.triedMethodsBefore ? "default" : "outline"} className="py-12 rounded-2xl flex flex-col gap-2 border-primary" onClick={() => { updateState("triedMethodsBefore", false); nextStep(); }}>
                 <Users className="w-6 h-6" />
                 <span>Nunca tentei</span>
               </Button>
@@ -879,7 +879,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
             <h2 className="text-2xl font-bold leading-tight">Mais de 500.000 mulheres já buscaram uma rotina mais leve</h2>
             <div className="grid grid-cols-3 gap-2">
               {[1, 2, 3, 4, 5, 6].map(i => (
-                <div key={i} className="aspect-square rounded-xl bg-gray-100 overflow-hidden relative">
+                <div key={i} className="aspect-square rounded-xl bg-gray-100 overflow-hidden relative border border-primary/20">
                   <Image src={`https://picsum.photos/seed/face${i}/150/150`} alt="User" fill className="object-cover" />
                 </div>
               ))}
@@ -893,7 +893,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
         return (
           <div className="space-y-12 text-center">
             <h2 className="text-2xl font-bold">Preparando seu resultado personalizado...</h2>
-            <div className="w-full h-4 bg-secondary rounded-full overflow-hidden">
+            <div className="w-full h-4 bg-secondary rounded-full overflow-hidden border border-primary/20">
               <motion.div 
                 initial={{ width: 0 }} 
                 animate={{ width: "100%" }} 
@@ -910,40 +910,40 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
         );
 
       case 43:
-        if (!quizOutput) return <div className="text-center py-20">Processando...</div>;
+        if (!quizOutput) return <div className="text-center py-20 text-primary">Processando seu plano...</div>;
         return (
           <div className="space-y-8">
             <div className="text-center space-y-4">
-              <Badge variant="outline" className="border-accent text-accent bg-accent/5 py-1 px-3">Análise Concluída</Badge>
-              <h2 className="text-3xl font-bold">{quizOutput.planSummary}</h2>
+              <Badge variant="outline" className="border-primary text-primary bg-primary/5 py-1 px-3">Análise Concluída</Badge>
+              <h2 className="text-3xl font-bold text-primary">{quizOutput.planSummary}</h2>
               <h3 className="text-lg font-medium text-muted-foreground">{quizOutput.personalizationTitle}</h3>
             </div>
             <div className="grid grid-cols-2 gap-4">
-              <Card className="p-4 bg-white border-none shadow-sm space-y-1">
-                <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-wider">Objetivo</span>
+              <Card className="p-4 bg-white border-primary shadow-sm space-y-1">
+                <span className="text-[10px] text-primary uppercase font-bold tracking-wider">Objetivo</span>
                 <p className="font-bold text-lg">{state.mainGoal}</p>
               </Card>
-              <Card className="p-4 bg-white border-none shadow-sm space-y-1">
-                <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-wider">Duração</span>
+              <Card className="p-4 bg-white border-primary shadow-sm space-y-1">
+                <span className="text-[10px] text-primary uppercase font-bold tracking-wider">Duração</span>
                 <p className="font-bold text-lg">{quizOutput.suggestedDurationDays} dias</p>
               </Card>
-              <Card className="p-4 bg-white border-none shadow-sm space-y-1">
-                <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-wider">Nível</span>
+              <Card className="p-4 bg-white border-primary shadow-sm space-y-1">
+                <span className="text-[10px] text-primary uppercase font-bold tracking-wider">Nível</span>
                 <p className="font-bold text-lg">{quizOutput.level}</p>
               </Card>
-              <Card className="p-4 bg-white border-none shadow-sm space-y-1">
-                <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-wider">Peso a Perder</span>
+              <Card className="p-4 bg-white border-primary shadow-sm space-y-1">
+                <span className="text-[10px] text-primary uppercase font-bold tracking-wider">Peso a Perder</span>
                 <p className="font-bold text-lg">{quizOutput.weightLossGoalKg}kg</p>
               </Card>
             </div>
-            <div className="bg-accent/10 border border-accent/20 p-6 rounded-2xl space-y-2">
+            <div className="bg-primary/10 border border-primary p-6 rounded-2xl space-y-2">
               <div className="flex items-center gap-2 mb-2">
-                <Activity className="w-5 h-5 text-accent" />
-                <span className="font-bold text-accent">{quizOutput.focusAreasSummary}</span>
+                <Activity className="w-5 h-5 text-primary" />
+                <span className="font-bold text-primary">{quizOutput.focusAreasSummary}</span>
               </div>
-              <p className="text-sm leading-relaxed text-accent-foreground">{quizOutput.methodDescription}</p>
+              <p className="text-sm leading-relaxed text-primary">{quizOutput.methodDescription}</p>
             </div>
-            <Button onClick={nextStep} className="w-full py-8 text-xl rounded-full shadow-lg shadow-primary/20">Ver meu plano completo</Button>
+            <Button onClick={nextStep} className="w-full py-8 text-xl rounded-full shadow-lg shadow-primary/30">Ver meu plano completo</Button>
           </div>
         );
 
@@ -951,11 +951,11 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
         return (
           <div className="space-y-12">
             <header className="text-center space-y-6">
-              <h1 className="text-3xl font-bold leading-tight">Descubra o Método Africano que está ajudando mulheres a controlar o apetite e apoiar a perda de peso natural</h1>
+              <h1 className="text-3xl font-bold leading-tight text-primary">Descubra o Método Africano que está ajudando mulheres a controlar o apetite e apoiar a perda de peso natural</h1>
               <p className="text-lg text-muted-foreground">Um guia simples com receitas, horários e hábitos fáceis para aplicar no dia a dia.</p>
-              <div className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-2xl">
+              <div className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-2xl border-2 border-primary">
                 <Image src={PlaceHolderImages.find(img => img.id === 'result-celebration')?.imageUrl || ''} alt="Happy Woman" fill className="object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6">
+                <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent flex items-end p-6">
                   <div className="text-white space-y-1">
                     <p className="font-bold">Acesso Imediato Liberado</p>
                     <div className="flex gap-1">
@@ -967,7 +967,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
             </header>
 
             <section className="space-y-6">
-              <h2 className="text-2xl font-bold text-center">O que você recebe no Método:</h2>
+              <h2 className="text-2xl font-bold text-center text-primary">O que você recebe no Método:</h2>
               <div className="grid gap-4">
                 {[
                   { title: "Plano Alimentar", desc: quizOutput?.recommendations.dietary, icon: <Utensils /> },
@@ -975,12 +975,12 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                   { title: "Protocolo de Sono", desc: quizOutput?.recommendations.sleep, icon: <Clock /> },
                   { title: "Mentalidade Blindada", desc: quizOutput?.recommendations.mindset, icon: <Zap /> },
                 ].map((item, i) => (
-                  <Card key={i} className="p-4 flex gap-4 border-none shadow-sm bg-white">
-                    <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center shrink-0 text-primary">
+                  <Card key={i} className="p-4 flex gap-4 border-primary shadow-sm bg-white">
+                    <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center shrink-0 text-primary border border-primary/20">
                       {item.icon}
                     </div>
                     <div>
-                      <h4 className="font-bold text-sm">{item.title}</h4>
+                      <h4 className="font-bold text-sm text-primary">{item.title}</h4>
                       <p className="text-xs text-muted-foreground line-clamp-3 mt-1">{item.desc}</p>
                     </div>
                   </Card>
@@ -988,7 +988,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
               </div>
             </section>
 
-            <section className="bg-primary p-8 rounded-3xl text-white text-center space-y-6">
+            <section className="bg-primary p-8 rounded-3xl text-white text-center space-y-6 shadow-xl">
               <h2 className="text-2xl font-bold">Oferta Especial de Lançamento</h2>
               <div className="space-y-1">
                 <p className="text-sm line-through opacity-70">De R$ 97,00</p>
@@ -1008,35 +1008,35 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
         return (
           <div className="space-y-12 text-center py-10">
             <div className="space-y-4">
-              <div className="w-20 h-20 bg-accent rounded-full flex items-center justify-center mx-auto text-white">
+              <div className="w-20 h-20 bg-primary rounded-full flex items-center justify-center mx-auto text-white border-4 border-primary/20">
                 <Check className="w-12 h-12" />
               </div>
-              <h1 className="text-3xl font-bold">Seu acesso foi liberado</h1>
+              <h1 className="text-3xl font-bold text-primary">Seu acesso foi liberado</h1>
               <p className="text-muted-foreground">Receba o guia completo, as receitas e o protocolo direto no seu celular.</p>
             </div>
 
-            <Card className="p-8 border-2 border-dashed border-primary/20 bg-white space-y-6">
+            <Card className="p-8 border-4 border-dashed border-primary bg-white space-y-6">
               <div className="space-y-2">
-                <h3 className="text-sm font-bold text-muted-foreground uppercase tracking-widest">Resumo do Pedido</h3>
+                <h3 className="text-sm font-bold text-primary uppercase tracking-widest">Resumo do Pedido</h3>
                 <div className="flex justify-between items-center text-lg">
-                  <span>Método Africano 21 Dias</span>
+                  <span className="font-medium">Método Africano 21 Dias</span>
                   <span className="font-bold text-primary">R$ 29,90</span>
                 </div>
               </div>
               <Button className="w-full py-10 text-xl font-bold rounded-2xl shadow-2xl shadow-primary/30 animate-bounce">ACESSAR MEU PLANO AGORA</Button>
-              <div className="space-y-3 pt-4 border-t">
-                <div className="flex items-center justify-center gap-2 text-xs font-medium text-muted-foreground">
-                  <Check className="w-4 h-4 text-accent" /> Garantia de 7 dias incondicional
+              <div className="space-y-3 pt-4 border-t border-primary/20">
+                <div className="flex items-center justify-center gap-2 text-xs font-medium text-primary">
+                  <Check className="w-4 h-4" /> Garantia de 7 dias incondicional
                 </div>
-                <div className="flex items-center justify-center gap-2 text-xs font-medium text-muted-foreground">
-                  <Check className="w-4 h-4 text-accent" /> Suporte VIP pelo WhatsApp
+                <div className="flex items-center justify-center gap-2 text-xs font-medium text-primary">
+                  <Check className="w-4 h-4" /> Suporte VIP pelo WhatsApp
                 </div>
               </div>
             </Card>
 
             <footer className="pt-10 space-y-4 text-[10px] text-muted-foreground">
               <p>*Resultados podem variar conforme rotina, alimentação e consistência.</p>
-              <div className="flex justify-center gap-4">
+              <div className="flex justify-center gap-4 text-primary font-medium">
                 <span>Termos de Uso</span>
                 <span>Políticas de Privacidade</span>
               </div>
@@ -1045,7 +1045,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
         );
 
       default:
-        return <div>Etapa {stepId}</div>;
+        return <div className="text-primary text-center py-10">Etapa {stepId}</div>;
     }
   };
 
@@ -1053,8 +1053,8 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
     <div className="min-h-screen flex flex-col items-center bg-[#fafafa]">
       {/* Top Progress Bar */}
       {stepId < 43 && (
-        <div className="fixed top-0 inset-x-0 z-50 bg-white/80 backdrop-blur-md px-4 py-3 flex items-center gap-4 border-b">
-          <Button variant="ghost" size="icon" onClick={prevStep} disabled={stepId === 1} className="shrink-0 h-8 w-8">
+        <div className="fixed top-0 inset-x-0 z-50 bg-white/80 backdrop-blur-md px-4 py-3 flex items-center gap-4 border-b border-primary/20">
+          <Button variant="ghost" size="icon" onClick={prevStep} disabled={stepId === 1} className="shrink-0 h-8 w-8 text-primary">
             <ArrowRight className="w-4 h-4 rotate-180" />
           </Button>
           <div className="flex-1 space-y-1">
@@ -1075,8 +1075,8 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
 
       {/* Sticky Bottom Badge for Results/Offer */}
       {stepId === 44 && (
-        <div className="fixed bottom-0 inset-x-0 p-4 bg-white/80 backdrop-blur-lg border-t md:hidden">
-          <Button onClick={nextStep} className="w-full py-6 font-bold rounded-full">QUERO MEU PLANO AGORA</Button>
+        <div className="fixed bottom-0 inset-x-0 p-4 bg-white/80 backdrop-blur-lg border-t border-primary/20 md:hidden">
+          <Button onClick={nextStep} className="w-full py-6 font-bold rounded-full shadow-lg shadow-primary/20">QUERO MEU PLANO AGORA</Button>
         </div>
       )}
     </div>
