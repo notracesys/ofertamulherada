@@ -402,7 +402,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 </Button>
               ))}
             </div>
-            <div className="relative w-full aspect-square max-w-[500px] mx-auto mt-8 rounded-full overflow-hidden">
+            <div className="relative w-full aspect-square max-w-[600px] mx-auto mt-8 rounded-full overflow-hidden">
               <Image src="/flexivel.webp" alt="Flexível" fill className="object-cover" />
             </div>
           </div>
