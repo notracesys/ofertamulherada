@@ -14,7 +14,7 @@ import { generatePersonalizedAfricanMethodPlan, type GeneratePersonalizedAfrican
 import { QuizStep } from "./QuizStep";
 import { cn } from "@/lib/utils";
 
-const TOTAL_STEPS = 15;
+const TOTAL_STEPS = 16;
 const STORAGE_KEY = "fitness_fem_quiz_state";
 
 const INITIAL_STATE: GeneratePersonalizedAfricanMethodPlanInput = {
@@ -115,7 +115,6 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
         return (
           <div className="space-y-6 text-center">
             <h1 className="text-3xl font-bold leading-tight text-foreground">Qual sua idade?</h1>
-            <p className="text-muted-foreground">Isso nos ajuda a adaptar seu plano ao seu momento atual.</p>
             <div className="grid grid-cols-2 gap-4">
               {[
                 { label: "18 a 29 anos", imageUrl: "/18-29y.webp" },
@@ -299,7 +298,6 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
         return (
           <div className="space-y-6 text-center">
             <h2 className="text-3xl font-bold text-foreground leading-tight">Como você descreveria seu físico?</h2>
-            <p className="text-muted-foreground">Escolha uma opção para avançar</p>
             <div className="space-y-4 pt-4">
               {[
                 { label: "Magro", imageUrl: "/magro.webp" },
@@ -334,7 +332,6 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
         return (
           <div className="space-y-6 text-center">
             <h2 className="text-3xl font-bold text-foreground leading-tight">Qual é o seu &quot;corpo dos sonhos&quot;?</h2>
-            <p className="text-muted-foreground">Escolha uma opção para avançar</p>
             <div className="space-y-4 pt-4">
               {[
                 { label: "Magro", imageUrl: "/magro1.webp" },
@@ -447,6 +444,28 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
 
       case 11:
         return (
+          <div className="space-y-12 text-center px-4 py-10">
+            <div className="space-y-6">
+              <h2 className="text-5xl font-black text-foreground leading-none tracking-tighter">
+                Nós te ajudamos!
+              </h2>
+              <div className="space-y-8 text-muted-foreground px-2">
+                <p className="text-xl font-medium leading-tight">
+                  Você encontrará muitos exercícios especializados para fortalecer qualquer parte do seu corpo.
+                </p>
+                <p className="text-xl font-medium leading-tight">
+                  Além de remover a gordura localizada, você vai manter seu corpo firme e flexível.
+                </p>
+              </div>
+            </div>
+            <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl shadow-primary/30 uppercase tracking-wide bg-primary text-white">
+              Continuar
+            </Button>
+          </div>
+        );
+
+      case 12:
+        return (
           <div className="space-y-6">
             <h2 className="text-2xl font-bold text-center text-primary">Quanto tempo você tem para cuidar de si mesma por dia?</h2>
             <div className="grid grid-cols-2 gap-4">
@@ -465,7 +484,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           </div>
         );
 
-      case 12:
+      case 13:
         return (
           <div className="space-y-3">
             <h2 className="text-2xl font-bold text-center text-primary">Como você quer se sentir daqui a 30 dias?</h2>
@@ -489,7 +508,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           </div>
         );
 
-      case 13:
+      case 14:
         return (
           <div className="space-y-8 py-4">
             <h2 className="text-2xl font-bold text-center text-primary">Mulheres reais, resultados reais.</h2>
@@ -516,7 +535,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           </div>
         );
 
-      case 14:
+      case 15:
         return (
           <LoadingScreen 
             title="Seu plano feminino personalizado está sendo criado..." 
@@ -526,7 +545,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           />
         );
 
-      case 15:
+      case 16:
         return (
           <div className="space-y-8 text-center py-6">
             <Badge className="bg-green-500 hover:bg-green-600 text-white border-none py-1 px-4 mb-2">Análise Concluída</Badge>
@@ -587,7 +606,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
         </div>
       )}
 
-      <div className={cn("w-full pt-20 pb-20 flex-1 flex flex-col items-center", stepId >= 14 ? "pt-10" : "")}>
+      <div className={cn("w-full pt-20 pb-20 flex-1 flex flex-col items-center", stepId >= 15 ? "pt-10" : "")}>
         <AnimatePresence mode="wait">
           <QuizStep key={stepId} stepId={stepId}>
             {renderStep()}
