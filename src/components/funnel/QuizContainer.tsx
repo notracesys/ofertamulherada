@@ -65,7 +65,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
   const scrollLeft = useRef(0);
 
   // State for animated progress in analysis steps
-  const [step19Progress, setStep19Progress] = useState(30);
+  const [step19Progress, setStep19Progress] = useState(0);
 
   useEffect(() => {
     setIsClient(true);
@@ -100,9 +100,9 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
         targetWeightRulerRef.current.scrollLeft = (tw - 25) * 10;
       }
       
-      // Auto-animate Step 19
+      // Auto-animate Step 19 (0 to 100 in 10 seconds)
       if (stepId === 19) {
-        setStep19Progress(30);
+        setStep19Progress(0);
         const timer = setInterval(() => {
           setStep19Progress(p => {
             if (p >= 100) {
@@ -110,9 +110,9 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
               setTimeout(() => router.push("/step/20"), 800);
               return 100;
             }
-            return p + 2;
+            return p + 1;
           });
-        }, 50);
+        }, 100); // 100ms * 100 steps = 10,000ms = 10s
         return () => clearInterval(timer);
       }
     }
