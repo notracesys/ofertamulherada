@@ -202,28 +202,27 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
 
       case 5:
         return (
-          <div className="space-y-6 text-center">
-            <h2 className="text-2xl font-bold text-primary leading-tight">Você sente dificuldade em emagrecer mesmo tentando várias vezes?</h2>
+          <div className="space-y-8 text-center px-4">
+            <h2 className="text-2xl font-black text-foreground leading-tight px-2">
+              Há quanto tempo você esteve no melhor físico da sua vida?
+            </h2>
             <div className="space-y-4">
               {[
-                "Sim, meu corpo parece estagnado",
-                "Emagreço e ganho tudo de novo (efeito sanfona)",
-                "Tenho dificuldade em manter a rotina",
-                "Sinto meu metabolismo muito lento"
+                { label: "Há menos de 1 ano", emoji: "🧐" },
+                { label: "1 a 2 anos atrás", emoji: "😳" },
+                { label: "Há mais de 3 anos", emoji: "🤦‍♂️" },
+                { label: "Nunca", emoji: "❌" }
               ].map((opt) => (
                 <Button 
-                  key={opt}
+                  key={opt.label}
                   variant="outline"
-                  className="w-full py-8 text-lg rounded-2xl border-2 border-primary/10 hover:border-primary text-foreground"
-                  onClick={() => { updateState("weightDifficulty", opt); nextStep(); }}
+                  className="w-full py-8 text-lg rounded-3xl border-2 border-primary/5 hover:border-primary/20 text-foreground bg-white shadow-sm flex justify-start items-center gap-4 px-6 transition-all hover:scale-[1.01]"
+                  onClick={() => { updateState("weightDifficulty", opt.label); nextStep(); }}
                 >
-                  {opt}
+                  <span className="text-2xl shrink-0 leading-none">{opt.emoji}</span>
+                  <span className="font-bold text-base text-left">{opt.label}</span>
                 </Button>
               ))}
-            </div>
-            <div className="bg-secondary p-4 rounded-xl border border-primary/20 flex items-start gap-3 text-left">
-              <Zap className="w-5 h-5 text-primary shrink-0 mt-1" />
-              <p className="text-xs font-medium text-secondary-foreground">Milhares de mulheres relatam exatamente isso antes de iniciarem nosso programa.</p>
             </div>
           </div>
         );
