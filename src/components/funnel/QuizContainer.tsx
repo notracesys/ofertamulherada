@@ -15,7 +15,7 @@ import { generatePersonalizedAfricanMethodPlan, type GeneratePersonalizedAfrican
 import { QuizStep } from "./QuizStep";
 import { cn } from "@/lib/utils";
 
-const TOTAL_STEPS = 22;
+const TOTAL_STEPS = 23;
 const STORAGE_KEY = "fitness_fem_quiz_state";
 
 const INITIAL_STATE: GeneratePersonalizedAfricanMethodPlanInput = {
@@ -915,7 +915,49 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           </div>
         );
 
-      case 19:
+      case 19: // Intermediate Analysis / Social Proof
+        return (
+          <div className="space-y-10 text-center py-4 w-full max-w-lg mx-auto">
+            <div className="space-y-4">
+              <div className="flex justify-between items-center mb-1">
+                <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Analisando o seu perfil...</span>
+                <span className="text-[10px] font-bold text-primary">30%</span>
+              </div>
+              <Progress value={30} className="h-1.5 bg-secondary" />
+              <p className="text-sm text-muted-foreground italic">aguarde um momento ...</p>
+            </div>
+
+            <h2 className="text-3xl font-black text-[#0F172A] leading-tight px-4">
+              No total, durante os últimos 3 meses, nossos usuários perderam em média <span className="text-green-500 font-black">14+ kg</span> 🤩
+            </h2>
+
+            <div className="relative px-4">
+              <Card className="p-6 rounded-3xl border-none shadow-xl shadow-primary/5 bg-white text-left space-y-4">
+                <div className="flex items-center gap-3">
+                  <div className="relative w-12 h-12 rounded-full overflow-hidden border-2 border-primary/20">
+                     <Image src="https://picsum.photos/seed/rafaela/100/100" alt="Rafaela" fill className="object-cover" />
+                  </div>
+                  <div>
+                    <div className="flex gap-0.5 mb-0.5">
+                      {[1,2,3,4,5].map(i => <Star key={i} className="w-3 h-3 fill-yellow-400 text-yellow-400" />)}
+                    </div>
+                    <p className="font-bold text-sm text-foreground">Rafaela</p>
+                    <p className="text-[10px] text-muted-foreground">01/04/2026</p>
+                  </div>
+                </div>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  Essa foi de longe a melhor escolha que eu fiz na minha vida! Exercícios que realmente funciona e trazem resultados rápidos.. 🙏
+                </p>
+              </Card>
+            </div>
+
+            <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl shadow-primary/30 uppercase bg-primary text-white mt-4">
+              Continuar
+            </Button>
+          </div>
+        );
+
+      case 20:
         return (
           <div className="space-y-3">
             <h2 className="text-2xl font-bold text-center text-primary">Como você quer se sentir daqui a 30 dias?</h2>
@@ -939,7 +981,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           </div>
         );
 
-      case 20:
+      case 21:
         return (
           <div className="space-y-8 py-4">
             <h2 className="text-2xl font-bold text-center text-primary">Mulheres reais, resultados reais.</h2>
@@ -966,7 +1008,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           </div>
         );
 
-      case 21:
+      case 22:
         return (
           <LoadingScreen 
             title="Seu plano feminino personalizado está sendo criado..." 
@@ -976,7 +1018,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           />
         );
 
-      case 22:
+      case 23:
         return (
           <div className="space-y-8 text-center py-6">
             <Badge className="bg-green-500 hover:bg-green-600 text-white border-none py-1 px-4 mb-2">Análise Concluída</Badge>
