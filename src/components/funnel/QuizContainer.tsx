@@ -14,7 +14,7 @@ import { generatePersonalizedAfricanMethodPlan, type GeneratePersonalizedAfrican
 import { QuizStep } from "./QuizStep";
 import { cn } from "@/lib/utils";
 
-const TOTAL_STEPS = 16;
+const TOTAL_STEPS = 17;
 const STORAGE_KEY = "fitness_fem_quiz_state";
 
 const INITIAL_STATE: GeneratePersonalizedAfricanMethodPlanInput = {
@@ -27,6 +27,7 @@ const INITIAL_STATE: GeneratePersonalizedAfricanMethodPlanInput = {
   weightDifficulty: "",
   increaseRegion: "",
   dedicationTime: "",
+  exerciseFrequency: "",
   emotionalGoal: "",
   flexibility: "",
   physicalLimitations: "",
@@ -319,7 +320,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     </span>
                   </div>
                   <div className={cn("h-full w-1", state.bodyDescription === opt.label ? "bg-white/20" : "bg-primary")} />
-                  <div className="relative w-14 h-full shrink-0 mr-2">
+                  <div className="relative w-12 h-full shrink-0 mr-2">
                     <Image src={opt.imageUrl} alt={opt.label} fill className="object-cover" />
                   </div>
                 </Card>
@@ -353,7 +354,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     </span>
                   </div>
                   <div className={cn("h-full w-1", state.dreamBody === opt.label ? "bg-white/20" : "bg-primary")} />
-                  <div className="relative w-14 h-full shrink-0 mr-2">
+                  <div className="relative w-12 h-full shrink-0 mr-2">
                     <Image src={opt.imageUrl} alt={opt.label} fill className="object-cover" />
                   </div>
                 </Card>
@@ -424,7 +425,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                   )}
                   onClick={() => toggleLimitation(opt.label)}
                 >
-                  <div className="relative w-20 h-full shrink-0">
+                  <div className="relative w-16 h-full shrink-0">
                     <Image src={opt.imageUrl} alt={opt.label} fill className="object-cover" />
                   </div>
                   <div className="flex-1 px-4 text-left">
@@ -466,6 +467,49 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
 
       case 12:
         return (
+          <div className="space-y-8 text-center px-4">
+            <h2 className="text-3xl font-bold text-foreground leading-tight">
+              Quantas vezes você faz exercício?
+            </h2>
+            <div className="space-y-3">
+              {[
+                { label: "Quase todos os dias", value: "diario" },
+                { label: "Várias vezes por semana", value: "semanal" },
+                { label: "Várias vezes por mês", value: "mensal" },
+                { label: "Nunca", value: "nunca" }
+              ].map((opt) => (
+                <Button 
+                  key={opt.value}
+                  variant={state.exerciseFrequency === opt.value ? "default" : "outline"}
+                  className={cn(
+                    "w-full py-8 text-lg rounded-2xl border-2 transition-all flex justify-between items-center px-6 bg-white",
+                    state.exerciseFrequency === opt.value ? "border-primary shadow-lg ring-1 ring-primary" : "border-primary/10 hover:border-primary/40"
+                  )}
+                  onClick={() => { 
+                    updateState("exerciseFrequency", opt.value); 
+                    setTimeout(nextStep, 300);
+                  }}
+                >
+                  <span className="font-bold text-foreground">
+                    {opt.label}
+                  </span>
+                  <div className={cn(
+                    "w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors",
+                    state.exerciseFrequency === opt.value ? "bg-primary border-primary text-white" : "border-primary/20"
+                  )}>
+                    {state.exerciseFrequency === opt.value && <Check className="w-4 h-4" />}
+                  </div>
+                </Button>
+              ))}
+            </div>
+            <div className="relative w-full aspect-square max-w-[320px] mx-auto mt-6">
+              <Image src="/exercicio.webp" alt="Exercício" fill className="object-contain" priority />
+            </div>
+          </div>
+        );
+
+      case 13:
+        return (
           <div className="space-y-6">
             <h2 className="text-2xl font-bold text-center text-primary">Quanto tempo você tem para cuidar de si mesma por dia?</h2>
             <div className="grid grid-cols-2 gap-4">
@@ -484,7 +528,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           </div>
         );
 
-      case 13:
+      case 14:
         return (
           <div className="space-y-3">
             <h2 className="text-2xl font-bold text-center text-primary">Como você quer se sentir daqui a 30 dias?</h2>
@@ -508,7 +552,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           </div>
         );
 
-      case 14:
+      case 15:
         return (
           <div className="space-y-8 py-4">
             <h2 className="text-2xl font-bold text-center text-primary">Mulheres reais, resultados reais.</h2>
@@ -535,7 +579,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           </div>
         );
 
-      case 15:
+      case 16:
         return (
           <LoadingScreen 
             title="Seu plano feminino personalizado está sendo criado..." 
@@ -545,7 +589,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           />
         );
 
-      case 16:
+      case 17:
         return (
           <div className="space-y-8 text-center py-6">
             <Badge className="bg-green-500 hover:bg-green-600 text-white border-none py-1 px-4 mb-2">Análise Concluída</Badge>
@@ -606,7 +650,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
         </div>
       )}
 
-      <div className={cn("w-full pt-20 pb-20 flex-1 flex flex-col items-center", stepId >= 15 ? "pt-10" : "")}>
+      <div className={cn("w-full pt-20 pb-20 flex-1 flex flex-col items-center", stepId >= 16 ? "pt-10" : "")}>
         <AnimatePresence mode="wait">
           <QuizStep key={stepId} stepId={stepId}>
             {renderStep()}
