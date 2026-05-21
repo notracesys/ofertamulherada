@@ -208,10 +208,10 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
             </h2>
             <div className="space-y-4">
               {[
-                { label: "Há menos de 1 ano", emoji: "🧐" },
-                { label: "1 a 2 anos atrás", emoji: "😳" },
-                { label: "Há mais de 3 anos", emoji: "🤦‍♂️" },
-                { label: "Nunca", emoji: "❌" }
+                { label: "Há menos de 1 ano", emoji: "🌟" },
+                { label: "1 a 2 anos atrás", emoji: "🗓️" },
+                { label: "Há mais de 3 anos", emoji: "🕰️" },
+                { label: "Nunca", emoji: "🚫" }
               ].map((opt) => (
                 <Button 
                   key={opt.label}
