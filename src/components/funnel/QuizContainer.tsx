@@ -1106,7 +1106,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
             </div>
 
             <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl shadow-primary/30 uppercase tracking-widest bg-primary text-white hover:scale-[1.02] transition-all flex items-center justify-center gap-3">
-              SIM, EU QUERO MINHA TRANSFORMAÇÃO
+              CONTINUAR
               <ArrowRight className="w-6 h-6" />
             </Button>
             
