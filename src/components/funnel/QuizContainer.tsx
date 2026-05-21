@@ -1110,7 +1110,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
       case 21:
         return (
           <div className="space-y-12 text-center px-4">
-            <h2 className="text-2xl font-bold text-[#0F172A] leading-tight px-6">
+            <h2 className="text-2xl font-bold text-[#0F172A] fainting-tight px-6">
               Quanto tempo você deseja dedicar em seu corpo no dia?
             </h2>
             <div className="grid grid-cols-2 gap-4">
@@ -1233,6 +1233,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     interval={0}
                     tick={(props: any) => {
                       const { x, y, payload } = props;
+                      if (isNaN(x) || isNaN(y)) return null;
                       let label = "";
                       if (payload.value === "Hoje") label = "SEMANA 1";
                       if (payload.value === "7 dias") return null;
@@ -1267,9 +1268,13 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     label={{ 
                       position: 'top', 
                       offset: 20, 
-                      content: (props: any) => (
-                        <text x={props.x} y={props.y - 15} textAnchor="start" fill="#000" fontSize="14" fontWeight="bold">Seu peso</text>
-                      ) 
+                      content: (props: any) => {
+                        const { x, y } = props;
+                        if (isNaN(x) || isNaN(y)) return null;
+                        return (
+                          <text x={x} y={y - 15} textAnchor="start" fill="#000" fontSize="14" fontWeight="bold">Seu peso</text>
+                        );
+                      }
                     }} 
                   />
                   
@@ -1287,6 +1292,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     label={{ 
                       content: (props: any) => {
                         const { x, y } = props;
+                        if (isNaN(x) || isNaN(y)) return null;
                         return (
                           <g>
                             {/* Pink Badge */}
