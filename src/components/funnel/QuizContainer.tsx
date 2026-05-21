@@ -13,7 +13,7 @@ import { generatePersonalizedAfricanMethodPlan, type GeneratePersonalizedAfrican
 import { QuizStep } from "./QuizStep";
 import { cn } from "@/lib/utils";
 
-const TOTAL_STEPS = 13;
+const TOTAL_STEPS = 12;
 const STORAGE_KEY = "fitness_fem_quiz_state";
 
 const INITIAL_STATE: GeneratePersonalizedAfricanMethodPlanInput = {
@@ -361,35 +361,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
               </Card>
             </div>
 
-            <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl shadow-primary/30 animate-pulse bg-primary">
-              Ver meu plano completo
-            </Button>
-          </div>
-        );
-
-      case 13:
-        return (
-          <div className="space-y-10 text-center py-8">
-            <div className="space-y-4">
-              <h1 className="text-4xl font-black text-primary leading-tight">Você está a poucos passos do corpo que sempre quis.</h1>
-              <p className="text-lg text-muted-foreground font-medium">Criamos um protocolo feminino focado em:</p>
-            </div>
-
-            <div className="space-y-3">
-              {[
-                { text: "Redução acelerada de gordura", icon: <Flame className="w-5 h-5" /> },
-                { text: "Cintura visivelmente mais fina", icon: <Zap className="w-5 h-5" /> },
-                { text: "Crescimento de pernas e glúteos", icon: <Star className="w-5 h-5" /> }
-              ].map((item, i) => (
-                <div key={i} className="flex items-center gap-4 bg-white p-4 rounded-2xl border-2 border-primary/10 premium-shadow">
-                  <div className="text-primary">{item.icon}</div>
-                  <span className="font-bold text-foreground">{item.text}</span>
-                  <Check className="ml-auto text-green-500 w-5 h-5" />
-                </div>
-              ))}
-            </div>
-
-            <Button className="w-full py-10 text-2xl font-black rounded-3xl shadow-2xl shadow-primary/40 uppercase tracking-tighter bg-primary hover:scale-[1.02] transition-transform">
+            <Button className="w-full py-10 text-2xl font-black rounded-3xl shadow-2xl shadow-primary/40 uppercase tracking-tighter bg-primary hover:scale-[1.02] transition-transform animate-pulse">
               VER MEU PLANO AGORA
             </Button>
 
@@ -407,7 +379,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
 
   return (
     <div className="min-h-screen flex flex-col items-center bg-white overflow-x-hidden">
-      {stepId <= 10 && (
+      {stepId < TOTAL_STEPS && (
         <div className="fixed top-0 inset-x-0 z-50 bg-white/90 backdrop-blur-md px-6 py-4 flex items-center gap-4 border-b border-primary/5">
           <button onClick={prevStep} disabled={stepId === 1} className="shrink-0 h-10 w-10 flex items-center justify-center rounded-full bg-secondary text-primary disabled:opacity-0 transition-opacity">
             <ArrowRight className="w-5 h-5 rotate-180" />
@@ -418,7 +390,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
         </div>
       )}
 
-      <div className={cn("w-full pt-20 pb-20 flex-1 flex flex-col items-center", stepId > 10 ? "pt-10" : "")}>
+      <div className={cn("w-full pt-20 pb-20 flex-1 flex flex-col items-center", stepId >= 11 ? "pt-10" : "")}>
         <AnimatePresence mode="wait">
           <QuizStep key={stepId} stepId={stepId}>
             {renderStep()}
