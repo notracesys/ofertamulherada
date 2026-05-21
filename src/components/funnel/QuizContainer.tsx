@@ -14,8 +14,9 @@ import { useRouter } from "next/navigation";
 import { generatePersonalizedAfricanMethodPlan, type GeneratePersonalizedAfricanMethodPlanInput, type GeneratePersonalizedAfricanMethodPlanOutput } from "@/ai/flows/generate-personalized-african-method-plan";
 import { QuizStep } from "./QuizStep";
 import { cn } from "@/lib/utils";
+import { Area, AreaChart, ResponsiveContainer, XAxis, YAxis, Tooltip as RechartsTooltip, ReferenceDot } from "recharts";
 
-const TOTAL_STEPS = 23;
+const TOTAL_STEPS = 24;
 const STORAGE_KEY = "fitness_fem_quiz_state";
 
 const INITIAL_STATE: GeneratePersonalizedAfricanMethodPlanInput = {
@@ -70,7 +71,6 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
     if (saved) {
       try { 
         const parsed = JSON.parse(saved);
-        // Merge with initial state to avoid undefined fields
         setState(prev => ({ ...prev, ...parsed })); 
         if (parsed.physicalLimitations) {
           setSelectedLimitations(parsed.physicalLimitations.split(", "));
@@ -83,7 +83,6 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
     if (isClient) { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
   }, [state, isClient]);
 
-  // Initial scroll position
   useEffect(() => {
     if (isClient) {
       if (stepId === 15 && heightRulerRef.current) {
@@ -192,6 +191,16 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
   if (!isClient) return null;
 
   const progress = (stepId / TOTAL_STEPS) * 100;
+
+  // Chart data for step 20
+  const currentWeight = parseInt(state.weight || "70");
+  const targetWeight = parseInt(state.targetWeight || "60");
+  const weightData = [
+    { day: "Hoje", weight: currentWeight },
+    { day: "7 dias", weight: currentWeight - (currentWeight - targetWeight) * 0.4 },
+    { day: "14 dias", weight: currentWeight - (currentWeight - targetWeight) * 0.8 },
+    { day: "21 dias", weight: targetWeight },
+  ];
 
   const renderStep = () => {
     switch (stepId) {
@@ -939,7 +948,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                   </div>
                   <div>
                     <div className="flex gap-0.5 mb-0.5">
-                      {[1,2,3,4,5].map(i => <Star key={i} className="w-3 h-3 fill-yellow-400 text-yellow-400" />)}
+                      {[1,2,3,4,5].map(i => <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />)}
                     </div>
                     <p className="font-bold text-sm text-foreground">Rafaela</p>
                     <p className="text-[10px] text-muted-foreground">01/04/2026</p>
@@ -957,7 +966,106 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           </div>
         );
 
-      case 20:
+      case 20: // Weight Projection Chart
+        return (
+          <div className="space-y-8 text-center py-4 max-w-md mx-auto w-full px-2">
+            <div className="space-y-2">
+              <h2 className="text-2xl md:text-3xl font-black text-[#0F172A] leading-tight px-4 uppercase italic">
+                O último plano que você precisará para ficar em forma
+              </h2>
+              <p className="text-muted-foreground text-sm font-medium">Prevemos que você estará com</p>
+              <p className="text-3xl font-black text-[#10B981]">
+                {state.targetWeight}kg em até 21 dias
+              </p>
+            </div>
+
+            <div className="relative w-full h-[300px] mt-4">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={weightData} margin={{ top: 40, right: 30, left: 30, bottom: 20 }}>
+                  <defs>
+                    <linearGradient id="weightGradient" x1="0" y1="0" x2="1" y2="0">
+                      <stop offset="0%" stopColor="#EF4444" stopOpacity={0.8} />
+                      <stop offset="100%" stopColor="#10B981" stopOpacity={0.8} />
+                    </linearGradient>
+                    <linearGradient id="areaGradient" x1="0" y1="0" x2="1" y2="0">
+                      <stop offset="0%" stopColor="#EF4444" stopOpacity={0.4} />
+                      <stop offset="100%" stopColor="#10B981" stopOpacity={0.4} />
+                    </linearGradient>
+                  </defs>
+                  <XAxis dataKey="day" hide />
+                  <YAxis hide domain={['dataMin - 5', 'dataMax + 5']} />
+                  <Area 
+                    type="monotone" 
+                    dataKey="weight" 
+                    stroke="url(#weightGradient)" 
+                    strokeWidth={4} 
+                    fill="url(#areaGradient)" 
+                    animationDuration={2000}
+                  />
+                  <ReferenceDot 
+                    x="Hoje" 
+                    y={currentWeight} 
+                    r={6} 
+                    fill="#EF4444" 
+                    stroke="#fff" 
+                    strokeWidth={2}
+                    label={{ 
+                      position: 'top', 
+                      offset: 15,
+                      content: (props: any) => (
+                        <g>
+                          <rect x={props.x - 15} y={props.y - 35} width="30" height="20" rx="4" fill="#EF4444" />
+                          <text x={props.x} y={props.y - 21} textAnchor="middle" fill="#fff" fontSize="12" fontWeight="bold">{currentWeight}</text>
+                        </g>
+                      )
+                    }}
+                  />
+                  <ReferenceDot 
+                    x="21 dias" 
+                    y={targetWeight} 
+                    r={6} 
+                    fill="#10B981" 
+                    stroke="#fff" 
+                    strokeWidth={2}
+                    label={{ 
+                      position: 'top', 
+                      offset: 15,
+                      content: (props: any) => (
+                        <g>
+                          <rect x={props.x - 15} y={props.y - 35} width="30" height="20" rx="4" fill="#fff" stroke="#E2E8F0" />
+                          <text x={props.x} y={props.y - 21} textAnchor="middle" fill="#000" fontSize="12" fontWeight="bold">{targetWeight}</text>
+                        </g>
+                      )
+                    }}
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
+              <div className="flex justify-between px-8 text-[10px] font-bold text-muted-foreground uppercase tracking-widest mt-[-15px]">
+                <span>Hoje</span>
+                <span>21 dias</span>
+              </div>
+            </div>
+
+            <p className="text-[10px] text-muted-foreground leading-relaxed px-8 text-center italic opacity-60">
+              *Baseado nos dados dos usuários que registram seu progresso no aplicativo. Consulte primeiro seu médico. O gráfico é uma ilustração não-personalizada e os resultados podem variar.
+            </p>
+
+            <div className="bg-[#DCFCE7] p-6 rounded-3xl text-center space-y-2 border border-[#86EFAC] mx-4 shadow-sm">
+              <h3 className="text-xl font-black text-[#166534] leading-tight">
+                Protocolo de 21 dias quase pronto!
+              </h3>
+              <p className="text-sm text-[#166534]/80 leading-relaxed font-medium">
+                De acordo com as suas respostas, você está pronta para ter resultados em 21 dias com o nosso
+              </p>
+            </div>
+
+            <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl shadow-primary/30 uppercase tracking-widest bg-primary text-white hover:scale-[1.02] transition-transform">
+              CONTINUAR
+            </Button>
+          </div>
+        );
+
+      case 21:
         return (
           <div className="space-y-3">
             <h2 className="text-2xl font-bold text-center text-primary">Como você quer se sentir daqui a 30 dias?</h2>
@@ -981,7 +1089,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           </div>
         );
 
-      case 21:
+      case 22:
         return (
           <div className="space-y-8 py-4">
             <h2 className="text-2xl font-bold text-center text-primary">Mulheres reais, resultados reais.</h2>
@@ -1008,7 +1116,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           </div>
         );
 
-      case 22:
+      case 23:
         return (
           <LoadingScreen 
             title="Seu plano feminino personalizado está sendo criado..." 
@@ -1018,7 +1126,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           />
         );
 
-      case 23:
+      case 24:
         return (
           <div className="space-y-8 text-center py-6">
             <Badge className="bg-green-500 hover:bg-green-600 text-white border-none py-1 px-4 mb-2">Análise Concluída</Badge>
