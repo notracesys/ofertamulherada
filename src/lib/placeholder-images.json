@@ -1,3 +1,46 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "intro-women",
+      "description": "Healthy group of women",
+      "imageUrl": "https://picsum.photos/seed/women-group/600/400",
+      "imageHint": "healthy women"
+    },
+    {
+      "id": "result-celebration",
+      "description": "Happy woman celebrating",
+      "imageUrl": "https://picsum.photos/seed/happy-woman/600/800",
+      "imageHint": "happy woman"
+    },
+    {
+      "id": "mockup-phone",
+      "description": "Phone mockup showing the plan",
+      "imageUrl": "https://picsum.photos/seed/phone-app/400/600",
+      "imageHint": "mobile app"
+    },
+    {
+      "id": "exercise-woman",
+      "description": "Woman exercising",
+      "imageUrl": "https://picsum.photos/seed/exercise/500/500",
+      "imageHint": "woman exercising"
+    },
+    {
+      "id": "sleep-woman",
+      "description": "Woman sleeping peacefully",
+      "imageUrl": "https://picsum.photos/seed/sleeping/500/500",
+      "imageHint": "woman sleeping"
+    },
+    {
+      "id": "water-woman",
+      "description": "Woman drinking water",
+      "imageUrl": "https://picsum.photos/seed/drinking-water/500/500",
+      "imageHint": "drinking water"
+    },
+    {
+      "id": "woman-posing",
+      "description": "Woman in healthy pose",
+      "imageUrl": "https://picsum.photos/seed/healthy-pose/500/800",
+      "imageHint": "healthy woman"
+    }
+  ]
 }
