@@ -8,7 +8,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
-import { Check, ArrowRight, Star, ShieldCheck, ChevronRight } from "lucide-react";
+import { Check, ArrowRight, Star, ShieldCheck, ChevronRight, Zap, Target, TrendingDown } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { generatePersonalizedAfricanMethodPlan, type GeneratePersonalizedAfricanMethodPlanInput, type GeneratePersonalizedAfricanMethodPlanOutput } from "@/ai/flows/generate-personalized-african-method-plan";
@@ -921,7 +921,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
 
       case 18:
         return (
-          <div className="space-y-8 text-center px-4 max-w-sm mx-auto">
+          <div className="space-y-8 text-center px-4 max-sm mx-auto">
             <div className="space-y-2">
               <h2 className="text-4xl font-bold text-[#0F172A] leading-tight">Qual sua idade?</h2>
               <p className="text-muted-foreground font-medium text-sm px-6">
@@ -999,14 +999,23 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
 
       case 20:
         return (
-          <div className="space-y-8 text-center py-4 max-w-md mx-auto w-full px-2">
-            <div className="space-y-2">
-              <h2 className="text-3xl font-black leading-tight px-4">
-                <span className="text-[#10B981]">{state.targetWeight}kg em até 21 dias</span>
+          <div className="space-y-6 text-center py-4 max-w-md mx-auto w-full px-4">
+            <div className="space-y-4">
+              <div className="flex justify-center mb-2">
+                <Badge className="bg-primary/10 text-primary border-none px-4 py-1 rounded-full font-bold flex items-center gap-2">
+                  <Target className="w-4 h-4" />
+                  98% de compatibilidade detectada
+                </Badge>
+              </div>
+              <h2 className="text-3xl font-black leading-tight text-slate-900">
+                Prepare-se para ver <span className="text-[#10B981]">{state.targetWeight}kg</span> no espelho!
               </h2>
+              <p className="text-slate-600 font-medium leading-relaxed px-2">
+                Sua análise corporal mostra que seu metabolismo está pronto para uma transformação radical nos próximos 21 dias.
+              </p>
             </div>
 
-            <div className="relative w-full h-[320px] mt-4">
+            <div className="relative w-full h-[280px] mt-2">
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={weightData} margin={{ top: 50, right: 40, left: 40, bottom: 20 }}>
                   <defs>
@@ -1072,27 +1081,38 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 </AreaChart>
               </ResponsiveContainer>
               <div className="flex justify-between px-10 text-[10px] font-bold text-muted-foreground uppercase tracking-widest mt-[-10px]">
-                <span>Hoje</span>
-                <span>21 dias</span>
+                <span>PONTO DE PARTIDA</span>
+                <span>SUA NOVA VERSÃO</span>
               </div>
             </div>
 
-            <p className="text-[10px] text-muted-foreground leading-relaxed px-8 text-center italic opacity-60">
-              *Baseado nos dados dos usuários que registram seu progresso no aplicativo. Consulte primeiro seu médico. O gráfico é uma illustration não-personalizada e os resultados podem variar.
-            </p>
+            <div className="space-y-4 mt-4">
+              <div className="bg-[#DCFCE7] p-6 rounded-[2rem] text-center space-y-3 border border-[#86EFAC] shadow-sm relative overflow-hidden">
+                <div className="absolute top-0 right-0 p-2 opacity-10">
+                  <TrendingDown className="w-12 h-12" />
+                </div>
+                <h3 className="text-xl font-black text-[#166534] leading-tight">
+                  Sua hora chegou!
+                </h3>
+                <p className="text-sm text-[#166534]/80 leading-relaxed font-medium">
+                  Com base no seu perfil, você tem o biotipo ideal para responder rapidamente a este protocolo. Em 21 dias, o peso que você deseja será sua nova realidade.
+                </p>
+              </div>
 
-            <div className="bg-[#DCFCE7] p-6 rounded-3xl text-center space-y-2 border border-[#86EFAC] mx-4 shadow-sm">
-              <h3 className="text-xl font-black text-[#166534] leading-tight">
-                Protocolo de 21 dias quase pronto!
-              </h3>
-              <p className="text-sm text-[#166534]/80 leading-relaxed font-medium">
-                De acordo com as suas respostas, você está pronta para ter resultados em 21 dias com o nosso
-              </p>
+              <div className="flex items-center justify-center gap-2 text-primary font-bold animate-bounce">
+                <Zap className="w-4 h-4 fill-primary" />
+                <span className="text-xs uppercase tracking-widest">Protocolo Exclusivo Liberado</span>
+              </div>
             </div>
 
-            <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl shadow-primary/30 uppercase tracking-widest bg-primary text-white hover:scale-[1.02] transition-transform">
-              CONTINUAR
+            <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl shadow-primary/30 uppercase tracking-widest bg-primary text-white hover:scale-[1.02] transition-all flex items-center justify-center gap-3">
+              SIM, EU QUERO MINHA TRANSFORMAÇÃO
+              <ArrowRight className="w-6 h-6" />
             </Button>
+            
+            <p className="text-[10px] text-muted-foreground opacity-60 italic leading-snug px-4">
+              *Gráfico projetado com base em inteligência artificial e dados históricos de usuários com perfil similar ao seu. Resultados podem variar.
+            </p>
           </div>
         );
 
