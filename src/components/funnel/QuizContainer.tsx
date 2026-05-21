@@ -119,7 +119,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
               Mais de 500.000 mulheres
             </h2>
             <p className="text-lg text-muted-foreground leading-snug">
-              com <span className="font-bold text-foreground">+20 anos</span> já experimentaram o nosso programa feminino de definição
+              com <span className="font-bold text-foreground">+20 anos</span> já experimentaram o nosso Programa Feminino de Definição
             </p>
             <div className="relative w-full aspect-[4/5] max-w-sm mx-auto">
               <Image src="/mulheres.webp" alt="Mulheres" fill className="object-contain" priority />
@@ -203,27 +203,23 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
       case 5:
         return (
           <div className="space-y-8 text-center px-4">
-            <h2 className="text-2xl font-black text-foreground leading-tight px-2">
-              Há quanto tempo você esteve no melhor físico da sua vida?
+            <h2 className="text-4xl font-black text-primary leading-none uppercase tracking-tight">
+              Você vai arrasar!
             </h2>
-            <div className="space-y-4">
-              {[
-                { label: "Há menos de 1 ano", emoji: "🌟" },
-                { label: "1 a 2 anos atrás", emoji: "🗓️" },
-                { label: "Há mais de 3 anos", emoji: "🕰️" },
-                { label: "Nunca", emoji: "🚫" }
-              ].map((opt) => (
-                <Button 
-                  key={opt.label}
-                  variant="outline"
-                  className="w-full py-8 text-lg rounded-3xl border-2 border-primary/5 hover:border-primary/20 text-foreground bg-white shadow-sm flex justify-start items-center gap-4 px-6 transition-all hover:scale-[1.01]"
-                  onClick={() => { updateState("weightDifficulty", opt.label); nextStep(); }}
-                >
-                  <span className="text-2xl shrink-0 leading-none">{opt.emoji}</span>
-                  <span className="font-bold text-base text-left">{opt.label}</span>
-                </Button>
-              ))}
+            <div className="space-y-4 text-muted-foreground px-2">
+              <p className="text-lg leading-snug">
+                Nosso <span className="font-bold text-foreground">Programa Feminino de Definição</span> é a solução definitiva de condicionamento físico fácil e eficaz para todos os níveis.
+              </p>
+              <p className="text-lg leading-snug">
+                Nós te ajudamos a <span className="font-bold text-foreground">emagrecer rápido</span>, eliminar gordura e <span className="font-bold text-foreground">crescer glúteos e pernas</span> de forma eficaz, sem gastar dinheiro com academia ou equipamentos.
+              </p>
             </div>
+            <div className="relative w-full aspect-[4/3] max-w-md mx-auto rounded-3xl overflow-hidden premium-shadow">
+              <Image src="/step3.webp" alt="Transformação" fill className="object-cover" priority />
+            </div>
+            <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl shadow-primary/30 uppercase tracking-wide bg-primary">
+              Continuar
+            </Button>
           </div>
         );
 
