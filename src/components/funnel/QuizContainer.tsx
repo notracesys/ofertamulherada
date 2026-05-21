@@ -18,6 +18,7 @@ const STORAGE_KEY = "fitness_fem_quiz_state";
 
 const INITIAL_STATE: GeneratePersonalizedAfricanMethodPlanInput = {
   ageRange: "30 a 39 anos",
+  pilatesExperience: "",
   mainConcern: "",
   goalTransformation: "",
   weightDifficulty: "",
@@ -131,32 +132,41 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
 
       case 3:
         return (
-          <div className="space-y-6">
-            <h2 className="text-2xl font-bold text-center text-primary leading-tight">O que mais te incomoda no seu corpo atualmente?</h2>
-            <div className="grid grid-cols-1 gap-3">
+          <div className="space-y-8 text-center px-4">
+            <h2 className="text-3xl font-bold text-foreground leading-tight">
+              Você já experimentou treinos de <span className="text-primary">pilates na parede</span> antes?
+            </h2>
+            <div className="space-y-4">
               {[
-                { label: "Barriga dilatada", hint: "Abdomen indesejado" },
-                { label: "Culote e flancos", hint: "Gordura lateral" },
-                { label: "Pernas muito finas", hint: "Falta de volume" },
-                { label: "Glúteos pequenos/caídos", hint: "Falta de projeção" },
-                { label: "Flacidez geral", hint: "Falta de firmeza" },
-                { label: "Celulite marcante", hint: "Textura da pele" }
+                { label: "Sim, já experimentei", value: "sim" },
+                { label: "Não, eu nunca experimentei", value: "nao" }
               ].map((opt) => (
-                <Card 
-                  key={opt.label}
-                  className="p-4 flex items-center gap-4 cursor-pointer border-2 border-primary/10 hover:border-primary/40 transition-all premium-shadow"
-                  onClick={() => { updateState("mainConcern", opt.label); nextStep(); }}
+                <Button 
+                  key={opt.value}
+                  variant={state.pilatesExperience === opt.value ? "default" : "outline"}
+                  className={cn(
+                    "w-full py-8 text-lg rounded-2xl border-2 transition-all flex justify-between items-center px-6",
+                    state.pilatesExperience === opt.value ? "bg-primary border-primary shadow-lg shadow-primary/20" : "border-primary/10 hover:border-primary/40"
+                  )}
+                  onClick={() => { 
+                    updateState("pilatesExperience", opt.value); 
+                    setTimeout(nextStep, 300);
+                  }}
                 >
-                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0">
-                    <Heart className="w-5 h-5" />
+                  <span className={cn("font-bold", state.pilatesExperience === opt.value ? "text-white" : "text-foreground")}>
+                    {opt.label}
+                  </span>
+                  <div className={cn(
+                    "w-6 h-6 rounded-full border-2 flex items-center justify-center",
+                    state.pilatesExperience === opt.value ? "bg-white border-white text-primary" : "border-primary/20"
+                  )}>
+                    {state.pilatesExperience === opt.value && <Check className="w-4 h-4" />}
                   </div>
-                  <div className="flex flex-col">
-                    <span className="font-bold text-foreground">{opt.label}</span>
-                    <span className="text-xs text-muted-foreground">{opt.hint}</span>
-                  </div>
-                  <ArrowRight className="ml-auto w-4 h-4 text-primary opacity-40" />
-                </Card>
+                </Button>
               ))}
+            </div>
+            <div className="relative w-full aspect-square max-w-[300px] mx-auto mt-8">
+              <Image src="/step4.webp" alt="Pilates" fill className="object-contain" />
             </div>
           </div>
         );
