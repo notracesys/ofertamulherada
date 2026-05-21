@@ -122,7 +122,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
             <p className="text-lg text-muted-foreground leading-snug">
               com <span className="font-bold text-foreground">+20 anos</span> já experimentaram o nosso Programa Feminino de Definição
             </p>
-            <div className="relative w-full aspect-[4/5] max-w-sm mx-auto">
+            <div className="relative w-full aspect-[4/5] max-w-[280px] mx-auto">
               <Image src="/mulheres.webp" alt="Mulheres" fill className="object-contain" priority />
             </div>
             <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl shadow-primary/30 uppercase tracking-wide bg-primary">
@@ -166,7 +166,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 </Button>
               ))}
             </div>
-            <div className="relative w-full aspect-square max-w-full mx-auto mt-8">
+            <div className="relative w-full aspect-square max-w-[300px] mx-auto mt-8">
               <Image src="/step4.webp" alt="Programa" fill className="object-contain" />
             </div>
           </div>
@@ -192,7 +192,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     <span className="font-bold text-lg text-primary uppercase tracking-tight">{opt.label}</span>
                   </div>
                   <div className="h-full w-0.5 bg-primary/20 group-hover:bg-primary/50 transition-colors" />
-                  <div className="relative w-28 h-full shrink-0">
+                  <div className="relative w-24 h-full shrink-0">
                     <Image src={opt.imageUrl} alt={opt.label} fill className="object-cover" />
                   </div>
                 </Card>
@@ -215,7 +215,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 Nós te ajudamos a <span className="font-bold text-foreground">emagrecer rápido</span>, eliminar gordura e <span className="font-bold text-foreground">crescer glúteos e pernas</span> de forma eficaz, sem gastar dinheiro com academia ou equipamentos.
               </p>
             </div>
-            <div className="relative w-full aspect-[4/3] max-w-md mx-auto rounded-3xl overflow-hidden premium-shadow">
+            <div className="relative w-full aspect-[4/3] max-w-[320px] mx-auto rounded-3xl overflow-hidden premium-shadow">
               <Image src="/step3.webp" alt="Transformação" fill className="object-cover" priority />
             </div>
             <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl shadow-primary/30 uppercase tracking-wide bg-primary">
@@ -262,7 +262,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 </Button>
               ))}
             </div>
-            <div className="relative w-full aspect-square max-w-full mx-auto mt-4">
+            <div className="relative w-full aspect-square max-w-[300px] mx-auto mt-4">
               <Image src="/step6.webp" alt="Objetivo" fill className="object-contain" priority />
             </div>
           </div>
@@ -294,7 +294,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     </span>
                   </div>
                   <div className={cn("h-full w-1", state.bodyDescription === opt.label ? "bg-white/20" : "bg-primary")} />
-                  <div className="relative w-32 h-full shrink-0">
+                  <div className="relative w-24 h-full shrink-0">
                     <Image src={opt.imageUrl} alt={opt.label} fill className="object-cover" />
                   </div>
                 </Card>
