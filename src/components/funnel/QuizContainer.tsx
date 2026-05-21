@@ -1092,7 +1092,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
             </div>
 
             <p className="text-[10px] text-muted-foreground leading-relaxed px-8 text-center italic opacity-60">
-              *Baseado nos dados dos usuários que registram seu progresso no aplicativo. Consulte primeiro seu médico. O gráfico é uma ilustração não-personalizada e os resultados podem variar.
+              *Baseado nos dados dos usuários que registram seu progresso no aplicativo. Consulte primeiro seu médico. O gráfico é uma illustration não-personalizada e os resultados podem variar.
             </p>
 
             <div className="bg-[#DCFCE7] p-6 rounded-3xl text-center space-y-2 border border-[#86EFAC] mx-4 shadow-sm">
@@ -1168,7 +1168,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
 
             <div className="space-y-1">
               <h2 className="text-4xl md:text-5xl font-black text-primary leading-none">
-                8 milhões de pessoas
+                1 milhão de pessoas
               </h2>
               <p className="text-lg font-bold text-primary/80">
                 escolheram o nosso Programa Feminino
