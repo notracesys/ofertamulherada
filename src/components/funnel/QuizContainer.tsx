@@ -1098,11 +1098,6 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                   Com base no seu perfil, você tem o biotipo ideal para responder rapidamente a este protocolo. Em 21 dias, o peso que você deseja será sua nova realidade.
                 </p>
               </div>
-
-              <div className="flex items-center justify-center gap-2 text-primary font-bold animate-bounce">
-                <Zap className="w-4 h-4 fill-primary" />
-                <span className="text-xs uppercase tracking-widest">Protocolo Exclusivo Liberado</span>
-              </div>
             </div>
 
             <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl shadow-primary/30 uppercase tracking-widest bg-primary text-white hover:scale-[1.02] transition-all flex items-center justify-center gap-3">
