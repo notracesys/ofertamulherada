@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -176,14 +175,14 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
               ].map((opt) => (
                 <Card 
                   key={opt.label} 
-                  className="p-0 flex items-center cursor-pointer border-2 border-primary/10 transition-all hover:scale-[1.01] overflow-hidden bg-white hover:border-primary/40 group h-24"
+                  className="p-0 flex items-center cursor-pointer border-2 border-primary/10 transition-all hover:scale-[1.01] overflow-hidden bg-white hover:border-primary/40 group h-20"
                   onClick={() => { updateState("goalTransformation", opt.label); nextStep(); }}
                 >
                   <div className="flex-1 px-6">
-                    <span className="font-bold text-xl text-primary uppercase tracking-tight">{opt.label}</span>
+                    <span className="font-bold text-lg text-primary uppercase tracking-tight">{opt.label}</span>
                   </div>
                   <div className="h-full w-0.5 bg-primary/20 group-hover:bg-primary/50 transition-colors" />
-                  <div className="relative w-36 h-full shrink-0">
+                  <div className="relative w-28 h-full shrink-0">
                     <Image src={opt.imageUrl} alt={opt.label} fill className="object-cover" />
                   </div>
                 </Card>
