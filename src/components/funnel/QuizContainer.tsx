@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
@@ -50,8 +49,14 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
   const [state, setState] = useState<GeneratePersonalizedAfricanMethodPlanInput>(INITIAL_STATE);
   const [selectedLimitations, setSelectedLimitations] = useState<string[]>([]);
   const [heightUnit, setHeightUnit] = useState<"cm" | "pol">("cm");
+  
   const heightRulerRef = useRef<HTMLDivElement>(null);
   const weightRulerRef = useRef<HTMLDivElement>(null);
+  
+  // Dragging states
+  const isDragging = useRef(false);
+  const startX = useRef(0);
+  const scrollLeft = useRef(0);
 
   useEffect(() => {
     setIsClient(true);
@@ -71,18 +76,16 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
     if (isClient) { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
   }, [state, isClient]);
 
-  // Sync scroll position on step change
+  // Initial scroll position
   useEffect(() => {
     if (isClient) {
       if (stepId === 15 && heightRulerRef.current) {
         const h = parseInt(state.height || "170");
-        const scrollPos = (h - 100) * 10;
-        heightRulerRef.current.scrollLeft = scrollPos;
+        heightRulerRef.current.scrollLeft = (h - 100) * 10;
       }
       if (stepId === 16 && weightRulerRef.current) {
         const w = parseInt(state.weight || "65");
-        const scrollPos = (w - 30) * 10;
-        weightRulerRef.current.scrollLeft = scrollPos;
+        weightRulerRef.current.scrollLeft = (w - 30) * 10;
       }
     }
   }, [stepId, isClient, heightUnit]);
@@ -130,25 +133,46 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
     }
   };
 
-  if (!isClient) return null;
+  const handleDragStart = (e: React.MouseEvent | React.TouchEvent, ref: React.RefObject<HTMLDivElement>) => {
+    if (!ref.current) return;
+    isDragging.current = true;
+    const pageX = 'touches' in e ? e.touches[0].pageX : e.pageX;
+    startX.current = pageX - ref.current.offsetLeft;
+    scrollLeft.current = ref.current.scrollLeft;
+  };
 
-  const progress = (stepId / TOTAL_STEPS) * 100;
+  const handleDragEnd = () => {
+    isDragging.current = false;
+  };
+
+  const handleDragMove = (e: React.MouseEvent | React.TouchEvent, ref: React.RefObject<HTMLDivElement>, type: 'height' | 'weight') => {
+    if (!isDragging.current || !ref.current) return;
+    e.preventDefault();
+    const pageX = 'touches' in e ? e.touches[0].pageX : e.pageX;
+    const x = pageX - ref.current.offsetLeft;
+    const walk = (x - startX.current);
+    ref.current.scrollLeft = scrollLeft.current - walk;
+  };
 
   const handleHeightScroll = (e: React.UIEvent<HTMLDivElement>) => {
-    const scrollLeft = e.currentTarget.scrollLeft;
-    const newValue = Math.round(scrollLeft / 10) + 100;
-    if (newValue !== parseInt(state.height || "0")) {
+    const scroll = e.currentTarget.scrollLeft;
+    const newValue = Math.round(scroll / 10) + 100;
+    if (newValue >= 100 && newValue <= 220 && newValue !== parseInt(state.height || "0")) {
       updateState("height", newValue.toString());
     }
   };
 
   const handleWeightScroll = (e: React.UIEvent<HTMLDivElement>) => {
-    const scrollLeft = e.currentTarget.scrollLeft;
-    const newValue = Math.round(scrollLeft / 10) + 30;
-    if (newValue !== parseInt(state.weight || "0")) {
+    const scroll = e.currentTarget.scrollLeft;
+    const newValue = Math.round(scroll / 10) + 30;
+    if (newValue >= 30 && newValue <= 150 && newValue !== parseInt(state.weight || "0")) {
       updateState("weight", newValue.toString());
     }
   };
+
+  if (!isClient) return null;
+
+  const progress = (stepId / TOTAL_STEPS) * 100;
 
   const renderStep = () => {
     switch (stepId) {
@@ -440,7 +464,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 </Button>
               ))}
             </div>
-            <div className="relative w-full aspect-square max-w-[600px] mx-auto mt-8 rounded-full overflow-hidden">
+            <div className="relative w-full aspect-square max-w-[340px] mx-auto mt-8 rounded-full overflow-hidden">
               <Image src="/flexivel.webp" alt="Flexível" fill className="object-cover" />
             </div>
           </div>
@@ -660,11 +684,18 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
               <span className="text-2xl font-bold text-muted-foreground">{heightUnit}</span>
             </div>
 
-            <div className="relative py-10">
+            <div className="relative py-10 select-none">
               <div 
                 ref={heightRulerRef}
                 onScroll={handleHeightScroll}
-                className="w-full flex items-end gap-0 overflow-x-auto no-scrollbar px-[50%] py-4 scroll-smooth cursor-grab active:cursor-grabbing select-none"
+                onMouseDown={(e) => handleDragStart(e, heightRulerRef)}
+                onMouseUp={handleDragEnd}
+                onMouseLeave={handleDragEnd}
+                onMouseMove={(e) => handleDragMove(e, heightRulerRef, 'height')}
+                onTouchStart={(e) => handleDragStart(e, heightRulerRef)}
+                onTouchEnd={handleDragEnd}
+                onTouchMove={(e) => handleDragMove(e, heightRulerRef, 'height')}
+                className="w-full flex items-end gap-0 overflow-x-auto no-scrollbar px-[50%] py-4 scroll-smooth cursor-grab active:cursor-grabbing"
               >
                 {Array.from({ length: 121 }).map((_, i) => {
                   const val = i + 100;
@@ -680,7 +711,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-12 w-1 bg-primary rounded-full shadow-lg shadow-primary/40 z-10 pointer-events-none" />
             </div>
             
-            <p className="text-muted-foreground text-sm font-medium">Arraste para ajustar</p>
+            <p className="text-muted-foreground text-sm font-medium">Arraste a régua para ajustar</p>
 
             <div className="bg-[#EBF5FF] p-6 rounded-3xl text-left space-y-2 border border-blue-100 mx-4">
               <p className="font-bold text-[#1E40AF] flex items-center gap-2">
@@ -707,11 +738,18 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
               <span className="text-2xl font-bold text-muted-foreground">kg</span>
             </div>
 
-            <div className="relative py-10">
+            <div className="relative py-10 select-none">
               <div 
                 ref={weightRulerRef}
                 onScroll={handleWeightScroll}
-                className="w-full flex items-end gap-0 overflow-x-auto no-scrollbar px-[50%] py-4 scroll-smooth cursor-grab active:cursor-grabbing select-none"
+                onMouseDown={(e) => handleDragStart(e, weightRulerRef)}
+                onMouseUp={handleDragEnd}
+                onMouseLeave={handleDragEnd}
+                onMouseMove={(e) => handleDragMove(e, weightRulerRef, 'weight')}
+                onTouchStart={(e) => handleDragStart(e, weightRulerRef)}
+                onTouchEnd={handleDragEnd}
+                onTouchMove={(e) => handleDragMove(e, weightRulerRef, 'weight')}
+                className="w-full flex items-end gap-0 overflow-x-auto no-scrollbar px-[50%] py-4 scroll-smooth cursor-grab active:cursor-grabbing"
               >
                 {Array.from({ length: 121 }).map((_, i) => {
                   const val = i + 30;
@@ -727,7 +765,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-12 w-1 bg-primary rounded-full shadow-lg z-10 pointer-events-none" />
             </div>
             
-            <p className="text-muted-foreground text-sm font-medium">Arraste para ajustar</p>
+            <p className="text-muted-foreground text-sm font-medium">Arraste a régua para ajustar</p>
 
             <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl shadow-primary/30 uppercase bg-primary text-white mt-8">
               PRÓXIMO PASSO
