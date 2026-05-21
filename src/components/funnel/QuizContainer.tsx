@@ -6,7 +6,7 @@ import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Check, ArrowRight, Heart, Star, Zap, ShieldCheck, Flame, Users, Trophy, ChevronRight } from "lucide-react";
+import { Check, ArrowRight, Star, ShieldCheck, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { generatePersonalizedAfricanMethodPlan, type GeneratePersonalizedAfricanMethodPlanInput, type GeneratePersonalizedAfricanMethodPlanOutput } from "@/ai/flows/generate-personalized-african-method-plan";
@@ -149,7 +149,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                   variant={state.pilatesExperience === opt.value ? "default" : "outline"}
                   className={cn(
                     "w-full py-8 text-lg rounded-2xl border-2 transition-all flex justify-between items-center px-6",
-                    state.pilatesExperience === opt.value ? "bg-primary border-primary shadow-lg shadow-primary/20" : "border-primary/10 hover:border-primary/40"
+                    state.pilatesExperience === opt.value ? "bg-primary border-primary shadow-lg shadow-primary/20" : "border-primary/10 hover:border-primary/40 bg-white"
                   )}
                   onClick={() => { 
                     updateState("pilatesExperience", opt.value); 
@@ -377,7 +377,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 </Button>
               ))}
             </div>
-            <div className="relative w-full aspect-square max-w-[280px] mx-auto mt-8 rounded-full overflow-hidden">
+            <div className="relative w-full aspect-square max-w-[360px] mx-auto mt-8 rounded-full overflow-hidden">
               <Image src="/flexivel.webp" alt="Flexível" fill className="object-cover" />
             </div>
           </div>
@@ -391,7 +391,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
               {["5 min", "10 min", "20 min", "30 min"].map((opt) => (
                 <Button 
                   key={opt}
-                  className="py-12 text-2xl font-bold rounded-3xl flex flex-col gap-1 border-2"
+                  className="py-12 text-2xl font-bold rounded-3xl flex flex-col gap-1 border-2 bg-white"
                   variant="outline"
                   onClick={() => { updateState("dedicationTime", opt); nextStep(); }}
                 >
@@ -417,7 +417,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 <Button 
                   key={opt}
                   variant="outline"
-                  className="w-full py-8 text-lg rounded-2xl border-2 border-primary/10 hover:border-primary text-foreground text-left px-6"
+                  className="w-full py-8 text-lg rounded-2xl border-2 border-primary/10 hover:border-primary text-foreground text-left px-6 bg-white"
                   onClick={() => { updateState("emotionalGoal", opt); nextStep(); }}
                 >
                   {opt}
@@ -436,7 +436,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 { name: "Juliana S.", age: "34", text: "Perdi 4cm de cintura em 2 semanas! Me sinto outra mulher.", rating: 5 },
                 { name: "Mariana L.", age: "28", text: "Meus glúteos estão muito mais firmes. O programa é incrível.", rating: 5 }
               ].map((p, i) => (
-                <Card key={i} className="p-4 border-none bg-secondary shadow-sm">
+                <Card key={i} className="p-4 border-none bg-white shadow-sm">
                   <div className="flex gap-1 mb-2">
                     {[1, 2, 3, 4, 5].map(s => <Star key={s} className="w-3 h-3 fill-primary text-primary" />)}
                   </div>
@@ -486,11 +486,11 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
             </div>
 
             <div className="grid grid-cols-2 gap-3">
-              <Card className="p-4 border-primary/20 bg-secondary/30">
+              <Card className="p-4 border-primary/20 bg-white">
                 <span className="text-[10px] uppercase font-bold text-muted-foreground">Corpo</span>
                 <p className="font-bold">{state.dreamBody || "Definido"}</p>
               </Card>
-              <Card className="p-4 border-primary/20 bg-secondary/30">
+              <Card className="p-4 border-primary/20 bg-white">
                 <span className="text-[10px] uppercase font-bold text-muted-foreground">Objetivo</span>
                 <p className="font-bold">{state.goalTransformation || "Cintura Fina"}</p>
               </Card>
@@ -513,9 +513,9 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center bg-white overflow-x-hidden">
+    <div className="min-h-screen flex flex-col items-center bg-background overflow-x-hidden">
       {stepId < TOTAL_STEPS && (
-        <div className="fixed top-0 inset-x-0 z-50 bg-white/90 backdrop-blur-md px-6 py-4 flex items-center gap-4 border-b border-primary/5">
+        <div className="fixed top-0 inset-x-0 z-50 bg-background/90 backdrop-blur-md px-6 py-4 flex items-center gap-4 border-b border-primary/5">
           <button onClick={prevStep} disabled={stepId === 1} className="shrink-0 h-10 w-10 flex items-center justify-center rounded-full bg-secondary text-primary disabled:opacity-0 transition-opacity">
             <ArrowRight className="w-5 h-5 rotate-180" />
           </button>
