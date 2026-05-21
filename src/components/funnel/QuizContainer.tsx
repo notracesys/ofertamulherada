@@ -64,8 +64,9 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
   const startX = useRef(0);
   const scrollLeft = useRef(0);
 
-  // State for animated progress in analysis steps
+  // Animated progress for analysis steps
   const [step19Progress, setStep19Progress] = useState(0);
+  const [step22Progress, setStep22Progress] = useState(0);
 
   useEffect(() => {
     setIsClient(true);
@@ -100,7 +101,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
         targetWeightRulerRef.current.scrollLeft = (tw - 25) * 10;
       }
       
-      // Auto-animate Step 19 (0 to 100 in 10 seconds)
+      // Auto-animate Step 19 (10 seconds)
       if (stepId === 19) {
         setStep19Progress(0);
         const timer = setInterval(() => {
@@ -112,7 +113,25 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
             }
             return p + 1;
           });
-        }, 100); // 100ms * 100 steps = 10,000ms = 10s
+        }, 100);
+        return () => clearInterval(timer);
+      }
+
+      // Auto-animate Step 22 (7 seconds)
+      if (stepId === 22) {
+        setStep22Progress(0);
+        const duration = 7000;
+        const interval = duration / 100;
+        const timer = setInterval(() => {
+          setStep22Progress(p => {
+            if (p >= 100) {
+              clearInterval(timer);
+              setTimeout(() => router.push("/step/23"), 800);
+              return 100;
+            }
+            return p + 1;
+          });
+        }, interval);
         return () => clearInterval(timer);
       }
     }
@@ -1132,28 +1151,46 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
 
       case 22:
         return (
-          <div className="space-y-8 py-4">
-            <h2 className="text-2xl font-bold text-center text-primary">Mulheres reais, resultados reais.</h2>
-            <div className="space-y-4">
-              {[
-                { name: "Juliana S.", age: "34", text: "Perdi 4cm de cintura em 2 semanas! Me sinto outra mulher.", rating: 5 },
-                { name: "Mariana L.", age: "28", text: "Meus glúteos estão muito mais firmes. O programa é incrível.", rating: 5 }
-              ].map((p, i) => (
-                <Card key={i} className="p-4 border-none bg-white shadow-sm">
-                  <div className="flex gap-1 mb-2">
-                    {[1, 2, 3, 4, 5].map(s => <Star key={s} className="w-3 h-3 fill-primary text-primary" />)}
-                  </div>
-                  <p className="italic text-sm mb-2">&quot;{p.text}&quot;</p>
-                  <div className="flex items-center gap-2">
-                    <div className="w-6 h-6 rounded-full bg-primary/20" />
-                    <span className="text-xs font-bold">{p.name}, {p.age} anos</span>
-                  </div>
-                </Card>
-              ))}
+          <div className="space-y-10 py-6 text-center w-full max-w-lg mx-auto">
+            <div className="space-y-4 px-4">
+               <div className="flex justify-between items-center mb-1">
+                <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Analizando o seu perfil...</span>
+                <span className="text-[10px] font-bold text-primary">{step22Progress}%</span>
+              </div>
+              <Progress value={step22Progress} className="h-1.5 bg-secondary" />
+              <p className="text-sm font-bold text-muted-foreground">
+                Criando seu plano de treino personalizado de definição feminina
+              </p>
             </div>
-            <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl shadow-primary/30 uppercase bg-primary text-white">
-              Continuar para meu plano
-            </Button>
+
+            <div className="space-y-1">
+              <h2 className="text-4xl md:text-5xl font-black text-primary leading-none">
+                8 milhões de pessoas
+              </h2>
+              <p className="text-lg font-bold text-primary/80">
+                escolheram o nosso Programa Feminino
+              </p>
+            </div>
+
+            <div className="px-4">
+              <Card className="p-6 rounded-[2rem] border-none bg-white shadow-xl shadow-primary/5 text-left relative overflow-hidden">
+                <div className="flex items-start gap-4">
+                  <div className="relative w-14 h-14 rounded-full overflow-hidden shrink-0 border-2 border-primary/10">
+                    <Image src="https://picsum.photos/seed/vanessa/100/100" alt="Vanessa" fill className="object-cover" />
+                  </div>
+                  <div className="space-y-1">
+                    <div className="flex gap-0.5">
+                      {[1,2,3,4,5].map(i => <Star key={i} className="w-3.5 h-3.5 fill-yellow-400 text-yellow-400" />)}
+                    </div>
+                    <p className="font-bold text-base text-[#0F172A]">Vanessa</p>
+                    <p className="text-[10px] text-muted-foreground">13/03/2026</p>
+                    <p className="text-sm text-muted-foreground leading-relaxed pt-2">
+                      Perdi 6kg em duas semanas, estou muuuito feliz ❤️
+                    </p>
+                  </div>
+                </div>
+              </Card>
+            </div>
           </div>
         );
 
