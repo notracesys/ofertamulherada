@@ -6,6 +6,7 @@ import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Check, ArrowRight, Star, ShieldCheck, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -13,10 +14,10 @@ import { generatePersonalizedAfricanMethodPlan, type GeneratePersonalizedAfrican
 import { QuizStep } from "./QuizStep";
 import { cn } from "@/lib/utils";
 
-const TOTAL_STEPS = 14;
+const TOTAL_STEPS = 15;
 const STORAGE_KEY = "fitness_fem_quiz_state";
 
-const INITIAL_STATE: GeneratePersonalizedAfricanMethodPlanInput & { flexibility?: string } = {
+const INITIAL_STATE: GeneratePersonalizedAfricanMethodPlanInput = {
   ageRange: "30 a 39 anos",
   pilatesExperience: "",
   bodyDescription: "",
@@ -28,6 +29,7 @@ const INITIAL_STATE: GeneratePersonalizedAfricanMethodPlanInput & { flexibility?
   dedicationTime: "",
   emotionalGoal: "",
   flexibility: "",
+  physicalLimitations: "",
 };
 
 interface QuizContainerProps {
@@ -39,13 +41,20 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
   const [loading, setLoading] = useState(false);
   const [quizOutput, setQuizOutput] = useState<GeneratePersonalizedAfricanMethodPlanOutput | null>(null);
   const [isClient, setIsClient] = useState(false);
-  const [state, setState] = useState<GeneratePersonalizedAfricanMethodPlanInput & { flexibility?: string }>(INITIAL_STATE);
+  const [state, setState] = useState<GeneratePersonalizedAfricanMethodPlanInput>(INITIAL_STATE);
+  const [selectedLimitations, setSelectedLimitations] = useState<string[]>([]);
 
   useEffect(() => {
     setIsClient(true);
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) {
-      try { setState(JSON.parse(saved)); } catch (e) { console.error(e); }
+      try { 
+        const parsed = JSON.parse(saved);
+        setState(parsed); 
+        if (parsed.physicalLimitations) {
+          setSelectedLimitations(parsed.physicalLimitations.split(", "));
+        }
+      } catch (e) { console.error(e); }
     }
   }, []);
 
@@ -64,6 +73,22 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
 
   const updateState = (key: string, value: any) => {
     setState((prev) => ({ ...prev, [key]: value }));
+  };
+
+  const toggleLimitation = (label: string) => {
+    let newSelected: string[];
+    if (label === "Nenhum dos itens acima") {
+      newSelected = ["Nenhum dos itens acima"];
+    } else {
+      newSelected = selectedLimitations.filter(item => item !== "Nenhum dos itens acima");
+      if (newSelected.includes(label)) {
+        newSelected = newSelected.filter(item => item !== label);
+      } else {
+        newSelected = [...newSelected, label];
+      }
+    }
+    setSelectedLimitations(newSelected);
+    updateState("physicalLimitations", newSelected.join(", "));
   };
 
   const finishQuiz = async () => {
@@ -168,7 +193,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 </Button>
               ))}
             </div>
-            <div className="relative w-full aspect-square max-w-[500px] mx-auto mt-8">
+            <div className="relative w-full aspect-square max-w-[600px] mx-auto mt-8">
               <Image src="/step4.webp" alt="Programa" fill className="object-contain" />
             </div>
           </div>
@@ -296,7 +321,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     </span>
                   </div>
                   <div className={cn("h-full w-1", state.bodyDescription === opt.label ? "bg-white/20" : "bg-primary")} />
-                  <div className="relative w-16 h-full shrink-0">
+                  <div className="relative w-14 h-full shrink-0 mr-2">
                     <Image src={opt.imageUrl} alt={opt.label} fill className="object-cover" />
                   </div>
                 </Card>
@@ -331,7 +356,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     </span>
                   </div>
                   <div className={cn("h-full w-1", state.dreamBody === opt.label ? "bg-white/20" : "bg-primary")} />
-                  <div className="relative w-16 h-full shrink-0">
+                  <div className="relative w-14 h-full shrink-0 mr-2">
                     <Image src={opt.imageUrl} alt={opt.label} fill className="object-cover" />
                   </div>
                 </Card>
@@ -377,13 +402,50 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 </Button>
               ))}
             </div>
-            <div className="relative w-full aspect-square max-w-[360px] mx-auto mt-8 rounded-full overflow-hidden">
+            <div className="relative w-full aspect-square max-w-[500px] mx-auto mt-8 rounded-full overflow-hidden">
               <Image src="/flexivel.webp" alt="Flexível" fill className="object-cover" />
             </div>
           </div>
         );
 
       case 10:
+        return (
+          <div className="space-y-6 text-center">
+            <h2 className="text-3xl font-bold text-foreground leading-tight">Você tem dificuldade com algum dos itens abaixo?</h2>
+            <p className="text-muted-foreground">Escolha todas que se aplicam</p>
+            <div className="space-y-4 pt-4">
+              {[
+                { label: "Costas sensíveis", imageUrl: "/costa.webp" },
+                { label: "Joelhos sensíveis", imageUrl: "/joelho.webp" },
+                { label: "Nenhum dos itens acima", imageUrl: "/magro.webp" }
+              ].map((opt) => (
+                <Card 
+                  key={opt.label} 
+                  className={cn(
+                    "p-0 flex items-center cursor-pointer border-2 transition-all overflow-hidden h-24 bg-white",
+                    selectedLimitations.includes(opt.label) ? "border-primary shadow-lg" : "border-primary/10 hover:border-primary/40"
+                  )}
+                  onClick={() => toggleLimitation(opt.label)}
+                >
+                  <div className="relative w-20 h-full shrink-0">
+                    <Image src={opt.imageUrl} alt={opt.label} fill className="object-cover" />
+                  </div>
+                  <div className="flex-1 px-4 text-left">
+                    <span className="font-bold text-lg text-foreground">{opt.label}</span>
+                  </div>
+                  <div className="pr-6">
+                    <Checkbox checked={selectedLimitations.includes(opt.label)} className="w-6 h-6 rounded-lg border-2" />
+                  </div>
+                </Card>
+              ))}
+            </div>
+            <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl shadow-primary/30 uppercase bg-primary text-white mt-8">
+              PRÓXIMO PASSO
+            </Button>
+          </div>
+        );
+
+      case 11:
         return (
           <div className="space-y-6">
             <h2 className="text-2xl font-bold text-center text-primary">Quanto tempo você tem para cuidar de si mesma por dia?</h2>
@@ -403,7 +465,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           </div>
         );
 
-      case 11:
+      case 12:
         return (
           <div className="space-y-3">
             <h2 className="text-2xl font-bold text-center text-primary">Como você quer se sentir daqui a 30 dias?</h2>
@@ -427,7 +489,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           </div>
         );
 
-      case 12:
+      case 13:
         return (
           <div className="space-y-8 py-4">
             <h2 className="text-2xl font-bold text-center text-primary">Mulheres reais, resultados reais.</h2>
@@ -454,7 +516,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           </div>
         );
 
-      case 13:
+      case 14:
         return (
           <LoadingScreen 
             title="Seu plano feminino personalizado está sendo criado..." 
@@ -464,7 +526,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           />
         );
 
-      case 14:
+      case 15:
         return (
           <div className="space-y-8 text-center py-6">
             <Badge className="bg-green-500 hover:bg-green-600 text-white border-none py-1 px-4 mb-2">Análise Concluída</Badge>
@@ -525,7 +587,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
         </div>
       )}
 
-      <div className={cn("w-full pt-20 pb-20 flex-1 flex flex-col items-center", stepId >= 13 ? "pt-10" : "")}>
+      <div className={cn("w-full pt-20 pb-20 flex-1 flex flex-col items-center", stepId >= 14 ? "pt-10" : "")}>
         <AnimatePresence mode="wait">
           <QuizStep key={stepId} stepId={stepId}>
             {renderStep()}
