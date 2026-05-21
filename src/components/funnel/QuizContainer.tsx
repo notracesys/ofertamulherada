@@ -417,7 +417,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
               {[
                 { label: "Costas sensíveis", imageUrl: "/costa.webp" },
                 { label: "Joelhos sensíveis", imageUrl: "/joelho.webp" },
-                { label: "Nenhum dos itens acima", imageUrl: "/magro.webp" }
+                { label: "Nenhum dos itens acima", imageUrl: "/step3.webp" }
               ].map((opt) => (
                 <Card 
                   key={opt.label} 
