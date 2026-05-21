@@ -74,6 +74,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
     if (saved) {
       try { 
         const parsed = JSON.parse(saved);
+        // Ensure state is always at least the INITIAL_STATE to avoid controlled/uncontrolled errors
         setState(prev => ({ ...INITIAL_STATE, ...prev, ...parsed })); 
         if (parsed.physicalLimitations) {
           setSelectedLimitations(parsed.physicalLimitations.split(", "));
@@ -104,6 +105,8 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
       // Auto-animate Step 19 (10 seconds)
       if (stepId === 19) {
         setStep19Progress(0);
+        const duration = 10000;
+        const interval = duration / 100;
         const timer = setInterval(() => {
           setStep19Progress(p => {
             if (p >= 100) {
@@ -113,7 +116,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
             }
             return p + 1;
           });
-        }, 100);
+        }, interval);
         return () => clearInterval(timer);
       }
 
@@ -645,7 +648,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
             <div className="space-y-4 pt-4">
               {[
                 { label: "Quase todos os dias", value: "diario", emoji: "😎" },
-                { label: "3-4 vezes por semana", value: "3-4x", emoji: "💪" },
+                { label: "3-4 vezes por semana", value: "3-4x", emoji: "😊" },
                 { label: "1-2 vezes por semana", value: "1-2x", emoji: "😊" },
                 { label: "Uma vez por mês", value: "mensal", emoji: "👍" }
               ].map((opt) => (
@@ -979,7 +982,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
             <div className="relative px-4">
               <Card className="p-6 rounded-3xl border-none shadow-xl shadow-primary/5 bg-white text-left space-y-4">
                 <div className="flex items-center gap-3">
-                  <div className="relative w-12 h-12 rounded-full overflow-hidden border-2 border-primary/20">
+                  <div className="relative w-12 h-12 rounded-full overflow-hidden border-2 border-primary/10">
                      <Image src="https://picsum.photos/seed/rafaela/100/100" alt="Rafaela" fill className="object-cover" />
                   </div>
                   <div>
@@ -1046,7 +1049,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                       offset: 20,
                       content: (props: any) => {
                         const { x, y } = props;
-                        if (isNaN(x) || isNaN(y)) return null;
+                        if (typeof x !== 'number' || typeof y !== 'number' || isNaN(x) || isNaN(y)) return null;
                         return (
                           <g>
                             <rect x={x - 22} y={y - 48} width="44" height="26" rx="13" fill="#EF4444" />
@@ -1069,7 +1072,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                       offset: 20,
                       content: (props: any) => {
                         const { x, y } = props;
-                        if (isNaN(x) || isNaN(y)) return null;
+                        if (typeof x !== 'number' || typeof y !== 'number' || isNaN(x) || isNaN(y)) return null;
                         return (
                           <g>
                             <rect x={x - 22} y={y - 48} width="44" height="26" rx="13" fill="#10B981" />
@@ -1233,7 +1236,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     interval={0}
                     tick={(props: any) => {
                       const { x, y, payload } = props;
-                      if (isNaN(x) || isNaN(y)) return null;
+                      if (typeof x !== 'number' || typeof y !== 'number' || isNaN(x) || isNaN(y)) return null;
                       let label = "";
                       if (payload.value === "Hoje") label = "SEMANA 1";
                       if (payload.value === "7 dias") return null;
@@ -1270,7 +1273,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                       offset: 20, 
                       content: (props: any) => {
                         const { x, y } = props;
-                        if (isNaN(x) || isNaN(y)) return null;
+                        if (typeof x !== 'number' || typeof y !== 'number' || isNaN(x) || isNaN(y)) return null;
                         return (
                           <text x={x} y={y - 15} textAnchor="start" fill="#000" fontSize="14" fontWeight="bold">Seu peso</text>
                         );
@@ -1292,7 +1295,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     label={{ 
                       content: (props: any) => {
                         const { x, y } = props;
-                        if (isNaN(x) || isNaN(y)) return null;
+                        if (typeof x !== 'number' || typeof y !== 'number' || isNaN(x) || isNaN(y)) return null;
                         return (
                           <g>
                             {/* Pink Badge */}
@@ -1311,7 +1314,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
 
             <div className="space-y-4 mb-8 text-center">
               <h2 className="text-2xl md:text-3xl font-black text-[#0F172A] leading-tight uppercase italic">
-                seu plano de treino de <span className="text-primary">Programa Feminino de Definição</span> de 3 semanas está pronto!
+                seu plano de treino de definição de 3 semanas está pronto!
               </h2>
             </div>
 
