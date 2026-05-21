@@ -1,10 +1,5 @@
-
-import { QuizContainer } from "@/components/funnel/QuizContainer";
+import { redirect } from "next/navigation";
 
 export default function Home() {
-  return (
-    <main className="min-h-screen bg-background">
-      <QuizContainer />
-    </main>
-  );
+  redirect("/step/1");
 }
