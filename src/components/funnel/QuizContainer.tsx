@@ -1029,7 +1029,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     fill="url(#areaGradient)" 
                     animationDuration={2000}
                   />
-                  {/* Start Point - Red Badge */}
+                  {/* Start Point - Red Badge with User's Weight */}
                   <ReferenceDot 
                     x="Hoje" 
                     y={currentWeight} 
@@ -1045,15 +1045,15 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                         if (typeof x !== 'number' || typeof y !== 'number' || isNaN(x) || isNaN(y)) return null;
                         return (
                           <g>
-                            <rect x={x - 20} y={y - 50} width="40" height="26" rx="6" fill="#EF4444" />
-                            <text x={x} y={y - 32} textAnchor="middle" fill="#fff" fontSize="12" fontWeight="bold">{currentWeight}</text>
+                            <rect x={x - 25} y={y - 50} width="50" height="26" rx="6" fill="#EF4444" />
+                            <text x={x} y={y - 32} textAnchor="middle" fill="#fff" fontSize="12" fontWeight="bold">{currentWeight}kg</text>
                             <path d={`M${x-4},${y-24} L${x},${y-18} L${x+4},${y-24}`} fill="#EF4444" />
                           </g>
                         );
                       }
                     }}
                   />
-                  {/* End Point - White/Grey Badge */}
+                  {/* End Point - White Badge with Target Weight */}
                   <ReferenceDot 
                     x="21 dias" 
                     y={targetWeight} 
@@ -1069,8 +1069,8 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                         if (typeof x !== 'number' || typeof y !== 'number' || isNaN(x) || isNaN(y)) return null;
                         return (
                           <g>
-                            <rect x={x - 20} y={y - 50} width="40" height="26" rx="6" fill="#fff" stroke="#e2e8f0" strokeWidth="1" />
-                            <text x={x} y={y - 32} textAnchor="middle" fill="#000" fontSize="12" fontWeight="bold">{targetWeight}</text>
+                            <rect x={x - 25} y={y - 50} width="50" height="26" rx="6" fill="#fff" stroke="#e2e8f0" strokeWidth="1" />
+                            <text x={x} y={y - 32} textAnchor="middle" fill="#000" fontSize="12" fontWeight="bold">{targetWeight}kg</text>
                             <path d={`M${x-4},${y-24} L${x},${y-18} L${x+4},${y-24}`} fill="#fff" stroke="#e2e8f0" strokeWidth="1" />
                           </g>
                         );
@@ -1252,6 +1252,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     animationDuration={2000}
                   />
                   
+                  {/* Final Step Graph - Start Point with Real Value */}
                   <ReferenceDot 
                     x="Hoje" 
                     y={currentWeight} 
@@ -1266,7 +1267,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                         const { x, y } = props;
                         if (typeof x !== 'number' || typeof y !== 'number' || isNaN(x) || isNaN(y)) return null;
                         return (
-                          <text x={x} y={y - 15} textAnchor="start" fill="#000" fontSize="14" fontWeight="bold">Seu peso</text>
+                          <text x={x} y={y - 15} textAnchor="start" fill="#000" fontSize="14" fontWeight="bold">{currentWeight}kg</text>
                         );
                       }
                     }} 
@@ -1274,6 +1275,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                   
                   <ReferenceDot x="14 dias" y={currentWeight - (currentWeight - targetWeight) * 0.8} r={5} fill="#fff" stroke="#cbd5e1" strokeWidth={2} />
                   
+                  {/* Final Step Graph - End Point with Real Value */}
                   <ReferenceDot 
                     x="21 dias" 
                     y={targetWeight} 
@@ -1288,7 +1290,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                         return (
                           <g>
                             <rect x={x - 85} y={y - 15} width="85" height="26" rx="13" fill="#ec4899" />
-                            <text x={x - 42} y={y + 3} textAnchor="middle" fill="#fff" fontSize="11" fontWeight="bold">3 semanas</text>
+                            <text x={x - 42} y={y + 3} textAnchor="middle" fill="#fff" fontSize="11" fontWeight="bold">{targetWeight}kg</text>
                             <circle cx={x} cy={y} r={5} fill="#fff" stroke="#cbd5e1" strokeWidth={2} />
                           </g>
                         );
