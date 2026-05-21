@@ -1002,7 +1002,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           <div className="space-y-8 text-center py-4 max-w-md mx-auto w-full px-2">
             <div className="space-y-2">
               <h2 className="text-3xl font-black leading-tight px-4">
-                <span className="text-[#10B981]">{state.targetWeight}kg</span> em até 21 dias
+                <span className="text-[#10B981]">{state.targetWeight}kg em até 21 dias</span>
               </h2>
             </div>
 
@@ -1029,7 +1029,8 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     fill="url(#areaGradient)" 
                     animationDuration={2000}
                   />
-                  {/* Start Point - Red Badge with User's Weight */}
+                  
+                  {/* Ponto Inicial - Apenas Peso */}
                   <ReferenceDot 
                     x="Hoje" 
                     y={currentWeight} 
@@ -1039,21 +1040,18 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     strokeWidth={2}
                     label={{ 
                       position: 'top', 
-                      offset: 25,
+                      offset: 15,
                       content: (props: any) => {
                         const { x, y } = props;
                         if (typeof x !== 'number' || typeof y !== 'number' || isNaN(x) || isNaN(y)) return null;
                         return (
-                          <g>
-                            <rect x={x - 25} y={y - 50} width="50" height="26" rx="6" fill="#EF4444" />
-                            <text x={x} y={y - 32} textAnchor="middle" fill="#fff" fontSize="12" fontWeight="bold">{currentWeight}kg</text>
-                            <path d={`M${x-4},${y-24} L${x},${y-18} L${x+4},${y-24}`} fill="#EF4444" />
-                          </g>
+                          <text x={x} y={y - 10} textAnchor="middle" fill="#EF4444" fontSize="16" fontWeight="bold">{currentWeight}kg</text>
                         );
                       }
                     }}
                   />
-                  {/* End Point - White Badge with Target Weight */}
+                  
+                  {/* Ponto Final - Apenas Peso */}
                   <ReferenceDot 
                     x="21 dias" 
                     y={targetWeight} 
@@ -1063,16 +1061,12 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     strokeWidth={2}
                     label={{ 
                       position: 'top', 
-                      offset: 25,
+                      offset: 15,
                       content: (props: any) => {
                         const { x, y } = props;
                         if (typeof x !== 'number' || typeof y !== 'number' || isNaN(x) || isNaN(y)) return null;
                         return (
-                          <g>
-                            <rect x={x - 25} y={y - 50} width="50" height="26" rx="6" fill="#fff" stroke="#e2e8f0" strokeWidth="1" />
-                            <text x={x} y={y - 32} textAnchor="middle" fill="#000" fontSize="12" fontWeight="bold">{targetWeight}kg</text>
-                            <path d={`M${x-4},${y-24} L${x},${y-18} L${x+4},${y-24}`} fill="#fff" stroke="#e2e8f0" strokeWidth="1" />
-                          </g>
+                          <text x={x} y={y - 10} textAnchor="middle" fill="#10B981" fontSize="16" fontWeight="bold">{targetWeight}kg</text>
                         );
                       }
                     }}
@@ -1107,7 +1101,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
       case 21:
         return (
           <div className="space-y-12 text-center px-4">
-            <h2 className="text-2xl font-bold text-[#0F172A] fainting-tight px-6">
+            <h2 className="text-2xl font-bold text-[#0F172A] leading-tight px-6">
               Quanto tempo você deseja dedicar em seu corpo no dia?
             </h2>
             <div className="grid grid-cols-2 gap-4">
@@ -1121,25 +1115,25 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                   key={opt}
                   variant={state.dedicationTime === opt ? "default" : "outline"}
                   className={cn(
-                    "h-16 rounded-2xl border-2 transition-all flex justify-start items-center px-4 gap-3 bg-white",
+                    "h-20 rounded-2xl border-2 transition-all flex flex-col justify-center items-center gap-1 bg-white",
                     state.dedicationTime === opt 
-                      ? "bg-primary border-primary shadow-lg text-white" 
-                      : "border-primary/10 hover:border-primary/40 text-foreground"
+                      ? "border-primary shadow-lg ring-1 ring-primary" 
+                      : "border-primary/10 hover:border-primary/40"
                   )}
                   onClick={() => { 
                     updateState("dedicationTime", opt); 
                     setTimeout(nextStep, 300);
                   }}
                 >
-                  <div className={cn(
-                    "w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors",
-                    state.dedicationTime === opt ? "bg-white border-white text-primary" : "border-primary/20"
-                  )}>
-                    {state.dedicationTime === opt && <Check className="w-4 h-4" />}
-                  </div>
-                  <span className="font-bold text-sm">
+                  <span className={cn("font-bold text-base", state.dedicationTime === opt ? "text-primary" : "text-foreground")}>
                     {opt}
                   </span>
+                  <div className={cn(
+                    "w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors shrink-0",
+                    state.dedicationTime === opt ? "bg-primary border-primary text-white" : "border-primary/20"
+                  )}>
+                    {state.dedicationTime === opt && <Check className="w-3 h-3" />}
+                  </div>
                 </Button>
               ))}
             </div>
@@ -1252,7 +1246,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     animationDuration={2000}
                   />
                   
-                  {/* Final Step Graph - Start Point with Real Value */}
+                  {/* Ponto Inicial - Apenas Peso */}
                   <ReferenceDot 
                     x="Hoje" 
                     y={currentWeight} 
@@ -1262,12 +1256,12 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     strokeWidth={2} 
                     label={{ 
                       position: 'top', 
-                      offset: 20, 
+                      offset: 15, 
                       content: (props: any) => {
                         const { x, y } = props;
                         if (typeof x !== 'number' || typeof y !== 'number' || isNaN(x) || isNaN(y)) return null;
                         return (
-                          <text x={x} y={y - 15} textAnchor="start" fill="#000" fontSize="14" fontWeight="bold">{currentWeight}kg</text>
+                          <text x={x} y={y - 10} textAnchor="middle" fill="#000" fontSize="14" fontWeight="bold">{currentWeight}kg</text>
                         );
                       }
                     }} 
@@ -1275,7 +1269,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                   
                   <ReferenceDot x="14 dias" y={currentWeight - (currentWeight - targetWeight) * 0.8} r={5} fill="#fff" stroke="#cbd5e1" strokeWidth={2} />
                   
-                  {/* Final Step Graph - End Point with Real Value */}
+                  {/* Ponto Final - Apenas Peso */}
                   <ReferenceDot 
                     x="21 dias" 
                     y={targetWeight} 
@@ -1284,15 +1278,13 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     stroke="#cbd5e1" 
                     strokeWidth={2} 
                     label={{ 
+                      position: 'top', 
+                      offset: 15, 
                       content: (props: any) => {
                         const { x, y } = props;
                         if (typeof x !== 'number' || typeof y !== 'number' || isNaN(x) || isNaN(y)) return null;
                         return (
-                          <g>
-                            <rect x={x - 85} y={y - 15} width="85" height="26" rx="13" fill="#ec4899" />
-                            <text x={x - 42} y={y + 3} textAnchor="middle" fill="#fff" fontSize="11" fontWeight="bold">{targetWeight}kg</text>
-                            <circle cx={x} cy={y} r={5} fill="#fff" stroke="#cbd5e1" strokeWidth={2} />
-                          </g>
+                          <text x={x} y={y - 10} textAnchor="middle" fill="#000" fontSize="14" fontWeight="bold">{targetWeight}kg</text>
                         );
                       }
                     }} 
