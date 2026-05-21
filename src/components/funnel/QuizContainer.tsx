@@ -175,7 +175,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                   key={opt.value}
                   variant={state.pilatesExperience === opt.value ? "default" : "outline"}
                   className={cn(
-                    "w-full py-8 text-lg rounded-2xl border-2 transition-all flex justify-between items-center px-6",
+                    "w-full py-8 text-lg rounded-2xl border-2 transition-all flex justify-between items-center px-6 whitespace-normal",
                     state.pilatesExperience === opt.value ? "bg-primary border-primary shadow-lg shadow-primary/20" : "border-primary/10 hover:border-primary/40 bg-white"
                   )}
                   onClick={() => { 
@@ -187,7 +187,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     {opt.label}
                   </span>
                   <div className={cn(
-                    "w-6 h-6 rounded-full border-2 flex items-center justify-center",
+                    "w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0",
                     state.pilatesExperience === opt.value ? "bg-white border-white text-primary" : "border-primary/20"
                   )}>
                     {state.pilatesExperience === opt.value && <Check className="w-4 h-4" />}
@@ -271,7 +271,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                   key={opt.value}
                   variant={state.mainConcern === opt.value ? "default" : "outline"}
                   className={cn(
-                    "w-full py-7 text-lg rounded-2xl border-2 transition-all flex justify-between items-center px-6",
+                    "w-full py-7 text-lg rounded-2xl border-2 transition-all flex justify-between items-center px-6 whitespace-normal",
                     state.mainConcern === opt.value ? "bg-primary border-primary shadow-lg shadow-primary/20" : "border-primary/10 hover:border-primary/40 bg-white"
                   )}
                   onClick={() => { 
@@ -279,11 +279,11 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     setTimeout(nextStep, 300);
                   }}
                 >
-                  <span className={cn("font-bold", state.mainConcern === opt.value ? "text-white" : "text-foreground")}>
+                  <span className={cn("font-bold text-left", state.mainConcern === opt.value ? "text-white" : "text-foreground")}>
                     {opt.label}
                   </span>
                   <div className={cn(
-                    "w-6 h-6 rounded-full border-2 flex items-center justify-center",
+                    "w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0",
                     state.mainConcern === opt.value ? "bg-white border-white text-primary" : "border-primary/20"
                   )}>
                     {state.mainConcern === opt.value && <Check className="w-4 h-4" />}
@@ -382,7 +382,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                   key={opt.value}
                   variant={state.flexibility === opt.value ? "default" : "outline"}
                   className={cn(
-                    "w-full py-7 text-lg rounded-2xl border-2 transition-all flex justify-between items-center px-6",
+                    "w-full py-7 text-lg rounded-2xl border-2 transition-all flex justify-between items-center px-6 whitespace-normal",
                     state.flexibility === opt.value ? "bg-primary border-primary shadow-lg shadow-primary/20" : "border-primary/10 hover:border-primary/40 bg-white"
                   )}
                   onClick={() => { 
@@ -390,11 +390,11 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     setTimeout(nextStep, 300);
                   }}
                 >
-                  <span className={cn("font-bold", state.flexibility === opt.value ? "text-white" : "text-foreground")}>
+                  <span className={cn("font-bold text-left", state.flexibility === opt.value ? "text-white" : "text-foreground")}>
                     {opt.label}
                   </span>
                   <div className={cn(
-                    "w-6 h-6 rounded-full border-2 flex items-center justify-center",
+                    "w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0",
                     state.flexibility === opt.value ? "bg-white border-white text-primary" : "border-primary/20"
                   )}>
                     <ChevronRight className="w-4 h-4" />
@@ -484,7 +484,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                   key={opt.value}
                   variant={state.exerciseFrequency === opt.value ? "default" : "outline"}
                   className={cn(
-                    "w-full py-8 text-lg rounded-2xl border-2 transition-all flex justify-between items-center px-6 bg-white",
+                    "w-full py-8 text-lg rounded-2xl border-2 transition-all flex justify-between items-center px-6 bg-white whitespace-normal",
                     state.exerciseFrequency === opt.value ? "border-primary shadow-lg ring-1 ring-primary" : "border-primary/10 hover:border-primary/40"
                   )}
                   onClick={() => { 
@@ -492,11 +492,11 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     setTimeout(nextStep, 300);
                   }}
                 >
-                  <span className="font-bold text-foreground">
+                  <span className="font-bold text-foreground text-left">
                     {opt.label}
                   </span>
                   <div className={cn(
-                    "w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors",
+                    "w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors shrink-0",
                     state.exerciseFrequency === opt.value ? "bg-primary border-primary text-white" : "border-primary/20"
                   )}>
                     {state.exerciseFrequency === opt.value && <Check className="w-4 h-4" />}
@@ -527,7 +527,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                   key={opt.value}
                   variant={state.walkingFrequency === opt.value ? "default" : "outline"}
                   className={cn(
-                    "w-full py-8 text-lg rounded-2xl border-2 transition-all flex justify-start items-center px-6 gap-6 bg-white",
+                    "w-full py-8 text-lg rounded-2xl border-2 transition-all flex justify-start items-center px-6 gap-6 bg-white whitespace-normal",
                     state.walkingFrequency === opt.value ? "border-primary shadow-lg ring-1 ring-primary" : "border-primary/10 hover:border-primary/40"
                   )}
                   onClick={() => { 
@@ -535,8 +535,8 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     setTimeout(nextStep, 300);
                   }}
                 >
-                  <span className="text-4xl">{opt.emoji}</span>
-                  <span className={cn("font-bold", state.walkingFrequency === opt.value ? "text-primary" : "text-foreground")}>
+                  <span className="text-4xl shrink-0">{opt.emoji}</span>
+                  <span className={cn("font-bold text-left", state.walkingFrequency === opt.value ? "text-primary" : "text-foreground")}>
                     {opt.label}
                   </span>
                 </Button>
@@ -562,7 +562,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                   key={opt.value}
                   variant={state.energyLevel === opt.value ? "default" : "outline"}
                   className={cn(
-                    "w-full px-6 py-6 min-h-[85px] h-auto rounded-2xl border-2 transition-all flex justify-between items-center bg-white text-left",
+                    "w-full px-6 py-6 min-h-[85px] h-auto rounded-2xl border-2 transition-all flex justify-between items-center bg-white text-left whitespace-normal group",
                     state.energyLevel === opt.value ? "border-primary shadow-md ring-1 ring-primary" : "border-primary/10 hover:border-primary/30"
                   )}
                   onClick={() => { 
@@ -625,7 +625,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 <Button 
                   key={opt}
                   variant="outline"
-                  className="w-full py-8 text-lg rounded-2xl border-2 border-primary/10 hover:border-primary text-foreground text-left px-6 bg-white"
+                  className="w-full py-8 text-lg rounded-2xl border-2 border-primary/10 hover:border-primary text-foreground text-left px-6 bg-white whitespace-normal"
                   onClick={() => { updateState("emotionalGoal", opt); nextStep(); }}
                 >
                   {opt}
