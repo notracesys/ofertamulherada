@@ -60,7 +60,6 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
   const weightRulerRef = useRef<HTMLDivElement>(null);
   const targetWeightRulerRef = useRef<HTMLDivElement>(null);
   
-  // Dragging states
   const isDragging = useRef(false);
   const startX = useRef(0);
   const scrollLeft = useRef(0);
@@ -192,7 +191,6 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
 
   const progress = (stepId / TOTAL_STEPS) * 100;
 
-  // Chart data for step 20
   const currentWeight = parseInt(state.weight || "70");
   const targetWeight = parseInt(state.targetWeight || "60");
   const weightData = [
@@ -681,7 +679,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           </div>
         );
 
-      case 15: // Height Selection
+      case 15:
         return (
           <div className="space-y-8 text-center">
             <h2 className="text-4xl font-bold text-foreground tracking-tight">Qual sua altura?</h2>
@@ -756,7 +754,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           </div>
         );
 
-      case 16: // Weight Selection
+      case 16:
         return (
           <div className="space-y-8 text-center">
             <h2 className="text-4xl font-bold text-foreground tracking-tight">Qual seu peso atual?</h2>
@@ -801,7 +799,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           </div>
         );
 
-      case 17: // Target Weight Selection
+      case 17:
         return (
           <div className="space-y-8 text-center">
             <h2 className="text-3xl font-bold text-foreground tracking-tight px-6">
@@ -924,7 +922,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           </div>
         );
 
-      case 19: // Intermediate Analysis / Social Proof
+      case 19:
         return (
           <div className="space-y-10 text-center py-4 w-full max-w-lg mx-auto">
             <div className="space-y-4">
@@ -966,7 +964,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           </div>
         );
 
-      case 20: // Weight Projection Chart
+      case 20:
         return (
           <div className="space-y-8 text-center py-4 max-w-md mx-auto w-full px-2">
             <div className="space-y-2">
@@ -979,9 +977,9 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
               </p>
             </div>
 
-            <div className="relative w-full h-[300px] mt-4">
+            <div className="relative w-full h-[320px] mt-4">
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={weightData} margin={{ top: 40, right: 30, left: 30, bottom: 20 }}>
+                <AreaChart data={weightData} margin={{ top: 50, right: 40, left: 40, bottom: 20 }}>
                   <defs>
                     <linearGradient id="weightGradient" x1="0" y1="0" x2="1" y2="0">
                       <stop offset="0%" stopColor="#EF4444" stopOpacity={0.8} />
@@ -993,7 +991,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     </linearGradient>
                   </defs>
                   <XAxis dataKey="day" hide />
-                  <YAxis hide domain={['dataMin - 5', 'dataMax + 5']} />
+                  <YAxis hide domain={['dataMin - 10', 'dataMax + 10']} />
                   <Area 
                     type="monotone" 
                     dataKey="weight" 
@@ -1011,13 +1009,18 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     strokeWidth={2}
                     label={{ 
                       position: 'top', 
-                      offset: 15,
-                      content: (props: any) => (
-                        <g>
-                          <rect x={props.x - 15} y={props.y - 35} width="30" height="20" rx="4" fill="#EF4444" />
-                          <text x={props.x} y={props.y - 21} textAnchor="middle" fill="#fff" fontSize="12" fontWeight="bold">{currentWeight}</text>
-                        </g>
-                      )
+                      offset: 20,
+                      content: (props: any) => {
+                        const { x, y } = props;
+                        if (isNaN(x) || isNaN(y)) return null;
+                        return (
+                          <g>
+                            <rect x={x - 22} y={y - 48} width="44" height="26" rx="13" fill="#EF4444" />
+                            <text x={x} y={y - 30} textAnchor="middle" fill="#fff" fontSize="11" fontWeight="bold">{currentWeight}kg</text>
+                            <path d={`M${x-4},${y-22} L${x},${y-15} L${x+4},${y-22}`} fill="#EF4444" />
+                          </g>
+                        );
+                      }
                     }}
                   />
                   <ReferenceDot 
@@ -1029,18 +1032,23 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     strokeWidth={2}
                     label={{ 
                       position: 'top', 
-                      offset: 15,
-                      content: (props: any) => (
-                        <g>
-                          <rect x={props.x - 15} y={props.y - 35} width="30" height="20" rx="4" fill="#fff" stroke="#E2E8F0" />
-                          <text x={props.x} y={props.y - 21} textAnchor="middle" fill="#000" fontSize="12" fontWeight="bold">{targetWeight}</text>
-                        </g>
-                      )
+                      offset: 20,
+                      content: (props: any) => {
+                        const { x, y } = props;
+                        if (isNaN(x) || isNaN(y)) return null;
+                        return (
+                          <g>
+                            <rect x={x - 22} y={y - 48} width="44" height="26" rx="13" fill="#10B981" />
+                            <text x={x} y={y - 30} textAnchor="middle" fill="#fff" fontSize="11" fontWeight="bold">{targetWeight}kg</text>
+                            <path d={`M${x-4},${y-22} L${x},${y-15} L${x+4},${y-22}`} fill="#10B981" />
+                          </g>
+                        );
+                      }
                     }}
                   />
                 </AreaChart>
               </ResponsiveContainer>
-              <div className="flex justify-between px-8 text-[10px] font-bold text-muted-foreground uppercase tracking-widest mt-[-15px]">
+              <div className="flex justify-between px-10 text-[10px] font-bold text-muted-foreground uppercase tracking-widest mt-[-10px]">
                 <span>Hoje</span>
                 <span>21 dias</span>
               </div>
