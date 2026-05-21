@@ -1,4 +1,3 @@
-
 'use server';
 /**
  * @fileOverview This file defines a Genkit flow for generating a personalized "Método Africano" weight loss plan.
@@ -40,7 +39,7 @@ const GeneratePersonalizedAfricanMethodPlanInputSchema = z.object({
   mealTimes: z.object({
     breakfast: z.enum(['Entre 6h00 e 8h00', 'Entre 8h00 e 10h00', 'Entre 10h00 e meio-dia', 'Eu normalmente pulo o café da manhã']).describe("User's typical breakfast time."),
     lunch: z.enum(['Entre 11h00 e meio-dia', 'Entre meio-dia e 13h00', 'Entre 13h00 e 14h00', 'Eu normalmente pulo o almoço']).describe("User's typical lunch time."),
-    dinner: z.enum(['Entre 18h00 e 19h00', 'Entre 19h00 e 20h00', 'Entre 20h00 e 21h00', 'Eu normalmente pulo o jantar']).describe("User's typical dinner time."),
+    dinner: z.enum(['Entre 18h00 e 19h00', 'Entre 19h00 e 20h00', 'Entre 20h00 e 21h00', 'Eu normalmente pulo o jantares']).describe("User's typical dinner time."),
   }).describe("User's typical meal times."),
   sleepFrequency: z.enum(['Menos de 5 horas', '6-7 horas', '8-9 horas', 'Mais de 9 horas']).describe("How many hours user typically sleeps."),
   waterIntake: z.enum(['Tento apenas não ter sede', 'Cerca de 2 copos', '2 a 6 copos', 'Mais de 6 copos']).describe("User's daily water intake."),
