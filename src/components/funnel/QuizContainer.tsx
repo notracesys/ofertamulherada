@@ -124,7 +124,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
             <div className="relative w-full aspect-[4/5] max-w-sm mx-auto">
               <Image src="/mulheres.webp" alt="Mulheres" fill className="object-contain" priority />
             </div>
-            <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl shadow-primary/30 uppercase tracking-wide">
+            <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl shadow-primary/30 uppercase tracking-wide bg-primary">
               Continuar
             </Button>
           </div>
@@ -258,7 +258,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                   key={opt}
                   className="py-12 text-2xl font-bold rounded-3xl flex flex-col gap-1 border-2"
                   variant="outline"
-                  onClick={() => { updateState("dedicationTime", opt); nextStep(); }}
+                  onClick={() => { updateState("focusAreasSummary", opt); nextStep(); }}
                 >
                   {opt}
                   <span className="text-[10px] font-normal uppercase tracking-widest opacity-60">por dia</span>
@@ -270,7 +270,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
 
       case 9:
         return (
-          <div className="space-y-6">
+          <div className="space-y-3">
             <h2 className="text-2xl font-bold text-center text-primary">Como você quer se sentir daqui a 30 dias?</h2>
             <div className="space-y-3">
               {[
@@ -313,7 +313,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 </Card>
               ))}
             </div>
-            <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl shadow-primary/30 uppercase">
+            <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl shadow-primary/30 uppercase bg-primary">
               Continuar para meu plano
             </Button>
           </div>
@@ -361,7 +361,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
               </Card>
             </div>
 
-            <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl shadow-primary/30 animate-pulse">
+            <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl shadow-primary/30 animate-pulse bg-primary">
               Ver meu plano completo
             </Button>
           </div>

@@ -5,27 +5,27 @@
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 330 10% 10%;
+    --foreground: 270 10% 10%;
     --card: 0 0% 100%;
-    --card-foreground: 330 10% 15%;
+    --card-foreground: 270 10% 15%;
     --popover: 0 0% 100%;
-    --popover-foreground: 330 10% 10%;
-    --primary: 330 100% 55%;
+    --popover-foreground: 270 10% 10%;
+    --primary: 270 85% 50%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 280 70% 96%;
-    --secondary-foreground: 330 60% 30%;
-    --muted: 330 20% 96%;
-    --muted-foreground: 330 10% 45%;
-    --accent: 330 100% 55%;
+    --secondary: 270 30% 96%;
+    --secondary-foreground: 270 60% 30%;
+    --muted: 270 20% 96%;
+    --muted-foreground: 270 10% 45%;
+    --accent: 270 85% 50%;
     --accent-foreground: 0 0% 100%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 330 20% 92%;
-    --input: 330 20% 92%;
-    --ring: 330 100% 55%;
+    --border: 270 20% 92%;
+    --input: 270 20% 92%;
+    --ring: 270 85% 50%;
     --radius: 1.5rem;
-    --chart-1: 330 100% 55%;
-    --chart-2: 280 70% 70%;
+    --chart-1: 270 85% 50%;
+    --chart-2: 250 70% 70%;
   }
 }
 
@@ -42,10 +42,10 @@
 }
 
 .premium-shadow {
-  shadow-color: rgba(255, 20, 147, 0.1);
-  box-shadow: 0 10px 30px -5px rgba(255, 20, 147, 0.1);
+  shadow-color: rgba(124, 58, 237, 0.1);
+  box-shadow: 0 10px 30px -5px rgba(124, 58, 237, 0.1);
 }
 
 .loading-bar-glow {
-  box-shadow: 0 0 15px rgba(255, 20, 147, 0.5);
+  box-shadow: 0 0 15px rgba(124, 58, 237, 0.5);
 }
