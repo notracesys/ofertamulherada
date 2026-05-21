@@ -70,7 +70,8 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
     if (saved) {
       try { 
         const parsed = JSON.parse(saved);
-        setState(parsed); 
+        // Merge with initial state to avoid undefined fields
+        setState(prev => ({ ...prev, ...parsed })); 
         if (parsed.physicalLimitations) {
           setSelectedLimitations(parsed.physicalLimitations.split(", "));
         }
@@ -98,7 +99,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
         targetWeightRulerRef.current.scrollLeft = (tw - 25) * 10;
       }
     }
-  }, [stepId, isClient]);
+  }, [stepId, isClient, state.height, state.weight, state.targetWeight]);
 
   const nextStep = () => {
     if (stepId < TOTAL_STEPS) {
@@ -146,7 +147,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
   const handleDragStart = (e: React.MouseEvent | React.TouchEvent, ref: React.RefObject<HTMLDivElement>) => {
     if (!ref.current) return;
     isDragging.current = true;
-    const pageX = 'touches' in e ? e.touches[0].pageX : e.pageX;
+    const pageX = 'touches' in e ? e.touches[0].pageX : (e as React.MouseEvent).pageX;
     startX.current = pageX - ref.current.offsetLeft;
     scrollLeft.current = ref.current.scrollLeft;
   };
@@ -158,7 +159,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
   const handleDragMove = (e: React.MouseEvent | React.TouchEvent, ref: React.RefObject<HTMLDivElement>, type: 'height' | 'weight' | 'targetWeight') => {
     if (!isDragging.current || !ref.current) return;
     e.preventDefault();
-    const pageX = 'touches' in e ? e.touches[0].pageX : e.pageX;
+    const pageX = 'touches' in e ? e.touches[0].pageX : (e as React.MouseEvent).pageX;
     const x = pageX - ref.current.offsetLeft;
     const walk = (x - startX.current);
     ref.current.scrollLeft = scrollLeft.current - walk;
@@ -889,7 +890,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 type="number" 
                 placeholder="Exemplo: 39" 
                 className="h-16 rounded-3xl text-center text-xl italic border-primary/20 bg-white shadow-sm focus-visible:ring-primary"
-                value={state.age}
+                value={state.age || ""}
                 onChange={(e) => updateState("age", e.target.value)}
               />
             </div>
