@@ -225,11 +225,46 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
 
       case 6:
         return (
-          <LoadingScreen 
-            title="Analisando seu biotipo corporal..." 
-            steps={["Verificando retenção hídrica", "Analisando perfil metabólico", "Criando plano feminino", "Adaptando treino ao seu corpo"]}
-            onComplete={nextStep}
-          />
+          <div className="space-y-8 text-center px-4">
+            <h2 className="text-3xl font-bold text-foreground leading-tight">
+              Qual é o seu principal objetivo?
+            </h2>
+            <div className="space-y-3">
+              {[
+                { label: "Perder peso", value: "perder-peso" },
+                { label: "Aumentar a força muscular", value: "forca" },
+                { label: "Crescer glúteos e pernas", value: "gluteos-pernas" },
+                { label: "Reduzir o stress e ansiedade", value: "stress" },
+                { label: "Melhorar a postura", value: "postura" }
+              ].map((opt) => (
+                <Button 
+                  key={opt.value}
+                  variant={state.mainConcern === opt.value ? "default" : "outline"}
+                  className={cn(
+                    "w-full py-7 text-lg rounded-2xl border-2 transition-all flex justify-between items-center px-6",
+                    state.mainConcern === opt.value ? "bg-primary border-primary shadow-lg shadow-primary/20" : "border-primary/10 hover:border-primary/40 bg-white"
+                  )}
+                  onClick={() => { 
+                    updateState("mainConcern", opt.value); 
+                    setTimeout(nextStep, 300);
+                  }}
+                >
+                  <span className={cn("font-bold", state.mainConcern === opt.value ? "text-white" : "text-foreground")}>
+                    {opt.label}
+                  </span>
+                  <div className={cn(
+                    "w-6 h-6 rounded-full border-2 flex items-center justify-center",
+                    state.mainConcern === opt.value ? "bg-white border-white text-primary" : "border-primary/20"
+                  )}>
+                    {state.mainConcern === opt.value && <Check className="w-4 h-4" />}
+                  </div>
+                </Button>
+              ))}
+            </div>
+            <div className="relative w-full aspect-square max-w-full mx-auto mt-4">
+              <Image src="/step6.webp" alt="Objetivo" fill className="object-contain" priority />
+            </div>
+          </div>
         );
 
       case 7:
