@@ -43,7 +43,7 @@ const INITIAL_STATE: GeneratePersonalizedAfricanMethodPlanInput = {
   },
   sleepFrequency: "6-7 horas",
   waterIntake: "2 a 6 copos",
-  energyLevels: "Sinto uma queda de energia depois do almoço",
+  energyLevels: "Sinto uma qeuda de energia depois do almoço",
   typicalDayDescription: "Eu passo a maior parte do dia sentada",
   workRoutine: "Das 9h às 17h",
   walkingFrequency: "De vez em quando",
@@ -168,19 +168,27 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
         );
 
       case 2:
+        const displayAge = state.ageRange.split(' ')[0];
         return (
-          <div className="space-y-6 text-center">
-            <h2 className="text-2xl font-bold">Mulheres comuns estão transformando seus hábitos</h2>
-            <div className="space-y-4">
-              <Card className="overflow-hidden border-primary shadow-md">
-                <Image src="https://picsum.photos/seed/before-after1/400/300" alt="Success Story" width={400} height={300} className="w-full object-cover" />
-                <div className="p-3 bg-white text-xs italic text-muted-foreground">*Resultado individual pode variar</div>
-              </Card>
-              <div className="flex items-center gap-2 justify-center text-primary font-semibold">
-                <Users className="w-5 h-5" /> <span>+50.000 vidas transformadas</span>
-              </div>
+          <div className="space-y-8 text-center px-2">
+            <h2 className="text-4xl font-black text-primary leading-none uppercase tracking-tight">
+              Mais de 500.000 mulheres
+            </h2>
+            <p className="text-lg text-muted-foreground leading-snug">
+              em <span className="font-bold text-foreground">seus {displayAge} anos</span> já experimentaram o nosso protocolo do Método Africano
+            </p>
+            <div className="relative w-full aspect-[4/5] max-w-sm mx-auto">
+              <Image 
+                src="/mulheres.webp" 
+                alt="Mulheres" 
+                fill 
+                className="object-contain"
+                priority
+              />
             </div>
-            <Button onClick={nextStep} className="w-full py-6 text-lg rounded-full">Continuar meu diagnóstico</Button>
+            <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl shadow-primary/30 uppercase tracking-wide">
+              Continuar
+            </Button>
           </div>
         );
 
