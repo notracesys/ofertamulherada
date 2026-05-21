@@ -74,7 +74,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
     if (saved) {
       try { 
         const parsed = JSON.parse(saved);
-        setState(prev => ({ ...prev, ...parsed })); 
+        setState(prev => ({ ...INITIAL_STATE, ...prev, ...parsed })); 
         if (parsed.physicalLimitations) {
           setSelectedLimitations(parsed.physicalLimitations.split(", "));
         }
@@ -1311,7 +1311,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
 
             <div className="space-y-4 mb-8 text-center">
               <h2 className="text-2xl md:text-3xl font-black text-[#0F172A] leading-tight uppercase italic">
-                seu plano de treino de <span className="text-primary">Pilates na Parede</span> de 3 semanas está pronto!
+                seu plano de treino de <span className="text-primary">Programa Feminino de Definição</span> de 3 semanas está pronto!
               </h2>
             </div>
 
