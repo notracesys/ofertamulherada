@@ -1206,44 +1206,120 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
 
       case 24:
         return (
-          <div className="space-y-8 text-center py-6">
-            <Badge className="bg-green-500 hover:bg-green-600 text-white border-none py-1 px-4 mb-2">Análise Concluída</Badge>
-            <h2 className="text-3xl font-extrabold text-primary leading-tight">Seu perfil indica alto potencial de transformação.</h2>
-            
-            <div className="bg-white p-6 rounded-3xl premium-shadow border border-primary/10 space-y-4">
-              <div className="flex justify-between items-end h-32 gap-2">
-                {[30, 45, 60, 55, 75, 90, 100].map((h, i) => (
-                  <motion.div 
-                    key={i} 
-                    initial={{ height: 0 }} 
-                    animate={{ height: `${h}%` }} 
-                    transition={{ delay: i * 0.1 }}
-                    className={cn("w-full rounded-t-lg", i === 6 ? "bg-primary" : "bg-primary/20")} 
+          <div className="flex flex-col items-center w-full max-w-md mx-auto px-4 pb-10">
+            {/* Top progress line simulator to match image */}
+            <div className="w-full h-1.5 bg-secondary/30 rounded-full mb-8 overflow-hidden">
+               <div className="h-full bg-primary w-full" />
+            </div>
+
+            {/* Chart Area */}
+            <div className="relative w-full h-[320px] mb-6">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={weightData} margin={{ top: 60, right: 40, left: 40, bottom: 20 }}>
+                  <defs>
+                    <linearGradient id="gradientFinal" x1="0" y1="0" x2="1" y2="0">
+                      <stop offset="0%" stopColor="#ef4444" stopOpacity={0.8} />
+                      <stop offset="100%" stopColor="#22c55e" stopOpacity={0.8} />
+                    </linearGradient>
+                    <linearGradient id="fillFinal" x1="0" y1="0" x2="1" y2="0">
+                      <stop offset="0%" stopColor="#ef4444" stopOpacity={0.4} />
+                      <stop offset="100%" stopColor="#22c55e" stopOpacity={0.4} />
+                    </linearGradient>
+                  </defs>
+                  <XAxis 
+                    dataKey="day" 
+                    axisLine={false} 
+                    tickLine={false} 
+                    interval={0}
+                    tick={(props: any) => {
+                      const { x, y, payload } = props;
+                      let label = "";
+                      if (payload.value === "Hoje") label = "SEMANA 1";
+                      if (payload.value === "7 dias") return null;
+                      if (payload.value === "14 dias") label = "SEMANA 2";
+                      if (payload.value === "21 dias") label = "SEMANA 3";
+                      if (!label) return null;
+                      return (
+                        <text x={x} y={y + 15} textAnchor="middle" fill="#94a3b8" fontSize="10" fontWeight="bold">
+                          {label}
+                        </text>
+                      );
+                    }}
                   />
-                ))}
-              </div>
-              <p className="text-sm font-bold text-primary">Estimativa de evolução em 21 dias</p>
+                  <YAxis hide domain={['dataMin - 5', 'dataMax + 5']} />
+                  <Area 
+                    type="monotone" 
+                    dataKey="weight" 
+                    stroke="url(#gradientFinal)" 
+                    strokeWidth={4} 
+                    fill="url(#fillFinal)" 
+                    animationDuration={2000}
+                  />
+                  
+                  {/* Seu peso dot */}
+                  <ReferenceDot 
+                    x="Hoje" 
+                    y={currentWeight} 
+                    r={5} 
+                    fill="#fff" 
+                    stroke="#cbd5e1" 
+                    strokeWidth={2} 
+                    label={{ 
+                      position: 'top', 
+                      offset: 20, 
+                      content: (props: any) => (
+                        <text x={props.x} y={props.y - 15} textAnchor="start" fill="#000" fontSize="14" fontWeight="bold">Seu peso</text>
+                      ) 
+                    }} 
+                  />
+                  
+                  {/* Middle dot */}
+                  <ReferenceDot x="14 dias" y={currentWeight - (currentWeight - targetWeight) * 0.8} r={5} fill="#fff" stroke="#cbd5e1" strokeWidth={2} />
+                  
+                  {/* 3 semanas badge and dot */}
+                  <ReferenceDot 
+                    x="21 dias" 
+                    y={targetWeight} 
+                    r={5} 
+                    fill="#fff" 
+                    stroke="#cbd5e1" 
+                    strokeWidth={2} 
+                    label={{ 
+                      content: (props: any) => {
+                        const { x, y } = props;
+                        return (
+                          <g>
+                            {/* Pink Badge */}
+                            <rect x={x - 85} y={y - 15} width="85" height="26" rx="13" fill="#ec4899" />
+                            <text x={x - 42} y={y + 3} textAnchor="middle" fill="#fff" fontSize="11" fontWeight="bold">3 semanas</text>
+                            {/* White dot inside stroke */}
+                            <circle cx={x} cy={y} r={5} fill="#fff" stroke="#cbd5e1" strokeWidth={2} />
+                          </g>
+                        );
+                      }
+                    }} 
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
             </div>
 
-            <div className="grid grid-cols-2 gap-3">
-              <Card className="p-4 border-primary/20 bg-white">
-                <span className="text-[10px] uppercase font-bold text-muted-foreground">Corpo</span>
-                <p className="font-bold">{state.dreamBody || "Definido"}</p>
-              </Card>
-              <Card className="p-4 border-primary/20 bg-white">
-                <span className="text-[10px] uppercase font-bold text-muted-foreground">Objetivo</span>
-                <p className="font-bold">{state.goalTransformation || "Cintura Fina"}</p>
-              </Card>
+            <div className="space-y-4 mb-8 text-center">
+              <h2 className="text-2xl md:text-3xl font-black text-[#0F172A] leading-tight uppercase italic">
+                seu plano de treino de <span className="text-primary">Pilates na Parede</span> de 3 semanas está pronto!
+              </h2>
             </div>
 
-            <Button className="w-full py-10 text-2xl font-black rounded-3xl shadow-2xl shadow-primary/40 uppercase tracking-tighter bg-primary text-white hover:scale-[1.02] transition-transform animate-pulse">
-              VER MEU PLANO AGORA
+            {/* Green Box */}
+            <div className="bg-[#E6F9EF] p-6 rounded-2xl text-center space-y-2 border border-[#BFF2D6] w-full mb-6">
+              <h3 className="text-xl font-black text-[#166534]">Mudança para sempre</h3>
+              <p className="text-sm text-[#166534] font-medium leading-relaxed">
+                Assim que atingir o seu peso ideal, utilizaremos as últimas semanas do seu programa para o ajudar a criar hábitos saudáveis que lhe permitam manter o seu peso!
+              </p>
+            </div>
+
+            <Button className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl shadow-primary/30 uppercase tracking-widest bg-primary text-white hover:scale-[1.02] transition-all">
+              CONTINUAR
             </Button>
-
-            <div className="flex items-center justify-center gap-4 text-[11px] font-bold text-muted-foreground uppercase tracking-widest">
-              <span className="flex items-center gap-1"><ShieldCheck className="w-4 h-4 text-green-500" /> Seguro</span>
-              <span className="flex items-center gap-1"><ShieldCheck className="w-4 h-4 text-green-500" /> Personalizado</span>
-            </div>
           </div>
         );
 
