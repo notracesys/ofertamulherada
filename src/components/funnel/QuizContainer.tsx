@@ -1090,22 +1090,40 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
 
       case 21:
         return (
-          <div className="space-y-3">
-            <h2 className="text-2xl font-bold text-center text-primary">Como você quer se sentir daqui a 30 dias?</h2>
-            <div className="space-y-3">
+          <div className="space-y-12 text-center px-4">
+            <h2 className="text-2xl font-bold text-[#0F172A] leading-tight px-6">
+              Quanto tempo você deseja dedicar em seu corpo no dia?
+            </h2>
+            <div className="grid grid-cols-2 gap-4">
               {[
-                "Muito mais confiante e segura",
-                "Extremamente atraente e poderosa",
-                "Confortável em qualquer roupa",
-                "Feliz e orgulhosa ao me olhar no espelho"
+                "5 minutos",
+                "10 minutos",
+                "15 minutos",
+                "30 minutos"
               ].map((opt) => (
                 <Button 
                   key={opt}
-                  variant="outline"
-                  className="w-full py-8 text-lg rounded-2xl border-2 border-primary/10 hover:border-primary text-foreground text-left px-6 bg-white whitespace-normal"
-                  onClick={() => { updateState("emotionalGoal", opt); nextStep(); }}
+                  variant={state.dedicationTime === opt ? "default" : "outline"}
+                  className={cn(
+                    "h-16 rounded-2xl border-2 transition-all flex justify-start items-center px-4 gap-3 bg-white",
+                    state.dedicationTime === opt 
+                      ? "bg-primary border-primary shadow-lg text-white" 
+                      : "border-primary/10 hover:border-primary/40 text-foreground"
+                  )}
+                  onClick={() => { 
+                    updateState("dedicationTime", opt); 
+                    setTimeout(nextStep, 300);
+                  }}
                 >
-                  {opt}
+                  <div className={cn(
+                    "w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors",
+                    state.dedicationTime === opt ? "bg-white border-white text-primary" : "border-primary/20"
+                  )}>
+                    {state.dedicationTime === opt && <Check className="w-4 h-4" />}
+                  </div>
+                  <span className="font-bold text-sm">
+                    {opt}
+                  </span>
                 </Button>
               ))}
             </div>
