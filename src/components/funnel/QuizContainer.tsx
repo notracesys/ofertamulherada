@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
@@ -14,7 +14,7 @@ import { generatePersonalizedAfricanMethodPlan, type GeneratePersonalizedAfrican
 import { QuizStep } from "./QuizStep";
 import { cn } from "@/lib/utils";
 
-const TOTAL_STEPS = 19;
+const TOTAL_STEPS = 21;
 const STORAGE_KEY = "fitness_fem_quiz_state";
 
 const INITIAL_STATE: GeneratePersonalizedAfricanMethodPlanInput = {
@@ -33,6 +33,8 @@ const INITIAL_STATE: GeneratePersonalizedAfricanMethodPlanInput = {
   emotionalGoal: "",
   flexibility: "",
   physicalLimitations: "",
+  height: "170",
+  weight: "65",
 };
 
 interface QuizContainerProps {
@@ -46,6 +48,8 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
   const [isClient, setIsClient] = useState(false);
   const [state, setState] = useState<GeneratePersonalizedAfricanMethodPlanInput>(INITIAL_STATE);
   const [selectedLimitations, setSelectedLimitations] = useState<string[]>([]);
+  const [heightUnit, setHeightUnit] = useState<"cm" | "pol">("cm");
+  const rulerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setIsClient(true);
@@ -108,9 +112,26 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
     }
   };
 
+  // Scroll height ruler on mount or unit change
+  useEffect(() => {
+    if (stepId === 15 && rulerRef.current) {
+      const initialHeight = parseInt(state.height || "170");
+      const scrollPos = (initialHeight - 100) * 10; // Simple tick spacing logic
+      rulerRef.current.scrollLeft = scrollPos;
+    }
+  }, [stepId, heightUnit]);
+
   if (!isClient) return null;
 
   const progress = (stepId / TOTAL_STEPS) * 100;
+
+  const handleRulerScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    const scrollLeft = e.currentTarget.scrollLeft;
+    const newValue = Math.round(scrollLeft / 10) + 100;
+    if (newValue !== parseInt(state.height || "0")) {
+      updateState("height", newValue.toString());
+    }
+  };
 
   const renderStep = () => {
     switch (stepId) {
@@ -591,7 +612,116 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           </div>
         );
 
-      case 15:
+      case 15: // Height Selection
+        return (
+          <div className="space-y-8 text-center">
+            <h2 className="text-4xl font-bold text-foreground tracking-tight">Qual sua altura?</h2>
+            
+            <div className="flex justify-center">
+              <div className="bg-secondary/50 p-1 rounded-full flex gap-1">
+                <Button 
+                  size="sm" 
+                  variant={heightUnit === "cm" ? "default" : "ghost"}
+                  className={cn("rounded-full px-6", heightUnit === "cm" ? "bg-primary text-white" : "text-muted-foreground")}
+                  onClick={() => setHeightUnit("cm")}
+                >
+                  cm
+                </Button>
+                <Button 
+                  size="sm" 
+                  variant={heightUnit === "pol" ? "default" : "ghost"}
+                  className={cn("rounded-full px-6", heightUnit === "pol" ? "bg-primary text-white" : "text-muted-foreground")}
+                  onClick={() => setHeightUnit("pol")}
+                >
+                  pol
+                </Button>
+              </div>
+            </div>
+
+            <div className="text-6xl font-black text-foreground flex items-baseline justify-center gap-1">
+              {state.height}
+              <span className="text-2xl font-bold text-muted-foreground">{heightUnit}</span>
+            </div>
+
+            <div className="relative py-10">
+              <div 
+                ref={rulerRef}
+                onScroll={handleRulerScroll}
+                className="w-full flex items-end gap-0 overflow-x-auto no-scrollbar px-[50%] py-4 scroll-smooth cursor-grab active:cursor-grabbing"
+              >
+                {Array.from({ length: 121 }).map((_, i) => {
+                  const val = i + 100;
+                  const isMajor = val % 10 === 0;
+                  return (
+                    <div key={val} className="flex flex-col items-center shrink-0 w-[10px]">
+                      <div className={cn("bg-muted-foreground/30", isMajor ? "h-10 w-0.5" : "h-6 w-0.5")} />
+                      {isMajor && <span className="text-xs text-muted-foreground mt-2 font-medium">{val}</span>}
+                    </div>
+                  );
+                })}
+              </div>
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-12 w-1 bg-primary rounded-full shadow-lg shadow-primary/40 z-10" />
+            </div>
+            
+            <p className="text-muted-foreground text-sm font-medium">Arraste para ajustar</p>
+
+            <div className="bg-[#EBF5FF] p-6 rounded-3xl text-left space-y-2 border border-blue-100">
+              <p className="font-bold text-[#1E40AF] flex items-center gap-2">
+                <span>☝️</span> Calculando seu índice de massa corporal
+              </p>
+              <p className="text-sm text-[#3B82F6] leading-relaxed">
+                O IMC é amplamente utilizado como fator de risco para o desenvolvimento ou prevalência de diversos problemas de saúde.
+              </p>
+            </div>
+
+            <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl shadow-primary/30 uppercase bg-primary text-white mt-4">
+              PRÓXIMO PASSO
+            </Button>
+          </div>
+        );
+
+      case 16: // Weight Selection (Bonus to make IMC calculation realistic)
+        return (
+          <div className="space-y-8 text-center">
+            <h2 className="text-4xl font-bold text-foreground tracking-tight">Qual seu peso atual?</h2>
+            
+            <div className="text-6xl font-black text-foreground flex items-baseline justify-center gap-1">
+              {state.weight}
+              <span className="text-2xl font-bold text-muted-foreground">kg</span>
+            </div>
+
+            <div className="relative py-10">
+              <div 
+                className="w-full flex items-end gap-0 overflow-x-auto no-scrollbar px-[50%] py-4 scroll-smooth"
+                onScroll={(e) => {
+                  const scrollLeft = e.currentTarget.scrollLeft;
+                  const newValue = Math.round(scrollLeft / 10) + 30;
+                  updateState("weight", newValue.toString());
+                }}
+              >
+                {Array.from({ length: 121 }).map((_, i) => {
+                  const val = i + 30;
+                  const isMajor = val % 10 === 0;
+                  return (
+                    <div key={val} className="flex flex-col items-center shrink-0 w-[10px]">
+                      <div className={cn("bg-muted-foreground/30", isMajor ? "h-10 w-0.5" : "h-6 w-0.5")} />
+                      {isMajor && <span className="text-xs text-muted-foreground mt-2 font-medium">{val}</span>}
+                    </div>
+                  );
+                })}
+              </div>
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-12 w-1 bg-primary rounded-full shadow-lg z-10" />
+            </div>
+            
+            <p className="text-muted-foreground text-sm font-medium">Arraste para ajustar</p>
+
+            <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl shadow-primary/30 uppercase bg-primary text-white mt-8">
+              PRÓXIMO PASSO
+            </Button>
+          </div>
+        );
+
+      case 17:
         return (
           <div className="space-y-6">
             <h2 className="text-2xl font-bold text-center text-primary">Quanto tempo você tem para cuidar de si mesma por dia?</h2>
@@ -611,7 +741,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           </div>
         );
 
-      case 16:
+      case 18:
         return (
           <div className="space-y-3">
             <h2 className="text-2xl font-bold text-center text-primary">Como você quer se sentir daqui a 30 dias?</h2>
@@ -635,7 +765,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           </div>
         );
 
-      case 17:
+      case 19:
         return (
           <div className="space-y-8 py-4">
             <h2 className="text-2xl font-bold text-center text-primary">Mulheres reais, resultados reais.</h2>
@@ -662,7 +792,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           </div>
         );
 
-      case 18:
+      case 20:
         return (
           <LoadingScreen 
             title="Seu plano feminino personalizado está sendo criado..." 
@@ -672,7 +802,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           />
         );
 
-      case 19:
+      case 21:
         return (
           <div className="space-y-8 text-center py-6">
             <Badge className="bg-green-500 hover:bg-green-600 text-white border-none py-1 px-4 mb-2">Análise Concluída</Badge>
