@@ -6,17 +6,17 @@ import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Check, ArrowRight, Heart, Star, Zap, ShieldCheck, Flame, Users, Trophy } from "lucide-react";
+import { Check, ArrowRight, Heart, Star, Zap, ShieldCheck, Flame, Users, Trophy, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { generatePersonalizedAfricanMethodPlan, type GeneratePersonalizedAfricanMethodPlanInput, type GeneratePersonalizedAfricanMethodPlanOutput } from "@/ai/flows/generate-personalized-african-method-plan";
 import { QuizStep } from "./QuizStep";
 import { cn } from "@/lib/utils";
 
-const TOTAL_STEPS = 13;
+const TOTAL_STEPS = 14;
 const STORAGE_KEY = "fitness_fem_quiz_state";
 
-const INITIAL_STATE: GeneratePersonalizedAfricanMethodPlanInput = {
+const INITIAL_STATE: GeneratePersonalizedAfricanMethodPlanInput & { flexibility?: string } = {
   ageRange: "30 a 39 anos",
   pilatesExperience: "",
   bodyDescription: "",
@@ -27,6 +27,7 @@ const INITIAL_STATE: GeneratePersonalizedAfricanMethodPlanInput = {
   increaseRegion: "",
   dedicationTime: "",
   emotionalGoal: "",
+  flexibility: "",
 };
 
 interface QuizContainerProps {
@@ -38,7 +39,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
   const [loading, setLoading] = useState(false);
   const [quizOutput, setQuizOutput] = useState<GeneratePersonalizedAfricanMethodPlanOutput | null>(null);
   const [isClient, setIsClient] = useState(false);
-  const [state, setState] = useState<GeneratePersonalizedAfricanMethodPlanInput>(INITIAL_STATE);
+  const [state, setState] = useState<GeneratePersonalizedAfricanMethodPlanInput & { flexibility?: string }>(INITIAL_STATE);
 
   useEffect(() => {
     setIsClient(true);
@@ -61,7 +62,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
 
   const prevStep = () => { if (stepId > 1) router.push(`/step/${stepId - 1}`); };
 
-  const updateState = (key: keyof GeneratePersonalizedAfricanMethodPlanInput, value: any) => {
+  const updateState = (key: string, value: any) => {
     setState((prev) => ({ ...prev, [key]: value }));
   };
 
@@ -126,7 +127,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
             <div className="relative w-full aspect-[4/5] max-w-[280px] mx-auto">
               <Image src="/mulheres.webp" alt="Mulheres" fill className="object-contain" priority />
             </div>
-            <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl shadow-primary/30 uppercase tracking-wide bg-primary">
+            <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl shadow-primary/30 uppercase tracking-wide bg-primary text-white">
               Continuar
             </Button>
           </div>
@@ -167,7 +168,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 </Button>
               ))}
             </div>
-            <div className="relative w-full aspect-square max-w-[340px] mx-auto mt-8">
+            <div className="relative w-full aspect-square max-w-[500px] mx-auto mt-8">
               <Image src="/step4.webp" alt="Programa" fill className="object-contain" />
             </div>
           </div>
@@ -193,7 +194,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     <span className="font-bold text-lg text-primary uppercase tracking-tight">{opt.label}</span>
                   </div>
                   <div className="h-full w-0.5 bg-primary/20 group-hover:bg-primary/50 transition-colors" />
-                  <div className="relative w-20 h-full shrink-0">
+                  <div className="relative w-16 h-full shrink-0">
                     <Image src={opt.imageUrl} alt={opt.label} fill className="object-cover" />
                   </div>
                 </Card>
@@ -219,7 +220,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
             <div className="relative w-full aspect-[4/3] max-w-[320px] mx-auto rounded-3xl overflow-hidden premium-shadow">
               <Image src="/step3.webp" alt="Transformação" fill className="object-cover" priority />
             </div>
-            <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl shadow-primary/30 uppercase tracking-wide bg-primary">
+            <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl shadow-primary/30 uppercase tracking-wide bg-primary text-white">
               Continuar
             </Button>
           </div>
@@ -295,7 +296,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     </span>
                   </div>
                   <div className={cn("h-full w-1", state.bodyDescription === opt.label ? "bg-white/20" : "bg-primary")} />
-                  <div className="relative w-20 h-full shrink-0">
+                  <div className="relative w-16 h-full shrink-0">
                     <Image src={opt.imageUrl} alt={opt.label} fill className="object-cover" />
                   </div>
                 </Card>
@@ -330,7 +331,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     </span>
                   </div>
                   <div className={cn("h-full w-1", state.dreamBody === opt.label ? "bg-white/20" : "bg-primary")} />
-                  <div className="relative w-20 h-full shrink-0">
+                  <div className="relative w-16 h-full shrink-0">
                     <Image src={opt.imageUrl} alt={opt.label} fill className="object-cover" />
                   </div>
                 </Card>
@@ -340,6 +341,49 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
         );
 
       case 9:
+        return (
+          <div className="space-y-8 text-center px-4">
+            <h2 className="text-3xl font-bold text-foreground leading-tight">
+              Você se considera flexível?
+            </h2>
+            <div className="space-y-3">
+              {[
+                { label: "Bastante Flexível", value: "bastante" },
+                { label: "Estou começando", value: "começando" },
+                { label: "Não muito", value: "nao-muito" },
+                { label: "Não tenho certeza", value: "incerta" }
+              ].map((opt) => (
+                <Button 
+                  key={opt.value}
+                  variant={state.flexibility === opt.value ? "default" : "outline"}
+                  className={cn(
+                    "w-full py-7 text-lg rounded-2xl border-2 transition-all flex justify-between items-center px-6",
+                    state.flexibility === opt.value ? "bg-primary border-primary shadow-lg shadow-primary/20" : "border-primary/10 hover:border-primary/40 bg-white"
+                  )}
+                  onClick={() => { 
+                    updateState("flexibility", opt.value); 
+                    setTimeout(nextStep, 300);
+                  }}
+                >
+                  <span className={cn("font-bold", state.flexibility === opt.value ? "text-white" : "text-foreground")}>
+                    {opt.label}
+                  </span>
+                  <div className={cn(
+                    "w-6 h-6 rounded-full border-2 flex items-center justify-center",
+                    state.flexibility === opt.value ? "bg-white border-white text-primary" : "border-primary/20"
+                  )}>
+                    <ChevronRight className="w-4 h-4" />
+                  </div>
+                </Button>
+              ))}
+            </div>
+            <div className="relative w-full aspect-square max-w-[280px] mx-auto mt-8 rounded-full overflow-hidden">
+              <Image src="/flexivel.webp" alt="Flexível" fill className="object-cover" />
+            </div>
+          </div>
+        );
+
+      case 10:
         return (
           <div className="space-y-6">
             <h2 className="text-2xl font-bold text-center text-primary">Quanto tempo você tem para cuidar de si mesma por dia?</h2>
@@ -359,7 +403,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           </div>
         );
 
-      case 10:
+      case 11:
         return (
           <div className="space-y-3">
             <h2 className="text-2xl font-bold text-center text-primary">Como você quer se sentir daqui a 30 dias?</h2>
@@ -383,7 +427,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           </div>
         );
 
-      case 11:
+      case 12:
         return (
           <div className="space-y-8 py-4">
             <h2 className="text-2xl font-bold text-center text-primary">Mulheres reais, resultados reais.</h2>
@@ -404,13 +448,13 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 </Card>
               ))}
             </div>
-            <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl shadow-primary/30 uppercase bg-primary">
+            <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl shadow-primary/30 uppercase bg-primary text-white">
               Continuar para meu plano
             </Button>
           </div>
         );
 
-      case 12:
+      case 13:
         return (
           <LoadingScreen 
             title="Seu plano feminino personalizado está sendo criado..." 
@@ -420,7 +464,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           />
         );
 
-      case 13:
+      case 14:
         return (
           <div className="space-y-8 text-center py-6">
             <Badge className="bg-green-500 hover:bg-green-600 text-white border-none py-1 px-4 mb-2">Análise Concluída</Badge>
@@ -452,7 +496,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
               </Card>
             </div>
 
-            <Button className="w-full py-10 text-2xl font-black rounded-3xl shadow-2xl shadow-primary/40 uppercase tracking-tighter bg-primary hover:scale-[1.02] transition-transform animate-pulse">
+            <Button className="w-full py-10 text-2xl font-black rounded-3xl shadow-2xl shadow-primary/40 uppercase tracking-tighter bg-primary text-white hover:scale-[1.02] transition-transform animate-pulse">
               VER MEU PLANO AGORA
             </Button>
 
@@ -481,7 +525,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
         </div>
       )}
 
-      <div className={cn("w-full pt-20 pb-20 flex-1 flex flex-col items-center", stepId >= 12 ? "pt-10" : "")}>
+      <div className={cn("w-full pt-20 pb-20 flex-1 flex flex-col items-center", stepId >= 13 ? "pt-10" : "")}>
         <AnimatePresence mode="wait">
           <QuizStep key={stepId} stepId={stepId}>
             {renderStep()}
