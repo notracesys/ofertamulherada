@@ -213,7 +213,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
             </div>
             <div className="bg-secondary p-4 rounded-xl border border-primary/20 flex items-start gap-3 text-left">
               <Zap className="w-5 h-5 text-primary shrink-0 mt-1" />
-              <p className="text-xs font-medium text-secondary-foreground">Milhares de mulheres relatam exatamente isso antes de iniciarem nosso protocolo.</p>
+              <p className="text-xs font-medium text-secondary-foreground">Milhares de mulheres relatam exatamente isso antes de iniciarem nosso programa.</p>
             </div>
           </div>
         );
@@ -222,7 +222,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
         return (
           <LoadingScreen 
             title="Analisando seu biotipo corporal..." 
-            steps={["Verificando retenção hídrica", "Analisando perfil metabólico", "Criando protocolo feminino", "Adaptando treino ao seu corpo"]}
+            steps={["Verificando retenção hídrica", "Analisando perfil metabólico", "Criando plano feminino", "Adaptando treino ao seu corpo"]}
             onComplete={nextStep}
           />
         );
@@ -302,7 +302,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
             <div className="space-y-4">
               {[
                 { name: "Juliana S.", age: "34", text: "Perdi 4cm de cintura em 2 semanas! Me sinto outra mulher.", rating: 5 },
-                { name: "Mariana L.", age: "28", text: "Meus glúteos estão muito mais firmes. O protocolo é incrível.", rating: 5 }
+                { name: "Mariana L.", age: "28", text: "Meus glúteos estão muito mais firmes. O programa é incrível.", rating: 5 }
               ].map((p, i) => (
                 <Card key={i} className="p-4 border-none bg-secondary shadow-sm">
                   <div className="flex gap-1 mb-2">
@@ -326,7 +326,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
         return (
           <LoadingScreen 
             title="Seu plano feminino personalizado está sendo criado..." 
-            steps={["Ajustando exercícios exclusivos", "Criando protocolo para pernas e glúteos", "Otimizando queima de gordura abdominal", "Finalizando rotina personalizada"]}
+            steps={["Ajustando exercícios exclusivos", "Criando plano para pernas e glúteos", "Otimizando queima de gordura abdominal", "Finalizando rotina personalizada"]}
             onComplete={finishQuiz}
             duration={4000}
           />

@@ -27,7 +27,7 @@ const GeneratePersonalizedAfricanMethodPlanOutputSchema = z.object({
   suggestedDurationDays: z.number().int().default(21),
   level: z.enum(['Iniciante', 'Intermediário', 'Avançado']).default('Iniciante'),
   focusAreasSummary: z.string().describe("Summary of focus areas."),
-  methodDescription: z.string().describe("Explanation of the protocol."),
+  methodDescription: z.string().describe("Explanation of the plan."),
   recommendations: z.object({
     dietary: z.string(),
     hydration: z.string(),
@@ -49,18 +49,7 @@ const prompt = ai.definePrompt({
   name: 'generatePersonalizedAfricanMethodPlanPrompt',
   input: { schema: GeneratePersonalizedAfricanMethodPlanInputSchema },
   output: { schema: GeneratePersonalizedAfricanMethodPlanOutputSchema },
-  prompt: `Você é uma especialista em transformação corporal feminina e estética (foco em cintura, glúteos e pernas).
-Gere um protocolo personalizado chamado 'Método Africano' baseado nestas respostas:
-
-Idade: {{{ageRange}}}
-O que incomoda: {{{mainConcern}}}
-Objetivo: {{{goalTransformation}}}
-Dificuldade: {{{weightDifficulty}}}
-Região para aumentar: {{{increaseRegion}}}
-Tempo: {{{dedicationTime}}}
-Desejo emocional: {{{emotionalGoal}}}
-
-Crie um tom acolhedor, premium e motivador. O foco deve ser em resultados reais e naturais em 21 dias.`,
+  prompt: 'Você é uma especialista em transformação corporal feminina e estética (foco em cintura, glúteos e pernas). Gere um plano personalizado chamado "Programa Feminino de Definição" baseado nestas respostas: Idade: {{{ageRange}}}, O que incomoda: {{{mainConcern}}}, Objetivo: {{{goalTransformation}}}, Dificuldade: {{{weightDifficulty}}}, Região para aumentar: {{{increaseRegion}}}, Tempo: {{{dedicationTime}}}, Desejo emocional: {{{emotionalGoal}}}. Crie um tom acolhedor, premium e motivador. O foco deve ser em resultados reais e naturais em 21 dias.',
 });
 
 const generatePersonalizedAfricanMethodPlanFlow = ai.defineFlow(

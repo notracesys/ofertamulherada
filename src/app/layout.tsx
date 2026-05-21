@@ -2,8 +2,8 @@ import type {Metadata} from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Vitalidade Africana | Seu Plano Personalizado',
-  description: 'Descubra o Método Africano para perda de peso natural e bem-estar.',
+  title: 'Programa Feminino de Definição | Seu Plano Personalizado',
+  description: 'Descubra o melhor caminho para perda de peso natural e bem-estar.',
 };
 
 export default function RootLayout({
