@@ -547,11 +547,11 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
 
       case 14:
         return (
-          <div className="space-y-8 text-center px-4">
+          <div className="space-y-8 text-center px-4 w-full max-w-md mx-auto">
             <h2 className="text-3xl font-bold text-foreground leading-tight">
               Como são os seus níveis de energia durante o dia?
             </h2>
-            <div className="space-y-3 pt-4">
+            <div className="space-y-4 pt-4">
               {[
                 { label: "Baixo, me sinto cansada durante o dia", value: "baixo" },
                 { label: "Sinto uma queda de energia depois do almoço", value: "queda" },
@@ -562,15 +562,15 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                   key={opt.value}
                   variant={state.energyLevel === opt.value ? "default" : "outline"}
                   className={cn(
-                    "w-full py-6 text-lg rounded-2xl border-2 transition-all flex justify-between items-center px-6 bg-white text-left h-auto min-h-[80px]",
-                    state.energyLevel === opt.value ? "border-primary shadow-lg ring-1 ring-primary" : "border-primary/10 hover:border-primary/40"
+                    "w-full py-6 text-lg rounded-2xl border-2 transition-all flex justify-between items-center px-6 bg-white text-left h-auto min-h-[85px] relative",
+                    state.energyLevel === opt.value ? "border-primary shadow-md" : "border-primary/10 hover:border-primary/30"
                   )}
                   onClick={() => { 
                     updateState("energyLevel", opt.value); 
                     setTimeout(nextStep, 300);
                   }}
                 >
-                  <span className={cn("font-bold flex-1 pr-4", state.energyLevel === opt.value ? "text-primary" : "text-foreground")}>
+                  <span className={cn("font-bold flex-1 pr-6 leading-tight", state.energyLevel === opt.value ? "text-primary" : "text-foreground")}>
                     {opt.label}
                   </span>
                   <div className={cn(
@@ -582,7 +582,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 </Button>
               ))}
             </div>
-            <div className="relative w-full aspect-square max-w-[320px] mx-auto mt-6">
+            <div className="relative w-full aspect-square max-w-[280px] mx-auto mt-8">
               <Image src="/step14.webp" alt="Energia" fill className="object-contain" priority />
             </div>
           </div>
