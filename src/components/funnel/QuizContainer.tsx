@@ -14,7 +14,7 @@ import { generatePersonalizedAfricanMethodPlan, type GeneratePersonalizedAfrican
 import { QuizStep } from "./QuizStep";
 import { cn } from "@/lib/utils";
 
-const TOTAL_STEPS = 21;
+const TOTAL_STEPS = 22;
 const STORAGE_KEY = "fitness_fem_quiz_state";
 
 const INITIAL_STATE: GeneratePersonalizedAfricanMethodPlanInput = {
@@ -35,6 +35,7 @@ const INITIAL_STATE: GeneratePersonalizedAfricanMethodPlanInput = {
   physicalLimitations: "",
   height: "170",
   weight: "65",
+  targetWeight: "60",
 };
 
 interface QuizContainerProps {
@@ -49,9 +50,12 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
   const [state, setState] = useState<GeneratePersonalizedAfricanMethodPlanInput>(INITIAL_STATE);
   const [selectedLimitations, setSelectedLimitations] = useState<string[]>([]);
   const [heightUnit, setHeightUnit] = useState<"cm" | "pol">("cm");
+  const [weightUnit, setWeightUnit] = useState<"kg" | "lb">("kg");
+  const [targetWeightUnit, setTargetWeightUnit] = useState<"kg" | "lb">("kg");
   
   const heightRulerRef = useRef<HTMLDivElement>(null);
   const weightRulerRef = useRef<HTMLDivElement>(null);
+  const targetWeightRulerRef = useRef<HTMLDivElement>(null);
   
   // Dragging states
   const isDragging = useRef(false);
@@ -87,8 +91,12 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
         const w = parseInt(state.weight || "65");
         weightRulerRef.current.scrollLeft = (w - 30) * 10;
       }
+      if (stepId === 17 && targetWeightRulerRef.current) {
+        const tw = parseInt(state.targetWeight || "60");
+        targetWeightRulerRef.current.scrollLeft = (tw - 25) * 10;
+      }
     }
-  }, [stepId, isClient, heightUnit]);
+  }, [stepId, isClient]);
 
   const nextStep = () => {
     if (stepId < TOTAL_STEPS) {
@@ -145,7 +153,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
     isDragging.current = false;
   };
 
-  const handleDragMove = (e: React.MouseEvent | React.TouchEvent, ref: React.RefObject<HTMLDivElement>, type: 'height' | 'weight') => {
+  const handleDragMove = (e: React.MouseEvent | React.TouchEvent, ref: React.RefObject<HTMLDivElement>, type: 'height' | 'weight' | 'targetWeight') => {
     if (!isDragging.current || !ref.current) return;
     e.preventDefault();
     const pageX = 'touches' in e ? e.touches[0].pageX : e.pageX;
@@ -167,6 +175,14 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
     const newValue = Math.round(scroll / 10) + 30;
     if (newValue >= 30 && newValue <= 150 && newValue !== parseInt(state.weight || "0")) {
       updateState("weight", newValue.toString());
+    }
+  };
+
+  const handleTargetWeightScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    const scroll = e.currentTarget.scrollLeft;
+    const newValue = Math.round(scroll / 10) + 25;
+    if (newValue >= 25 && newValue <= 300 && newValue !== parseInt(state.targetWeight || "0")) {
+      updateState("targetWeight", newValue.toString());
     }
   };
 
@@ -773,7 +789,90 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           </div>
         );
 
-      case 17:
+      case 17: // Target Weight Selection
+        return (
+          <div className="space-y-8 text-center">
+            <h2 className="text-3xl font-bold text-foreground tracking-tight px-6">
+              E qual é seu objetivo de peso ideal?
+            </h2>
+            
+            <div className="flex justify-center">
+              <div className="bg-secondary/50 p-1 rounded-full flex gap-1">
+                <Button 
+                  size="sm" 
+                  variant={targetWeightUnit === "kg" ? "default" : "ghost"}
+                  className={cn("rounded-full px-6", targetWeightUnit === "kg" ? "bg-primary text-white" : "text-muted-foreground")}
+                  onClick={() => setTargetWeightUnit("kg")}
+                >
+                  kg
+                </Button>
+                <Button 
+                  size="sm" 
+                  variant={targetWeightUnit === "lb" ? "default" : "ghost"}
+                  className={cn("rounded-full px-6", targetWeightUnit === "lb" ? "bg-primary text-white" : "text-muted-foreground")}
+                  onClick={() => setTargetWeightUnit("lb")}
+                >
+                  lb
+                </Button>
+              </div>
+            </div>
+
+            <div className="text-6xl font-black text-foreground flex items-baseline justify-center gap-1">
+              {state.targetWeight}
+              <span className="text-2xl font-bold text-muted-foreground">{targetWeightUnit}</span>
+            </div>
+
+            <div className="relative py-10 select-none">
+              <div 
+                ref={targetWeightRulerRef}
+                onScroll={handleTargetWeightScroll}
+                onMouseDown={(e) => handleDragStart(e, targetWeightRulerRef)}
+                onMouseUp={handleDragEnd}
+                onMouseLeave={handleDragEnd}
+                onMouseMove={(e) => handleDragMove(e, targetWeightRulerRef, 'targetWeight')}
+                onTouchStart={(e) => handleDragStart(e, targetWeightRulerRef)}
+                onTouchEnd={handleDragEnd}
+                onTouchMove={(e) => handleDragMove(e, targetWeightRulerRef, 'targetWeight')}
+                className="w-full flex items-end gap-0 overflow-x-auto no-scrollbar px-[50%] py-4 scroll-smooth cursor-grab active:cursor-grabbing"
+              >
+                {Array.from({ length: 276 }).map((_, i) => {
+                  const val = i + 25;
+                  const isMajor = val % 10 === 0;
+                  return (
+                    <div key={val} className="flex flex-col items-center shrink-0 w-[10px]">
+                      <div className={cn("bg-muted-foreground/20", isMajor ? "h-10 w-0.5" : "h-6 w-0.5")} />
+                      {isMajor && <span className="text-xs text-muted-foreground mt-2 font-medium">{val}</span>}
+                    </div>
+                  );
+                })}
+              </div>
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-14 w-1 bg-primary rounded-full shadow-lg shadow-primary/40 z-10 pointer-events-none flex items-center justify-center">
+                <div className="absolute -bottom-1 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[8px] border-t-primary" />
+              </div>
+            </div>
+            
+            <div className="space-y-6">
+              <p className="text-muted-foreground text-sm font-medium">Arraste para ajustar</p>
+              <p className="text-muted-foreground/60 text-xs">Por favor, introduza um valor entre 25kg e 300kg</p>
+            </div>
+
+            <div className="bg-[#EBF5FF] p-6 rounded-3xl text-left space-y-2 border border-blue-100 mx-4">
+              <p className="font-bold text-[#1E40AF] flex items-center gap-2">
+                <span className="bg-green-500 rounded p-0.5 text-white flex items-center justify-center"><Check className="w-3 h-3" /></span> 
+                Perguntamos a sua idade para personalizar o seu plano
+              </p>
+              <p className="text-sm text-[#3B82F6] leading-relaxed">
+                As pessoas mais velhas tendem a ter mais gordura corporal que os mais novos com o mesmo IMC
+              </p>
+            </div>
+
+            <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl shadow-primary/30 uppercase bg-primary text-white mt-4">
+              PRÓXIMO PASSO
+            </Button>
+          </div>
+        );
+
+      case 18:
         return (
           <div className="space-y-6">
             <h2 className="text-2xl font-bold text-center text-primary">Quanto tempo você tem para cuidar de si mesma por dia?</h2>
@@ -793,7 +892,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           </div>
         );
 
-      case 18:
+      case 19:
         return (
           <div className="space-y-3">
             <h2 className="text-2xl font-bold text-center text-primary">Como você quer se sentir daqui a 30 dias?</h2>
@@ -817,7 +916,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           </div>
         );
 
-      case 19:
+      case 20:
         return (
           <div className="space-y-8 py-4">
             <h2 className="text-2xl font-bold text-center text-primary">Mulheres reais, resultados reais.</h2>
@@ -844,7 +943,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           </div>
         );
 
-      case 20:
+      case 21:
         return (
           <LoadingScreen 
             title="Seu plano feminino personalizado está sendo criado..." 
@@ -854,7 +953,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           />
         );
 
-      case 21:
+      case 22:
         return (
           <div className="space-y-8 text-center py-6">
             <Badge className="bg-green-500 hover:bg-green-600 text-white border-none py-1 px-4 mb-2">Análise Concluída</Badge>
