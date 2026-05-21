@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -127,6 +128,13 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
 
   const progress = (stepId / TOTAL_STEPS) * 100;
 
+  const ageRanges = [
+    { label: "18 a 29 anos", imageId: "age-18-29" },
+    { label: "30 a 39 anos", imageId: "age-30-39" },
+    { label: "40 a 49 anos", imageId: "age-40-49" },
+    { label: "50+ anos", imageId: "age-50-plus" }
+  ];
+
   const renderStep = () => {
     switch (stepId) {
       case 1:
@@ -135,19 +143,31 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
             <h1 className="text-3xl font-bold leading-tight">Qual sua idade?</h1>
             <p className="text-muted-foreground">Isso nos ajuda a adaptar seu plano ao seu momento atual.</p>
             <div className="grid grid-cols-2 gap-4">
-              {["18 a 29 anos", "30 a 39 anos", "40 a 49 anos", "50+ anos"].map((range) => (
-                <Card 
-                  key={range} 
-                  className={cn("p-4 flex flex-col items-center gap-3 cursor-pointer border-2 transition-all hover:border-primary", state.ageRange === range ? "border-primary bg-primary/5" : "border-transparent")}
-                  onClick={() => { updateState("ageRange", range); nextStep(); }}
-                >
-                  <div className="w-16 h-16 rounded-full bg-pink-100 flex items-center justify-center text-primary font-bold">
-                    {range.split(" ")[0]}
-                  </div>
-                  <span className="font-medium text-sm">{range}</span>
-                  <Button variant="outline" size="sm" className="w-full text-xs">Selecionar</Button>
-                </Card>
-              ))}
+              {ageRanges.map((range) => {
+                const img = PlaceHolderImages.find(p => p.id === range.imageId);
+                return (
+                  <Card 
+                    key={range.label} 
+                    className={cn(
+                      "p-3 flex flex-col items-center gap-2 cursor-pointer border-2 transition-all hover:border-primary overflow-hidden", 
+                      state.ageRange === range.label ? "border-primary bg-primary/5" : "border-transparent"
+                    )}
+                    onClick={() => { updateState("ageRange", range.label); nextStep(); }}
+                  >
+                    <div className="relative w-full aspect-square rounded-lg overflow-hidden mb-2">
+                      <Image 
+                        src={img?.imageUrl || ''} 
+                        alt={range.label} 
+                        fill 
+                        className="object-cover"
+                        data-ai-hint={img?.imageHint}
+                      />
+                    </div>
+                    <span className="font-semibold text-xs">{range.label}</span>
+                    <Button variant="outline" size="sm" className="w-full text-[10px] h-7">Selecionar</Button>
+                  </Card>
+                );
+              })}
             </div>
           </div>
         );
