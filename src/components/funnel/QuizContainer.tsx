@@ -112,14 +112,13 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
         );
 
       case 2:
-        const displayAge = state.ageRange.split(' ')[0];
         return (
           <div className="space-y-8 text-center px-2">
             <h2 className="text-4xl font-black text-primary leading-none uppercase tracking-tight">
               Mais de 500.000 mulheres
             </h2>
             <p className="text-lg text-muted-foreground leading-snug">
-              em <span className="font-bold text-foreground">seus {displayAge} anos</span> já experimentaram o nosso protocolo do Método Africano
+              com <span className="font-bold text-foreground">+20 anos</span> já experimentaram o nosso protocolo do Método Africano
             </p>
             <div className="relative w-full aspect-[4/5] max-w-sm mx-auto">
               <Image src="/mulheres.webp" alt="Mulheres" fill className="object-contain" priority />
