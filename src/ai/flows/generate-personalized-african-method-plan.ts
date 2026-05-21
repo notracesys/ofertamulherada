@@ -10,6 +10,7 @@ const GeneratePersonalizedAfricanMethodPlanInputSchema = z.object({
   ageRange: z.string().describe("User's age range."),
   pilatesExperience: z.string().describe("Whether the user has tried the method before."),
   bodyDescription: z.string().describe("How the user describes their current physique."),
+  dreamBody: z.string().describe("The user's desired dream body silhouette."),
   mainConcern: z.string().describe("What bothers the user most about their body."),
   goalTransformation: z.string().describe("Desired transformation."),
   weightDifficulty: z.string().describe("Difficulty losing weight."),
@@ -51,7 +52,7 @@ const prompt = ai.definePrompt({
   name: 'generatePersonalizedAfricanMethodPlanPrompt',
   input: { schema: GeneratePersonalizedAfricanMethodPlanInputSchema },
   output: { schema: GeneratePersonalizedAfricanMethodPlanOutputSchema },
-  prompt: 'Você é uma especialista em transformação corporal feminina e estética (foco em cintura, glúteos e pernas). Gere um plano personalizado chamado "Programa Feminino de Definição" baseado nestas respostas: Idade: {{{ageRange}}}, Experiência prévia: {{{pilatesExperience}}}, Físico atual: {{{bodyDescription}}}, O que incomoda: {{{mainConcern}}}, Objetivo: {{{goalTransformation}}}, Dificuldade: {{{weightDifficulty}}}, Região para aumentar: {{{increaseRegion}}}, Tempo: {{{dedicationTime}}}, Desejo emocional: {{{emotionalGoal}}}. Crie um tom acolhedor, premium e motivador. O foco deve ser em resultados reais e naturais em 21 dias.',
+  prompt: 'Você é uma especialista em transformação corporal feminina e estética (foco em cintura, glúteos e pernas). Gere um plano personalizado chamado "Programa Feminino de Definição" baseado nestas respostas: Idade: {{{ageRange}}}, Experiência prévia: {{{pilatesExperience}}}, Físico atual: {{{bodyDescription}}}, Corpo dos sonhos: {{{dreamBody}}}, O que incomoda: {{{mainConcern}}}, Objetivo: {{{goalTransformation}}}, Dificuldade: {{{weightDifficulty}}}, Região para aumentar: {{{increaseRegion}}}, Tempo: {{{dedicationTime}}}, Desejo emocional: {{{emotionalGoal}}}. Crie um tom acolhedor, premium e motivador. O foco deve ser em resultados reais e naturais em 21 dias.',
 });
 
 const generatePersonalizedAfricanMethodPlanFlow = ai.defineFlow(

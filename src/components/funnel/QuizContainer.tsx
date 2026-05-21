@@ -20,6 +20,7 @@ const INITIAL_STATE: GeneratePersonalizedAfricanMethodPlanInput = {
   ageRange: "30 a 39 anos",
   pilatesExperience: "",
   bodyDescription: "",
+  dreamBody: "",
   mainConcern: "",
   goalTransformation: "",
   weightDifficulty: "",
@@ -120,7 +121,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
               Mais de 500.000 mulheres
             </h2>
             <p className="text-lg text-muted-foreground leading-snug">
-              com <span className="font-bold text-foreground">+20 anos</span> já experimentaram o nosso Programa Feminino de Definição
+              com <span className="font-bold text-foreground">+20 anos</span> já experimentaram o nosso programa feminino de definição
             </p>
             <div className="relative w-full aspect-[4/5] max-w-[280px] mx-auto">
               <Image src="/mulheres.webp" alt="Mulheres" fill className="object-contain" priority />
@@ -166,7 +167,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 </Button>
               ))}
             </div>
-            <div className="relative w-full aspect-square max-w-[300px] mx-auto mt-8">
+            <div className="relative w-full aspect-square max-w-[340px] mx-auto mt-8">
               <Image src="/step4.webp" alt="Programa" fill className="object-contain" />
             </div>
           </div>
@@ -192,7 +193,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     <span className="font-bold text-lg text-primary uppercase tracking-tight">{opt.label}</span>
                   </div>
                   <div className="h-full w-0.5 bg-primary/20 group-hover:bg-primary/50 transition-colors" />
-                  <div className="relative w-24 h-full shrink-0">
+                  <div className="relative w-20 h-full shrink-0">
                     <Image src={opt.imageUrl} alt={opt.label} fill className="object-cover" />
                   </div>
                 </Card>
@@ -294,7 +295,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     </span>
                   </div>
                   <div className={cn("h-full w-1", state.bodyDescription === opt.label ? "bg-white/20" : "bg-primary")} />
-                  <div className="relative w-24 h-full shrink-0">
+                  <div className="relative w-20 h-full shrink-0">
                     <Image src={opt.imageUrl} alt={opt.label} fill className="object-cover" />
                   </div>
                 </Card>
@@ -305,22 +306,33 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
 
       case 8:
         return (
-          <div className="space-y-6">
-            <h2 className="text-2xl font-bold text-center text-primary leading-tight">Qual região você mais deseja aumentar e tonificar?</h2>
-            <div className="grid grid-cols-2 gap-4">
+          <div className="space-y-6 text-center">
+            <h2 className="text-3xl font-bold text-foreground leading-tight">Qual é o seu &quot;corpo dos sonhos&quot;?</h2>
+            <p className="text-muted-foreground">Escolha uma opção para avançar</p>
+            <div className="space-y-4 pt-4">
               {[
-                { label: "Glúteos", icon: <Flame className="w-8 h-8" /> },
-                { label: "Pernas", icon: <Zap className="w-8 h-8" /> },
-                { label: "Posterior", icon: <Trophy className="w-8 h-8" /> },
-                { label: "Quadril", icon: <Users className="w-8 h-8" /> }
+                { label: "Magro", imageUrl: "/magro1.webp" },
+                { label: "Definido", imageUrl: "/definido.webp" },
+                { label: "Com curvas", imageUrl: "/comcurvas.webp" },
+                { label: "Médio", imageUrl: "/medio.webp" }
               ].map((opt) => (
                 <Card 
-                  key={opt.label}
-                  className="p-8 flex flex-col items-center justify-center gap-4 cursor-pointer border-2 border-primary/10 hover:border-primary transition-all premium-shadow group"
-                  onClick={() => { updateState("increaseRegion", opt.label); nextStep(); }}
+                  key={opt.label} 
+                  className={cn(
+                    "p-0 flex items-center cursor-pointer border-2 transition-all overflow-hidden h-24",
+                    state.dreamBody === opt.label ? "bg-primary border-primary" : "bg-white border-primary/10 hover:border-primary/40"
+                  )}
+                  onClick={() => { updateState("dreamBody", opt.label); nextStep(); }}
                 >
-                  <div className="text-primary group-hover:scale-110 transition-transform">{opt.icon}</div>
-                  <span className="font-bold text-lg">{opt.label}</span>
+                  <div className="flex-1 px-8 text-left">
+                    <span className={cn("font-bold text-xl", state.dreamBody === opt.label ? "text-white" : "text-foreground")}>
+                      {opt.label}
+                    </span>
+                  </div>
+                  <div className={cn("h-full w-1", state.dreamBody === opt.label ? "bg-white/20" : "bg-primary")} />
+                  <div className="relative w-20 h-full shrink-0">
+                    <Image src={opt.imageUrl} alt={opt.label} fill className="object-cover" />
+                  </div>
                 </Card>
               ))}
             </div>
@@ -431,8 +443,8 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
 
             <div className="grid grid-cols-2 gap-3">
               <Card className="p-4 border-primary/20 bg-secondary/30">
-                <span className="text-[10px] uppercase font-bold text-muted-foreground">Foco</span>
-                <p className="font-bold">{state.increaseRegion || "Corporal"}</p>
+                <span className="text-[10px] uppercase font-bold text-muted-foreground">Corpo</span>
+                <p className="font-bold">{state.dreamBody || "Definido"}</p>
               </Card>
               <Card className="p-4 border-primary/20 bg-secondary/30">
                 <span className="text-[10px] uppercase font-bold text-muted-foreground">Objetivo</span>
