@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
@@ -49,7 +50,8 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
   const [state, setState] = useState<GeneratePersonalizedAfricanMethodPlanInput>(INITIAL_STATE);
   const [selectedLimitations, setSelectedLimitations] = useState<string[]>([]);
   const [heightUnit, setHeightUnit] = useState<"cm" | "pol">("cm");
-  const rulerRef = useRef<HTMLDivElement>(null);
+  const heightRulerRef = useRef<HTMLDivElement>(null);
+  const weightRulerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setIsClient(true);
@@ -68,6 +70,22 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
   useEffect(() => {
     if (isClient) { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
   }, [state, isClient]);
+
+  // Sync scroll position on step change
+  useEffect(() => {
+    if (isClient) {
+      if (stepId === 15 && heightRulerRef.current) {
+        const h = parseInt(state.height || "170");
+        const scrollPos = (h - 100) * 10;
+        heightRulerRef.current.scrollLeft = scrollPos;
+      }
+      if (stepId === 16 && weightRulerRef.current) {
+        const w = parseInt(state.weight || "65");
+        const scrollPos = (w - 30) * 10;
+        weightRulerRef.current.scrollLeft = scrollPos;
+      }
+    }
+  }, [stepId, isClient, heightUnit]);
 
   const nextStep = () => {
     if (stepId < TOTAL_STEPS) {
@@ -112,24 +130,23 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
     }
   };
 
-  // Scroll height ruler on mount or unit change
-  useEffect(() => {
-    if (stepId === 15 && rulerRef.current) {
-      const initialHeight = parseInt(state.height || "170");
-      const scrollPos = (initialHeight - 100) * 10; // Simple tick spacing logic
-      rulerRef.current.scrollLeft = scrollPos;
-    }
-  }, [stepId, heightUnit]);
-
   if (!isClient) return null;
 
   const progress = (stepId / TOTAL_STEPS) * 100;
 
-  const handleRulerScroll = (e: React.UIEvent<HTMLDivElement>) => {
+  const handleHeightScroll = (e: React.UIEvent<HTMLDivElement>) => {
     const scrollLeft = e.currentTarget.scrollLeft;
     const newValue = Math.round(scrollLeft / 10) + 100;
     if (newValue !== parseInt(state.height || "0")) {
       updateState("height", newValue.toString());
+    }
+  };
+
+  const handleWeightScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    const scrollLeft = e.currentTarget.scrollLeft;
+    const newValue = Math.round(scrollLeft / 10) + 30;
+    if (newValue !== parseInt(state.weight || "0")) {
+      updateState("weight", newValue.toString());
     }
   };
 
@@ -645,9 +662,9 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
 
             <div className="relative py-10">
               <div 
-                ref={rulerRef}
-                onScroll={handleRulerScroll}
-                className="w-full flex items-end gap-0 overflow-x-auto no-scrollbar px-[50%] py-4 scroll-smooth cursor-grab active:cursor-grabbing"
+                ref={heightRulerRef}
+                onScroll={handleHeightScroll}
+                className="w-full flex items-end gap-0 overflow-x-auto no-scrollbar px-[50%] py-4 scroll-smooth cursor-grab active:cursor-grabbing select-none"
               >
                 {Array.from({ length: 121 }).map((_, i) => {
                   const val = i + 100;
@@ -660,12 +677,12 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                   );
                 })}
               </div>
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-12 w-1 bg-primary rounded-full shadow-lg shadow-primary/40 z-10" />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-12 w-1 bg-primary rounded-full shadow-lg shadow-primary/40 z-10 pointer-events-none" />
             </div>
             
             <p className="text-muted-foreground text-sm font-medium">Arraste para ajustar</p>
 
-            <div className="bg-[#EBF5FF] p-6 rounded-3xl text-left space-y-2 border border-blue-100">
+            <div className="bg-[#EBF5FF] p-6 rounded-3xl text-left space-y-2 border border-blue-100 mx-4">
               <p className="font-bold text-[#1E40AF] flex items-center gap-2">
                 <span>☝️</span> Calculando seu índice de massa corporal
               </p>
@@ -680,7 +697,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           </div>
         );
 
-      case 16: // Weight Selection (Bonus to make IMC calculation realistic)
+      case 16: // Weight Selection
         return (
           <div className="space-y-8 text-center">
             <h2 className="text-4xl font-bold text-foreground tracking-tight">Qual seu peso atual?</h2>
@@ -692,12 +709,9 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
 
             <div className="relative py-10">
               <div 
-                className="w-full flex items-end gap-0 overflow-x-auto no-scrollbar px-[50%] py-4 scroll-smooth"
-                onScroll={(e) => {
-                  const scrollLeft = e.currentTarget.scrollLeft;
-                  const newValue = Math.round(scrollLeft / 10) + 30;
-                  updateState("weight", newValue.toString());
-                }}
+                ref={weightRulerRef}
+                onScroll={handleWeightScroll}
+                className="w-full flex items-end gap-0 overflow-x-auto no-scrollbar px-[50%] py-4 scroll-smooth cursor-grab active:cursor-grabbing select-none"
               >
                 {Array.from({ length: 121 }).map((_, i) => {
                   const val = i + 30;
@@ -710,7 +724,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                   );
                 })}
               </div>
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-12 w-1 bg-primary rounded-full shadow-lg z-10" />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-12 w-1 bg-primary rounded-full shadow-lg z-10 pointer-events-none" />
             </div>
             
             <p className="text-muted-foreground text-sm font-medium">Arraste para ajustar</p>
