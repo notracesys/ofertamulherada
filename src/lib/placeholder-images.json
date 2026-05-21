@@ -25,6 +25,30 @@
       "imageHint": "senior woman"
     },
     {
+      "id": "step4-barriga",
+      "description": "Transformação da barriga",
+      "imageUrl": "/barriga.webp",
+      "imageHint": "stomach flat"
+    },
+    {
+      "id": "step4-gluteos",
+      "description": "Transformação dos glúteos",
+      "imageUrl": "/gluteos.webp",
+      "imageHint": "glutes training"
+    },
+    {
+      "id": "step4-peito",
+      "description": "Transformação do peito",
+      "imageUrl": "/peito.webp",
+      "imageHint": "chest workout"
+    },
+    {
+      "id": "step4-pernas",
+      "description": "Transformação das pernas",
+      "imageUrl": "/pernas.webp",
+      "imageHint": "legs fit"
+    },
+    {
       "id": "intro-women",
       "description": "Healthy group of women",
       "imageUrl": "https://picsum.photos/seed/women-group/600/400",

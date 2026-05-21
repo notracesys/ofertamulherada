@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -166,21 +167,25 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
         return (
           <div className="space-y-6">
             <h2 className="text-2xl font-bold text-center text-primary leading-tight">Qual transformação você mais deseja ver no espelho?</h2>
-            <div className="grid grid-cols-1 gap-3">
+            <div className="grid grid-cols-2 gap-4">
               {[
-                "Barriga",
-                "Glúteos",
-                "Peito",
-                "Pernas"
+                { label: "Barriga", imageUrl: "/barriga.webp" },
+                { label: "Glúteos", imageUrl: "/gluteos.webp" },
+                { label: "Peito", imageUrl: "/peito.webp" },
+                { label: "Pernas", imageUrl: "/pernas.webp" }
               ].map((opt) => (
-                <Button 
-                  key={opt}
-                  variant="outline"
-                  className="py-8 text-lg rounded-2xl border-2 border-primary/10 hover:border-primary text-foreground font-semibold"
-                  onClick={() => { updateState("goalTransformation", opt); nextStep(); }}
+                <Card 
+                  key={opt.label} 
+                  className="p-0 flex flex-col items-center cursor-pointer border-2 border-primary/10 transition-all hover:scale-[1.02] overflow-hidden bg-white hover:border-primary/40"
+                  onClick={() => { updateState("goalTransformation", opt.label); nextStep(); }}
                 >
-                  {opt}
-                </Button>
+                  <div className="relative w-full aspect-square">
+                    <Image src={opt.imageUrl} alt={opt.label} fill className="object-cover" />
+                  </div>
+                  <div className="py-3 w-full text-center">
+                    <span className="font-bold text-lg text-primary uppercase">{opt.label}</span>
+                  </div>
+                </Card>
               ))}
             </div>
           </div>
