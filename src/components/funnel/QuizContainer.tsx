@@ -36,7 +36,6 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
   const [quizOutput, setQuizOutput] = useState<GeneratePersonalizedAfricanMethodPlanOutput | null>(null);
   const [isClient, setIsClient] = useState(false);
   const [state, setState] = useState<GeneratePersonalizedAfricanMethodPlanInput>(INITIAL_STATE);
-  const [loadingText, setLoadingText] = useState("");
 
   useEffect(() => {
     setIsClient(true);
@@ -68,10 +67,10 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
     try {
       const result = await generatePersonalizedAfricanMethodPlan(state);
       setQuizOutput(result);
-      setTimeout(() => router.push(`/step/12`), 2000); // Small delay for effect
+      setTimeout(() => router.push(`/step/12`), 2000);
     } catch (error) {
       console.error(error);
-      router.push(`/step/12`); // Fallback
+      router.push(`/step/12`);
     } finally {
       setLoading(false);
     }
@@ -83,7 +82,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
 
   const renderStep = () => {
     switch (stepId) {
-      case 1: // MANTIDO
+      case 1:
         return (
           <div className="space-y-6 text-center">
             <h1 className="text-3xl font-bold leading-tight">Qual sua idade?</h1>
@@ -112,7 +111,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           </div>
         );
 
-      case 2: // MANTIDO
+      case 2:
         const displayAge = state.ageRange.split(' ')[0];
         return (
           <div className="space-y-8 text-center px-2">
@@ -354,7 +353,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
             <div className="grid grid-cols-2 gap-3">
               <Card className="p-4 border-primary/20 bg-secondary/30">
                 <span className="text-[10px] uppercase font-bold text-muted-foreground">Foco</span>
-                <p className="font-bold">{state.increaseRegion}</p>
+                <p className="font-bold">{state.increaseRegion || "Corporal"}</p>
               </Card>
               <Card className="p-4 border-primary/20 bg-secondary/30">
                 <span className="text-[10px] uppercase font-bold text-muted-foreground">Objetivo</span>
@@ -416,7 +415,6 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           <div className="flex-1">
             <Progress value={progress} className="h-2" />
           </div>
-          <span className="text-xs font-black text-primary w-8">{Math.round(progress)}%</span>
         </div>
       )}
 
@@ -466,7 +464,7 @@ function LoadingScreen({ title, steps, onComplete, duration = 3000 }: { title: s
             animate={{ rotate: 360 }}
             transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
           />
-          <span className="text-4xl font-black text-primary">{prog}%</span>
+          <div className="w-4 h-4 bg-primary rounded-full animate-pulse" />
         </div>
       </div>
 
