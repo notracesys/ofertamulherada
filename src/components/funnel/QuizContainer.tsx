@@ -64,7 +64,6 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
   const startX = useRef(0);
   const scrollLeft = useRef(0);
 
-  // Animated progress for analysis steps
   const [step19Progress, setStep19Progress] = useState(0);
   const [step22Progress, setStep22Progress] = useState(0);
 
@@ -74,7 +73,6 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
     if (saved) {
       try { 
         const parsed = JSON.parse(saved);
-        // Ensure state is always at least the INITIAL_STATE to avoid controlled/uncontrolled errors
         setState(prev => ({ ...INITIAL_STATE, ...prev, ...parsed })); 
         if (parsed.physicalLimitations) {
           setSelectedLimitations(parsed.physicalLimitations.split(", "));
@@ -102,7 +100,6 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
         targetWeightRulerRef.current.scrollLeft = (tw - 25) * 10;
       }
       
-      // Auto-animate Step 19 (10 seconds)
       if (stepId === 19) {
         setStep19Progress(0);
         const duration = 10000;
@@ -120,7 +117,6 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
         return () => clearInterval(timer);
       }
 
-      // Auto-animate Step 22 (7 seconds)
       if (stepId === 22) {
         setStep22Progress(0);
         const duration = 7000;
@@ -1005,13 +1001,9 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
         return (
           <div className="space-y-8 text-center py-4 max-w-md mx-auto w-full px-2">
             <div className="space-y-2">
-              <h2 className="text-2xl md:text-3xl font-black text-[#0F172A] leading-tight px-4 uppercase italic">
-                O último plano que você precisará para ficar em forma
+              <h2 className="text-3xl font-black leading-tight px-4">
+                <span className="text-[#10B981]">{state.targetWeight}kg</span> em até 21 dias
               </h2>
-              <p className="text-muted-foreground text-sm font-medium">Prevemos que você estará com</p>
-              <p className="text-3xl font-black text-[#10B981]">
-                {state.targetWeight}kg em até 21 dias
-              </p>
             </div>
 
             <div className="relative w-full h-[320px] mt-4">
@@ -1037,6 +1029,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     fill="url(#areaGradient)" 
                     animationDuration={2000}
                   />
+                  {/* Start Point - Red Badge */}
                   <ReferenceDot 
                     x="Hoje" 
                     y={currentWeight} 
@@ -1046,20 +1039,21 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     strokeWidth={2}
                     label={{ 
                       position: 'top', 
-                      offset: 20,
+                      offset: 25,
                       content: (props: any) => {
                         const { x, y } = props;
                         if (typeof x !== 'number' || typeof y !== 'number' || isNaN(x) || isNaN(y)) return null;
                         return (
                           <g>
-                            <rect x={x - 22} y={y - 48} width="44" height="26" rx="13" fill="#EF4444" />
-                            <text x={x} y={y - 30} textAnchor="middle" fill="#fff" fontSize="11" fontWeight="bold">{currentWeight}kg</text>
-                            <path d={`M${x-4},${y-22} L${x},${y-15} L${x+4},${y-22}`} fill="#EF4444" />
+                            <rect x={x - 20} y={y - 50} width="40" height="26" rx="6" fill="#EF4444" />
+                            <text x={x} y={y - 32} textAnchor="middle" fill="#fff" fontSize="12" fontWeight="bold">{currentWeight}</text>
+                            <path d={`M${x-4},${y-24} L${x},${y-18} L${x+4},${y-24}`} fill="#EF4444" />
                           </g>
                         );
                       }
                     }}
                   />
+                  {/* End Point - White/Grey Badge */}
                   <ReferenceDot 
                     x="21 dias" 
                     y={targetWeight} 
@@ -1069,15 +1063,15 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     strokeWidth={2}
                     label={{ 
                       position: 'top', 
-                      offset: 20,
+                      offset: 25,
                       content: (props: any) => {
                         const { x, y } = props;
                         if (typeof x !== 'number' || typeof y !== 'number' || isNaN(x) || isNaN(y)) return null;
                         return (
                           <g>
-                            <rect x={x - 22} y={y - 48} width="44" height="26" rx="13" fill="#10B981" />
-                            <text x={x} y={y - 30} textAnchor="middle" fill="#fff" fontSize="11" fontWeight="bold">{targetWeight}kg</text>
-                            <path d={`M${x-4},${y-22} L${x},${y-15} L${x+4},${y-22}`} fill="#10B981" />
+                            <rect x={x - 20} y={y - 50} width="40" height="26" rx="6" fill="#fff" stroke="#e2e8f0" strokeWidth="1" />
+                            <text x={x} y={y - 32} textAnchor="middle" fill="#000" fontSize="12" fontWeight="bold">{targetWeight}</text>
+                            <path d={`M${x-4},${y-24} L${x},${y-18} L${x+4},${y-24}`} fill="#fff" stroke="#e2e8f0" strokeWidth="1" />
                           </g>
                         );
                       }
@@ -1210,12 +1204,10 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
       case 24:
         return (
           <div className="flex flex-col items-center w-full max-w-md mx-auto px-4 pb-10">
-            {/* Top progress line simulator to match image */}
             <div className="w-full h-1.5 bg-secondary/30 rounded-full mb-8 overflow-hidden">
                <div className="h-full bg-primary w-full" />
             </div>
 
-            {/* Chart Area */}
             <div className="relative w-full h-[320px] mb-6">
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={weightData} margin={{ top: 60, right: 40, left: 40, bottom: 20 }}>
@@ -1260,7 +1252,6 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     animationDuration={2000}
                   />
                   
-                  {/* Seu peso dot */}
                   <ReferenceDot 
                     x="Hoje" 
                     y={currentWeight} 
@@ -1281,10 +1272,8 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     }} 
                   />
                   
-                  {/* Middle dot */}
                   <ReferenceDot x="14 dias" y={currentWeight - (currentWeight - targetWeight) * 0.8} r={5} fill="#fff" stroke="#cbd5e1" strokeWidth={2} />
                   
-                  {/* 3 semanas badge and dot */}
                   <ReferenceDot 
                     x="21 dias" 
                     y={targetWeight} 
@@ -1298,10 +1287,8 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                         if (typeof x !== 'number' || typeof y !== 'number' || isNaN(x) || isNaN(y)) return null;
                         return (
                           <g>
-                            {/* Pink Badge */}
                             <rect x={x - 85} y={y - 15} width="85" height="26" rx="13" fill="#ec4899" />
                             <text x={x - 42} y={y + 3} textAnchor="middle" fill="#fff" fontSize="11" fontWeight="bold">3 semanas</text>
-                            {/* White dot inside stroke */}
                             <circle cx={x} cy={y} r={5} fill="#fff" stroke="#cbd5e1" strokeWidth={2} />
                           </g>
                         );
@@ -1318,7 +1305,6 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
               </h2>
             </div>
 
-            {/* Green Box */}
             <div className="bg-[#E6F9EF] p-6 rounded-2xl text-center space-y-2 border border-[#BFF2D6] w-full mb-6">
               <h3 className="text-xl font-black text-[#166534]">Mudança para sempre</h3>
               <p className="text-sm text-[#166534] font-medium leading-relaxed">
