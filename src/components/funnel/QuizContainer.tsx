@@ -167,7 +167,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
         return (
           <div className="space-y-6">
             <h2 className="text-2xl font-bold text-center text-primary leading-tight">Qual transformação você mais deseja ver no espelho?</h2>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4">
               {[
                 { label: "Barriga", imageUrl: "/barriga.webp" },
                 { label: "Glúteos", imageUrl: "/gluteos.webp" },
@@ -176,14 +176,15 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
               ].map((opt) => (
                 <Card 
                   key={opt.label} 
-                  className="p-0 flex flex-col items-center cursor-pointer border-2 border-primary/10 transition-all hover:scale-[1.02] overflow-hidden bg-white hover:border-primary/40"
+                  className="p-0 flex items-center cursor-pointer border-2 border-primary/10 transition-all hover:scale-[1.01] overflow-hidden bg-white hover:border-primary/40 group h-24"
                   onClick={() => { updateState("goalTransformation", opt.label); nextStep(); }}
                 >
-                  <div className="relative w-full aspect-square">
-                    <Image src={opt.imageUrl} alt={opt.label} fill className="object-cover" />
+                  <div className="flex-1 px-6">
+                    <span className="font-bold text-xl text-primary uppercase tracking-tight">{opt.label}</span>
                   </div>
-                  <div className="py-3 w-full text-center">
-                    <span className="font-bold text-lg text-primary uppercase">{opt.label}</span>
+                  <div className="h-full w-0.5 bg-primary/20 group-hover:bg-primary/50 transition-colors" />
+                  <div className="relative w-36 h-full shrink-0">
+                    <Image src={opt.imageUrl} alt={opt.label} fill className="object-cover" />
                   </div>
                 </Card>
               ))}
