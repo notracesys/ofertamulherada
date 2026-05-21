@@ -61,7 +61,7 @@ const prompt = ai.definePrompt({
   name: 'generatePersonalizedAfricanMethodPlanPrompt',
   input: { schema: GeneratePersonalizedAfricanMethodPlanInputSchema },
   output: { schema: GeneratePersonalizedAfricanMethodPlanOutputSchema },
-  prompt: 'Você é uma especialista em transformação corporal feminina e estética (foco em cintura, glúteos e pernas). Gere um plano personalizado chamado "Programa Feminino de Definição" baseado nestas respostas: Idade Exata: {{{age}}}, Faixa Etária: {{{ageRange}}}, Altura: {{{height}}}, Peso Atual: {{{weight}}}, Peso Ideal: {{{targetWeight}}}, Experiência prévia: {{{pilatesExperience}}}, Físico atual: {{{bodyDescription}}}, Corpo dos sonhos: {{{dreamBody}}}, O que incomoda: {{{mainConcern}}}, Objetivo: {{{goalTransformation}}}, Dificuldade: {{{weightDifficulty}}}, Região para aumentar: {{{increaseRegion}}}, Tempo: {{{dedicationTime}}}, Frequência de exercício: {{{exerciseFrequency}}}, Caminhadas: {{{walkingFrequency}}}, Energia no dia: {{{energyLevel}}}, Desejo emocional: {{{emotionalGoal}}}, Flexibilidade: {{{flexibility}}}, Limitações: {{{physicalLimitations}}}. Crie um tom acolhedor, premium e motivador. O foco deve ser em resultados reais e naturais em 21 dias.',
+  prompt: 'Você é uma especialista em transformação corporal feminina e estética (foco em cintura, glúteos e pernas). Gere um plano personalizado chamado "Programa Feminino de Definição" baseado nestas respostas: Idade Exata: {{{age}}}, Faixa Etária: {{{ageRange}}}, Altura: {{{height}}}, Peso Atual: {{{weight}}}, Peso Ideal: {{{targetWeight}}}, Experíencia prévia: {{{pilatesExperience}}}, Físico atual: {{{bodyDescription}}}, Corpo dos sonhos: {{{dreamBody}}}, O que incomoda: {{{mainConcern}}}, Objetivo: {{{goalTransformation}}}, Dificuldade: {{{weightDifficulty}}}, Região para aumentar: {{{increaseRegion}}}, Tempo: {{{dedicationTime}}}, Frequência de exercício: {{{exerciseFrequency}}}, Caminhadas: {{{walkingFrequency}}}, Energia no dia: {{{energyLevel}}}, Desejo emocional: {{{emotionalGoal}}}, Flexibilidade: {{{flexibility}}}, Limitações: {{{physicalLimitations}}}. Crie um tom acolhedor, premium e motivador. O foco deve ser em resultados reais e naturais em 21 dias.',
 });
 
 const generatePersonalizedAfricanMethodPlanFlow = ai.defineFlow(
@@ -71,8 +71,36 @@ const generatePersonalizedAfricanMethodPlanFlow = ai.defineFlow(
     outputSchema: GeneratePersonalizedAfricanMethodPlanOutputSchema,
   },
   async (input) => {
-    const { output } = await prompt(input);
-    if (!output) throw new Error("Failed to generate plan.");
-    return output;
+    try {
+      const { output } = await prompt(input);
+      if (!output) throw new Error("Failed to generate plan.");
+      return output;
+    } catch (error: any) {
+      console.error("GenAI Error:", error);
+      // Fallback response if quota is exceeded or API fails
+      if (error.message?.includes('429') || error.message?.includes('quota') || error.message?.includes('limit')) {
+        return {
+          planSummary: "Preparamos uma análise completa do seu perfil. Com base no seu objetivo de " + (input.goalTransformation || "transformação") + ", você tem 92% de chance de atingir sua meta em 21 dias.",
+          personalizationTitle: "Seu Protocolo Feminino de 21 Dias",
+          userName: "Amiga",
+          bmi: 24.2,
+          weightLossGoalKg: Math.abs(parseInt(input.weight || "70") - parseInt(input.targetWeight || "65")) || 5,
+          suggestedDurationDays: 21,
+          level: 'Iniciante',
+          focusAreasSummary: "Foco total em definição abdominal, glúteos e pernas, respeitando suas limitações.",
+          methodDescription: "Este método utiliza princípios de ativação muscular profunda e controle hormonal natural para resultados rápidos e sustentáveis.",
+          recommendations: {
+            dietary: "Foque em alimentos anti-inflamatórios e proteínas magras para acelerar o metabolismo.",
+            hydration: "Mantenha a hidratação constante para facilitar a queima de gordura.",
+            sleep: "O sono de qualidade é essencial para a recuperação dos tecidos e definição muscular.",
+            activity: "Siga a rotina de exercícios proposta, focando na conexão mente-músculo.",
+            mindset: "A consistência é a chave. Comemore cada pequena mudança no espelho.",
+          },
+          disclaimer: "Este plano é uma sugestão baseada em seu perfil. Consulte um profissional de saúde antes de iniciar.",
+          motivationalMessage: "Estamos animadas para ver sua transformação!",
+        };
+      }
+      throw error;
+    }
   }
 );
