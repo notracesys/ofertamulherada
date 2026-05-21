@@ -948,7 +948,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                   </div>
                   <div>
                     <div className="flex gap-0.5 mb-0.5">
-                      {[1,2,3,4,5].map(i => <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />)}
+                      {[1,2,3,4,5].map(i => <Star key={i} className="w-3 h-3 fill-yellow-400 text-yellow-400" />)}
                     </div>
                     <p className="font-bold text-sm text-foreground">Rafaela</p>
                     <p className="text-[10px] text-muted-foreground">01/04/2026</p>
