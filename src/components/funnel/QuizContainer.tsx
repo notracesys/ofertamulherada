@@ -118,7 +118,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
               Mais de 500.000 mulheres
             </h2>
             <p className="text-lg text-muted-foreground leading-snug">
-              em seus <span className="font-bold text-foreground">{state.ageRange}</span> já experimentaram o nosso programa feminino de definição
+              em seus <span className="font-bold text-foreground">+20 anos</span> já experimentaram o nosso programa feminino de definição
             </p>
             <div className="relative w-full aspect-[4/5] max-w-sm mx-auto">
               <Image src="/mulheres.webp" alt="Mulheres" fill className="object-contain" priority />
