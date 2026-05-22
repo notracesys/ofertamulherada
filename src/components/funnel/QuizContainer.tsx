@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
@@ -13,18 +12,13 @@ import {
   Check, 
   ArrowRight, 
   Star, 
-  ShieldCheck, 
   ChevronRight, 
-  ChevronLeft,
-  Zap, 
   Target, 
   Clock,
   Flame,
-  User,
+  Zap,
   Heart,
-  Timer,
-  CheckCircle2,
-  Lock
+  CheckCircle2
 } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -32,13 +26,6 @@ import { generatePersonalizedAfricanMethodPlan, type GeneratePersonalizedAfrican
 import { QuizStep } from "./QuizStep";
 import { cn } from "@/lib/utils";
 import { Area, AreaChart, ResponsiveContainer, XAxis, YAxis, CartesianGrid, ReferenceDot } from "recharts";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
 
 const TOTAL_STEPS = 25;
 const STORAGE_KEY = "fitness_fem_quiz_state";
@@ -76,12 +63,13 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
   const [state, setState] = useState<GeneratePersonalizedAfricanMethodPlanInput>(INITIAL_STATE);
   const [selectedLimitations, setSelectedLimitations] = useState<string[]>([]);
   const [heightUnit, setHeightUnit] = useState<"cm" | "pol">("cm");
-  const [weightUnit, setWeightUnit] = useState<"kg" | "lb">("kg");
   const [targetWeightUnit, setTargetWeightUnit] = useState<"kg" | "lb">("kg");
+  const [sliderPos, setSliderPos] = useState(50);
   
   const heightRulerRef = useRef<HTMLDivElement>(null);
   const weightRulerRef = useRef<HTMLDivElement>(null);
   const targetWeightRulerRef = useRef<HTMLDivElement>(null);
+  const sliderRef = useRef<HTMLDivElement>(null);
   
   const isDragging = useRef(false);
   const startX = useRef(0);
@@ -199,7 +187,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
     }
   };
 
-  const handleDragStart = (e: React.MouseEvent | React.TouchEvent, ref: React.RefObject<HTMLDivElement>) => {
+  const handleRulerDragStart = (e: React.MouseEvent | React.TouchEvent, ref: React.RefObject<HTMLDivElement>) => {
     if (!ref.current) return;
     isDragging.current = true;
     const pageX = 'touches' in e ? e.touches[0].pageX : (e as React.MouseEvent).pageX;
@@ -207,11 +195,11 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
     scrollLeft.current = ref.current.scrollLeft;
   };
 
-  const handleDragEnd = () => {
+  const handleRulerDragEnd = () => {
     isDragging.current = false;
   };
 
-  const handleDragMove = (e: React.MouseEvent | React.TouchEvent, ref: React.RefObject<HTMLDivElement>, type: 'height' | 'weight' | 'targetWeight') => {
+  const handleRulerDragMove = (e: React.MouseEvent | React.TouchEvent, ref: React.RefObject<HTMLDivElement>) => {
     if (!isDragging.current || !ref.current) return;
     e.preventDefault();
     const pageX = 'touches' in e ? e.touches[0].pageX : (e as React.MouseEvent).pageX;
@@ -244,10 +232,18 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
     }
   };
 
+  const handleComparisonMove = (e: React.MouseEvent | React.TouchEvent) => {
+    if (!sliderRef.current) return;
+    const rect = sliderRef.current.getBoundingClientRect();
+    const x = 'touches' in e ? e.touches[0].clientX : (e as React.MouseEvent).clientX;
+    const relativeX = x - rect.left;
+    const percentage = Math.max(0, Math.min(100, (relativeX / rect.width) * 100));
+    setSliderPos(percentage);
+  };
+
   if (!isClient) return null;
 
   const progress = (stepId / TOTAL_STEPS) * 100;
-
   const currentWeightValue = parseInt(state.weight || "70");
   const targetWeightValue = parseInt(state.targetWeight || "60");
   const midWeight = currentWeightValue - (currentWeightValue - targetWeightValue) * 0.5;
@@ -741,46 +737,17 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
         return (
           <div className="space-y-8 text-center">
             <h2 className="text-4xl font-bold text-foreground tracking-tight">Qual sua altura?</h2>
-            
             <div className="flex justify-center">
               <div className="bg-secondary/50 p-1 rounded-full flex gap-1">
-                <Button 
-                  size="sm" 
-                  variant={heightUnit === "cm" ? "default" : "ghost"}
-                  className={cn("rounded-full px-6", heightUnit === "cm" ? "bg-primary text-white" : "text-muted-foreground")}
-                  onClick={() => setHeightUnit("cm")}
-                >
-                  cm
-                </Button>
-                <Button 
-                  size="sm" 
-                  variant={heightUnit === "pol" ? "default" : "ghost"}
-                  className={cn("rounded-full px-6", heightUnit === "pol" ? "bg-primary text-white" : "text-muted-foreground")}
-                  onClick={() => setHeightUnit("pol")}
-                >
-                  pol
-                </Button>
+                <Button size="sm" variant={heightUnit === "cm" ? "default" : "ghost"} className={cn("rounded-full px-6", heightUnit === "cm" ? "bg-primary text-white" : "text-muted-foreground")} onClick={() => setHeightUnit("cm")}>cm</Button>
+                <Button size="sm" variant={heightUnit === "pol" ? "default" : "ghost"} className={cn("rounded-full px-6", heightUnit === "pol" ? "bg-primary text-white" : "text-muted-foreground")} onClick={() => setHeightUnit("pol")}>pol</Button>
               </div>
             </div>
-
             <div className="text-6xl font-black text-foreground flex items-baseline justify-center gap-1">
-              {state.height}
-              <span className="text-2xl font-bold text-muted-foreground">{heightUnit}</span>
+              {state.height}<span className="text-2xl font-bold text-muted-foreground">{heightUnit}</span>
             </div>
-
             <div className="relative py-10 select-none">
-              <div 
-                ref={heightRulerRef}
-                onScroll={handleHeightScroll}
-                onMouseDown={(e) => handleDragStart(e, heightRulerRef)}
-                onMouseUp={handleDragEnd}
-                onMouseLeave={handleDragEnd}
-                onMouseMove={(e) => handleDragMove(e, heightRulerRef, 'height')}
-                onTouchStart={(e) => handleDragStart(e, heightRulerRef)}
-                onTouchEnd={handleDragEnd}
-                onTouchMove={(e) => handleDragMove(e, heightRulerRef, 'height')}
-                className="w-full flex items-end gap-0 overflow-x-auto no-scrollbar px-[50%] py-4 scroll-smooth cursor-grab active:cursor-grabbing"
-              >
+              <div ref={heightRulerRef} onScroll={handleHeightScroll} onMouseDown={(e) => handleRulerDragStart(e, heightRulerRef)} onMouseUp={handleRulerDragEnd} onMouseLeave={handleRulerDragEnd} onMouseMove={(e) => handleRulerDragMove(e, heightRulerRef)} onTouchStart={(e) => handleRulerDragStart(e, heightRulerRef)} onTouchEnd={handleRulerDragEnd} onTouchMove={(e) => handleRulerDragMove(e, heightRulerRef)} className="w-full flex items-end gap-0 overflow-x-auto no-scrollbar px-[50%] py-4 scroll-smooth cursor-grab active:cursor-grabbing">
                 {Array.from({ length: 121 }).map((_, i) => {
                   const val = i + 100;
                   const isMajor = val % 10 === 0;
@@ -792,23 +759,9 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                   );
                 })}
               </div>
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-12 w-1 bg-primary rounded-full shadow-lg shadow-primary/40 z-10 pointer-events-none" />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-12 w-1 bg-primary rounded-full shadow-lg z-10 pointer-events-none" />
             </div>
-            
-            <p className="text-muted-foreground text-sm font-medium">Arraste a régua para ajustar</p>
-
-            <div className="bg-[#EBF5FF] p-6 rounded-3xl text-left space-y-2 border border-blue-100 mx-4">
-              <p className="font-bold text-[#1E40AF] flex items-center gap-2">
-                <span>☝️</span> Calculando seu índice de massa corporal
-              </p>
-              <p className="text-sm text-[#3B82F6] leading-relaxed">
-                O IMC é amplamente utilizado como fator de risco para o desenvolvimento ou prevalência de diversos problemas de saúde.
-              </p>
-            </div>
-
-            <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl shadow-primary/30 uppercase bg-primary text-white mt-4">
-              PRÓXIMO PASSO
-            </Button>
+            <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl bg-primary text-white mt-4">PRÓXIMO PASSO</Button>
           </div>
         );
 
@@ -816,25 +769,11 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
         return (
           <div className="space-y-8 text-center">
             <h2 className="text-4xl font-bold text-foreground tracking-tight">Qual seu peso atual?</h2>
-            
             <div className="text-6xl font-black text-foreground flex items-baseline justify-center gap-1">
-              {state.weight}
-              <span className="text-2xl font-bold text-muted-foreground">kg</span>
+              {state.weight}<span className="text-2xl font-bold text-muted-foreground">kg</span>
             </div>
-
             <div className="relative py-10 select-none">
-              <div 
-                ref={weightRulerRef}
-                onScroll={handleWeightScroll}
-                onMouseDown={(e) => handleDragStart(e, weightRulerRef)}
-                onMouseUp={handleDragEnd}
-                onMouseLeave={handleDragEnd}
-                onMouseMove={(e) => handleDragMove(e, weightRulerRef, 'weight')}
-                onTouchStart={(e) => handleDragStart(e, weightRulerRef)}
-                onTouchEnd={handleDragEnd}
-                onTouchMove={(e) => handleDragMove(e, weightRulerRef, 'weight')}
-                className="w-full flex items-end gap-0 overflow-x-auto no-scrollbar px-[50%] py-4 scroll-smooth cursor-grab active:cursor-grabbing"
-              >
+              <div ref={weightRulerRef} onScroll={handleWeightScroll} onMouseDown={(e) => handleRulerDragStart(e, weightRulerRef)} onMouseUp={handleRulerDragEnd} onMouseLeave={handleRulerDragEnd} onMouseMove={(e) => handleRulerDragMove(e, weightRulerRef)} onTouchStart={(e) => handleRulerDragStart(e, weightRulerRef)} onTouchEnd={handleRulerDragEnd} onTouchMove={(e) => handleRulerDragMove(e, weightRulerRef)} className="w-full flex items-end gap-0 overflow-x-auto no-scrollbar px-[50%] py-4 scroll-smooth cursor-grab active:cursor-grabbing">
                 {Array.from({ length: 121 }).map((_, i) => {
                   const val = i + 30;
                   const isMajor = val % 10 === 0;
@@ -848,61 +787,19 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
               </div>
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-12 w-1 bg-primary rounded-full shadow-lg z-10 pointer-events-none" />
             </div>
-            
-            <p className="text-muted-foreground text-sm font-medium">Arraste a régua para ajustar</p>
-
-            <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl shadow-primary/30 uppercase bg-primary text-white mt-8">
-              PRÓXIMO PASSO
-            </Button>
+            <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl bg-primary text-white mt-8">PRÓXIMO PASSO</Button>
           </div>
         );
 
       case 17:
         return (
           <div className="space-y-8 text-center">
-            <h2 className="text-3xl font-bold text-foreground tracking-tight px-6">
-              E qual é seu objetivo de peso ideal?
-            </h2>
-            
-            <div className="flex justify-center">
-              <div className="bg-secondary/50 p-1 rounded-full flex gap-1">
-                <Button 
-                  size="sm" 
-                  variant={targetWeightUnit === "kg" ? "default" : "ghost"}
-                  className={cn("rounded-full px-6", targetWeightUnit === "kg" ? "bg-primary text-white" : "text-muted-foreground")}
-                  onClick={() => setTargetWeightUnit("kg")}
-                >
-                  kg
-                </Button>
-                <Button 
-                  size="sm" 
-                  variant={targetWeightUnit === "lb" ? "default" : "ghost"}
-                  className={cn("rounded-full px-6", targetWeightUnit === "lb" ? "bg-primary text-white" : "text-muted-foreground")}
-                  onClick={() => setTargetWeightUnit("lb")}
-                >
-                  lb
-                </Button>
-              </div>
-            </div>
-
+            <h2 className="text-3xl font-bold text-foreground tracking-tight px-6">E qual é seu objetivo de peso ideal?</h2>
             <div className="text-6xl font-black text-foreground flex items-baseline justify-center gap-1">
-              {state.targetWeight}
-              <span className="text-2xl font-bold text-muted-foreground">{targetWeightUnit}</span>
+              {state.targetWeight}<span className="text-2xl font-bold text-muted-foreground">{targetWeightUnit}</span>
             </div>
-
             <div className="relative py-10 select-none">
-              <div 
-                ref={targetWeightRulerRef}
-                onScroll={handleTargetWeightScroll}
-                onMouseDown={(e) => handleDragStart(e, targetWeightRulerRef)}
-                onMouseUp={handleDragEnd}
-                onMouseLeave={handleDragEnd}
-                onMouseMove={(e) => handleDragMove(e, targetWeightRulerRef, 'targetWeight')}
-                onTouchStart={(e) => handleDragStart(e, targetWeightRulerRef)}
-                onTouchEnd={handleDragEnd}
-                onTouchMove={(e) => handleDragMove(e, targetWeightRulerRef, 'targetWeight')}
-                className="w-full flex items-end gap-0 overflow-x-auto no-scrollbar px-[50%] py-4 scroll-smooth cursor-grab active:cursor-grabbing"
-              >
+              <div ref={targetWeightRulerRef} onScroll={handleTargetWeightScroll} onMouseDown={(e) => handleRulerDragStart(e, targetWeightRulerRef)} onMouseUp={handleRulerDragEnd} onMouseLeave={handleRulerDragEnd} onMouseMove={(e) => handleRulerDragMove(e, targetWeightRulerRef)} onTouchStart={(e) => handleRulerDragStart(e, targetWeightRulerRef)} onTouchEnd={handleRulerDragEnd} onTouchMove={(e) => handleRulerDragMove(e, targetWeightRulerRef)} className="w-full flex items-end gap-0 overflow-x-auto no-scrollbar px-[50%] py-4 scroll-smooth cursor-grab active:cursor-grabbing">
                 {Array.from({ length: 276 }).map((_, i) => {
                   const val = i + 25;
                   const isMajor = val % 10 === 0;
@@ -914,69 +811,20 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                   );
                 })}
               </div>
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-14 w-1 bg-primary rounded-full shadow-lg shadow-primary/40 z-10 pointer-events-none flex items-center justify-center">
-                <div className="absolute -bottom-1 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[8px] border-t-primary" />
-              </div>
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-14 w-1 bg-primary rounded-full shadow-lg z-10 pointer-events-none" />
             </div>
-            
-            <div className="space-y-6">
-              <p className="text-muted-foreground text-sm font-medium">Arraste para ajustar</p>
-              <p className="text-muted-foreground/60 text-xs">Por favor, introduza um valor entre 25kg e 300kg</p>
-            </div>
-
-            <div className="bg-[#EBF5FF] p-6 rounded-3xl text-left space-y-2 border border-blue-100 mx-4">
-              <p className="font-bold text-[#1E40AF] flex items-center gap-2">
-                <span className="bg-green-500 rounded p-0.5 text-white flex items-center justify-center"><Check className="w-3 h-3" /></span> 
-                Perguntamos a sua idade para personalizar o seu plano
-              </p>
-              <p className="text-sm text-[#3B82F6] leading-relaxed">
-                As pessoas mais velhas tendem a ter mais gordura corporal que os mais novos com o mesmo IMC
-              </p>
-            </div>
-
-            <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl shadow-primary/30 uppercase bg-primary text-white mt-4">
-              PRÓXIMO PASSO
-            </Button>
+            <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl bg-primary text-white mt-4">PRÓXIMO PASSO</Button>
           </div>
         );
 
       case 18:
         return (
           <div className="space-y-8 text-center px-4 max-sm mx-auto">
-            <div className="space-y-2">
-              <h2 className="text-4xl font-bold text-[#0F172A] leading-tight">Qual sua idade?</h2>
-              <p className="text-muted-foreground font-medium text-sm px-6">
-                Perguntamos a sua idade para personalizar o seu plano
-              </p>
-            </div>
-            
+            <h2 className="text-4xl font-bold text-[#0F172A] leading-tight">Qual sua idade?</h2>
             <div className="pt-4">
-              <Input 
-                type="number" 
-                placeholder="Exemplo: 39" 
-                className="h-16 rounded-3xl text-center text-xl italic border-primary/20 bg-white shadow-sm focus-visible:ring-primary"
-                value={state.age || ""}
-                onChange={(e) => updateState("age", e.target.value)}
-              />
+              <Input type="number" placeholder="Exemplo: 39" className="h-16 rounded-3xl text-center text-xl italic border-primary/20 bg-white shadow-sm focus-visible:ring-primary" value={state.age || ""} onChange={(e) => updateState("age", e.target.value)} />
             </div>
-
-            <div className="bg-[#EBF5FF] p-6 rounded-3xl text-left space-y-2 border border-blue-100 mt-4">
-              <div className="flex gap-2">
-                <div className="bg-green-500 rounded p-0.5 w-5 h-5 flex items-center justify-center shrink-0 mt-0.5">
-                  <Check className="w-3 h-3 text-white" />
-                </div>
-                <p className="font-bold text-[#1E40AF] text-sm leading-tight">
-                  Perguntamos a sua idade para personalizar o seu plano
-                </p>
-              </div>
-              <p className="text-[13px] text-[#3B82F6] disabled:pointer-events-none leading-relaxed pl-7">
-                As pessoas mais velhas tendem a ter mais gordura corporal que os mais novos com o mesmo IMC
-              </p>
-            </div>
-
-            <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl shadow-primary/30 uppercase bg-primary text-white mt-4">
-              PRÓXIMO PASSO
-            </Button>
+            <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl bg-primary text-white mt-4">PRÓXIMO PASSO</Button>
           </div>
         );
 
@@ -989,136 +837,54 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 <span className="text-[10px] font-bold text-primary">{step19Progress}%</span>
               </div>
               <Progress value={step19Progress} className="h-1.5 bg-secondary" />
-              <p className="text-sm text-muted-foreground italic">aguarde um momento ...</p>
             </div>
-
-            <h2 className="text-3xl font-black text-[#0F172A] leading-tight px-4">
-              No total, durante os últimos 3 meses, nossos usuários perderam em média <span className="text-green-500 font-black">14+ kg</span> 🤩
-            </h2>
-
-            <div className="relative px-4">
-              <Card className="p-6 rounded-3xl border-none shadow-xl shadow-primary/5 bg-white text-left space-y-4">
-                <div className="flex items-center gap-3">
-                  <div className="relative w-12 h-12 rounded-full overflow-hidden border-2 border-primary/10">
-                     <Image src="https://picsum.photos/seed/rafaela/100/100" alt="Rafaela" fill className="object-cover" />
-                  </div>
-                  <div>
-                    <div className="flex gap-0.5 mb-0.5">
-                      {[1,2,3,4,5].map(i => <Star key={i} className="w-3 i-3 fill-yellow-400 text-yellow-400" />)}
-                    </div>
-                    <p className="font-bold text-sm text-foreground">Rafaela</p>
-                    <p className="text-[10px] text-muted-foreground">01/04/2026</p>
-                  </div>
-                </div>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  Essa foi de longe a melhor escolha que eu fiz na minha vida! Exercícios que realmente funciona e trazem resultados rápidos.. 🙏
-                </p>
-              </Card>
-            </div>
+            <h2 className="text-3xl font-black text-[#0F172A] leading-tight px-4">No total, nossos usuários perderam em média <span className="text-green-500 font-black">14+ kg</span> 🤩</h2>
           </div>
         );
 
       case 20:
         return (
           <div className="space-y-6 text-center py-4 max-w-md mx-auto w-full px-4">
-            <div className="space-y-4">
-              <div className="flex justify-center mb-2">
-                <Badge className="bg-primary/10 text-primary border-none px-4 py-1 rounded-full font-bold flex items-center gap-2">
-                  <Target className="w-4 h-4" />
-                  98% de compatibilidade detectada
-                </Badge>
-              </div>
-              <h2 className="text-3xl font-black leading-tight text-slate-900">
-                Prepare-se para ver <span className="text-[#10B981]">{state.targetWeight}kg</span> no espelho!
-              </h2>
-            </div>
-
+            <h2 className="text-3xl font-black leading-tight text-slate-900">Prepare-se para ver <span className="text-[#10B981]">{state.targetWeight}kg</span> no espelho!</h2>
             <div className="relative">
-              {/* Identificação de peso robusta fora do SVG */}
               <div className="flex justify-between items-end px-8 relative z-20 pointer-events-none h-14">
                 <div className="text-left">
                   <span className="text-[10px] font-bold text-muted-foreground block uppercase leading-none mb-1">Seu peso</span>
                   <span className="text-2xl font-black text-slate-900 leading-none">{currentWeightValue}kg</span>
                 </div>
                 <div className="text-right flex flex-col items-center">
-                  <div className="bg-primary text-white px-4 py-1.5 rounded-2xl text-lg font-black shadow-lg shadow-primary/20 leading-none">
-                    {targetWeightValue}kg
-                  </div>
+                  <div className="bg-primary text-white px-4 py-1.5 rounded-2xl text-lg font-black shadow-lg shadow-primary/20 leading-none">{targetWeightValue}kg</div>
                   <span className="text-[10px] font-bold text-primary mt-1 uppercase leading-none">3 semanas</span>
                 </div>
               </div>
-
               <div className="relative w-full h-[320px] mt-2 overflow-hidden bg-white rounded-[2.5rem] border border-primary/5 p-4 shadow-sm">
                 <ResponsiveContainer width="100%" height="100%">
                   <AreaChart data={weightData} margin={{ top: 20, right: 10, left: 10, bottom: 0 }}>
                     <defs>
                       <linearGradient id="areaGradientStep20" x1="0" y1="0" x2="1" y2="0">
-                        <stop offset="0%" stopColor="#ef4444" stopOpacity={0.8}/>
-                        <stop offset="50%" stopColor="#facc15" stopOpacity={0.8}/>
-                        <stop offset="100%" stopColor="#22c55e" stopOpacity={0.8}/>
+                        <stop offset="0%" stopColor="#ef4444" stopOpacity={0.8}/><stop offset="50%" stopColor="#facc15" stopOpacity={0.8}/><stop offset="100%" stopColor="#22c55e" stopOpacity={0.8}/>
                       </linearGradient>
                     </defs>
                     <CartesianGrid strokeDasharray="3 3" vertical={true} horizontal={true} stroke="#e2e8f0" />
-                    <XAxis hide dataKey="week" />
-                    <YAxis hide domain={['dataMin - 10', 'dataMax + 10']} />
-                    <Area 
-                      type="monotone" 
-                      dataKey="weight" 
-                      stroke="#ec4899" 
-                      strokeWidth={5} 
-                      fill="url(#areaGradientStep20)" 
-                      animationDuration={2000}
-                    />
+                    <Area type="monotone" dataKey="weight" stroke="#ec4899" strokeWidth={5} fill="url(#areaGradientStep20)" animationDuration={2000} />
                     <ReferenceDot x="SEMANA 1" y={currentWeightValue} r={6} fill="#fff" stroke="#94a3b8" strokeWidth={3} />
                     <ReferenceDot x="SEMANA 3" y={targetWeightValue} r={6} fill="#fff" stroke="#ec4899" strokeWidth={3} />
                   </AreaChart>
                 </ResponsiveContainer>
               </div>
             </div>
-
-            <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl shadow-primary/30 uppercase tracking-widest bg-primary text-white hover:scale-[1.02] transition-all flex items-center justify-center gap-3">
-              CONTINUAR
-              <ArrowRight className="w-6 h-6" />
-            </Button>
+            <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl bg-primary text-white flex items-center justify-center gap-3">CONTINUAR <ArrowRight className="w-6 h-6" /></Button>
           </div>
         );
 
       case 21:
         return (
           <div className="space-y-12 text-center px-4">
-            <h2 className="text-2xl font-bold text-[#0F172A] leading-tight px-6">
-              Quanto tempo você deseja dedicar em seu corpo no dia?
-            </h2>
+            <h2 className="text-2xl font-bold text-[#0F172A] leading-tight px-6">Quanto tempo você deseja dedicar em seu corpo no dia?</h2>
             <div className="grid grid-cols-2 gap-4">
-              {[
-                "5 minutos",
-                "10 minutos",
-                "15 minutos",
-                "30 minutos"
-              ].map((opt) => (
-                <Button 
-                  key={opt}
-                  variant={state.dedicationTime === opt ? "default" : "outline"}
-                  className={cn(
-                    "h-20 rounded-2xl border-2 transition-all flex flex-col justify-center items-center gap-1 bg-white",
-                    state.dedicationTime === opt 
-                      ? "border-primary shadow-lg ring-1 ring-primary" 
-                      : "border-primary/10 hover:border-primary/40"
-                  )}
-                  onClick={() => { 
-                    updateState("dedicationTime", opt); 
-                    setTimeout(nextStep, 300);
-                  }}
-                >
-                  <span className={cn("font-bold text-base", state.dedicationTime === opt ? "text-primary" : "text-foreground")}>
-                    {opt}
-                  </span>
-                  <div className={cn(
-                    "w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors shrink-0",
-                    state.dedicationTime === opt ? "bg-primary border-primary text-white" : "border-primary/20"
-                  )}>
-                    {state.dedicationTime === opt && <Check className="w-3 h-3" />}
-                  </div>
+              {["5 minutos", "10 minutos", "15 minutos", "30 minutos"].map((opt) => (
+                <Button key={opt} variant={state.dedicationTime === opt ? "default" : "outline"} className={cn("h-20 rounded-2xl border-2 transition-all flex flex-col justify-center items-center gap-1 bg-white", state.dedicationTime === opt ? "border-primary shadow-lg ring-1 ring-primary" : "border-primary/10 hover:border-primary/40")} onClick={() => { updateState("dedicationTime", opt); setTimeout(nextStep, 300); }}>
+                  <span className={cn("font-bold text-base", state.dedicationTime === opt ? "text-primary" : "text-foreground")}>{opt}</span>
                 </Button>
               ))}
             </div>
@@ -1134,287 +900,148 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 <span className="text-[10px] font-bold text-primary">{step22Progress}%</span>
               </div>
               <Progress value={step22Progress} className="h-1.5 bg-secondary" />
-              <p className="text-sm font-bold text-muted-foreground">
-                Criando seu plano de treino personalizado de definição feminina
-              </p>
+              <p className="text-sm font-bold text-muted-foreground">Criando seu plano de treino personalizado de definição feminina</p>
             </div>
-
-            <div className="space-y-1">
-              <h2 className="text-4xl md:text-5xl font-black text-primary leading-none">
-                1 milhão de pessoas
-              </h2>
-              <p className="text-lg font-bold text-primary/80">
-                escolheram o nosso Programa Feminino
-              </p>
-            </div>
-
-            <div className="px-4">
-              <Card className="p-6 rounded-[2rem] border-none bg-white shadow-xl shadow-primary/5 text-left relative overflow-hidden">
-                <div className="flex items-start gap-4">
-                  <div className="relative w-14 h-14 rounded-full overflow-hidden shrink-0 border-2 border-primary/10">
-                    <Image src="https://picsum.photos/seed/vanessa/100/100" alt="Vanessa" fill className="object-cover" />
-                  </div>
-                  <div className="space-y-1">
-                    <div className="flex gap-0.5">
-                      {[1,2,3,4,5].map(i => <Star key={i} className="w-3.5 h-3.5 fill-yellow-400 text-yellow-400" />)}
-                    </div>
-                    <p className="font-bold text-base text-[#0F172A]">Vanessa</p>
-                    <p className="text-[10px] text-muted-foreground">13/03/2026</p>
-                    <p className="text-sm text-muted-foreground leading-relaxed pt-2">
-                      Perdi 6kg em duas semanas, estou muuuito feliz ❤️
-                    </p>
-                  </div>
-                </div>
-              </Card>
-            </div>
+            <h2 className="text-4xl md:text-5xl font-black text-primary leading-none">1 milhão de pessoas</h2>
           </div>
         );
 
       case 23:
-        return (
-          <LoadingScreen 
-            title="Seu plano feminino personalizado está sendo criado..." 
-            steps={["Ajustando exercícios exclusivos", "Criando plano para pernas e glúteos", "Otimizando queima de gordura abdominal", "Finalizando rotina personalizada"]}
-            onComplete={finishQuiz}
-            duration={4000}
-          />
-        );
+        return <LoadingScreen title="Seu plano feminino personalizado está sendo criado..." steps={["Ajustando exercícios exclusivos", "Criando plano para pernas e glúteos", "Otimizando queima de gordura abdominal", "Finalizando rotina personalizada"]} onComplete={finishQuiz} duration={4000} />;
 
       case 24:
         return (
           <div className="flex flex-col items-center w-full max-w-md mx-auto px-4 pb-10">
             <div className="relative w-full">
-              {/* Identificação de peso robusta fora do SVG */}
               <div className="flex justify-between items-end px-8 relative z-20 pointer-events-none mt-20 h-14">
                 <div className="text-left">
                   <span className="text-[10px] font-bold text-muted-foreground block uppercase leading-none mb-1">Seu peso</span>
                   <span className="text-2xl font-black text-slate-900 leading-none">{currentWeightValue}kg</span>
                 </div>
                 <div className="text-right flex flex-col items-center">
-                  <div className="bg-primary text-white px-4 py-1.5 rounded-2xl text-lg font-black shadow-lg shadow-primary/20 leading-none">
-                    {targetWeightValue}kg
-                  </div>
+                  <div className="bg-primary text-white px-4 py-1.5 rounded-2xl text-lg font-black shadow-lg shadow-primary/20 leading-none">{targetWeightValue}kg</div>
                   <span className="text-[10px] font-bold text-primary mt-1 uppercase leading-none">3 semanas</span>
                 </div>
               </div>
-
               <div className="relative w-full h-[320px] mt-2 overflow-hidden bg-white rounded-[2.5rem] border border-primary/5 p-4 shadow-sm">
                 <ResponsiveContainer width="100%" height="100%">
                   <AreaChart data={weightData} margin={{ top: 20, right: 10, left: 10, bottom: 0 }}>
                     <defs>
                       <linearGradient id="areaGradientStep24" x1="0" y1="0" x2="1" y2="0">
-                        <stop offset="0%" stopColor="#ef4444" stopOpacity={0.8}/>
-                        <stop offset="50%" stopColor="#facc15" stopOpacity={0.8}/>
-                        <stop offset="100%" stopColor="#22c55e" stopOpacity={0.8}/>
+                        <stop offset="0%" stopColor="#ef4444" stopOpacity={0.8}/><stop offset="50%" stopColor="#facc15" stopOpacity={0.8}/><stop offset="100%" stopColor="#22c55e" stopOpacity={0.8}/>
                       </linearGradient>
                     </defs>
                     <CartesianGrid strokeDasharray="3 3" vertical={true} horizontal={true} stroke="#e2e8f0" />
-                    <XAxis hide dataKey="week" />
-                    <YAxis hide domain={['dataMin - 10', 'dataMax + 10']} />
-                    <Area 
-                      type="monotone" 
-                      dataKey="weight" 
-                      stroke="#ec4899" 
-                      strokeWidth={5} 
-                      fill="url(#areaGradientStep24)" 
-                      animationDuration={2500}
-                    />
+                    <Area type="monotone" dataKey="weight" stroke="#ec4899" strokeWidth={5} fill="url(#areaGradientStep24)" animationDuration={2500} />
                     <ReferenceDot x="SEMANA 1" y={currentWeightValue} r={6} fill="#fff" stroke="#94a3b8" strokeWidth={3} />
                     <ReferenceDot x="SEMANA 3" y={targetWeightValue} r={6} fill="#fff" stroke="#ec4899" strokeWidth={3} />
                   </AreaChart>
                 </ResponsiveContainer>
               </div>
             </div>
-
             <div className="text-center space-y-4 mb-8 mt-10">
-              <h1 className="text-2xl font-black text-slate-900 leading-tight">
-                seu plano de definição em 21 dias está pronto!
-              </h1>
+              <h1 className="text-2xl font-black text-slate-900 leading-tight">seu plano de definição em 21 dias está pronto!</h1>
             </div>
-
             <div className="bg-[#DCFCE7] p-8 rounded-[2rem] text-center mb-8 border-none w-full">
               <h3 className="text-[#15803D] font-black text-2xl mb-2">Mudança para sempre</h3>
-              <p className="text-[#15803D] text-sm leading-relaxed font-medium">
-                Assim que atingir o seu peso ideal, utilizaremos as últimas semanas do seu programa para o ajudar a criar hábitos saudáveis que lhe permitam manter o seu peso!
-              </p>
+              <p className="text-[#15803D] text-sm leading-relaxed font-medium">Assim que atingir o seu peso ideal, utilizaremos as últimas semanas do seu programa para o ajudar a criar hábitos saudáveis!</p>
             </div>
-
-            <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl shadow-primary/30 uppercase tracking-widest bg-primary text-white hover:scale-[1.02] transition-all">
-              CONTINUAR
-            </Button>
+            <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl bg-primary text-white uppercase tracking-widest">CONTINUAR</Button>
           </div>
         );
 
       case 25:
         return (
           <div className="w-full bg-background overflow-x-hidden">
-            <div className="max-w-4xl mx-auto px-4 py-10 space-y-12">
+            <div className="max-w-4xl mx-auto px-4 py-10 space-y-12 flex flex-col items-center">
               
-              {/* Transformation Image Carousel */}
-              <section className="space-y-8">
-                <div className="relative w-full aspect-square max-w-[400px] mx-auto rounded-[2.5rem] overflow-hidden shadow-2xl bg-white border-4 border-white">
-                  <Carousel className="w-full h-full">
-                    <CarouselContent className="h-full">
-                      <CarouselItem className="relative h-full">
-                        <Image 
-                          src="/foto1.png" 
-                          alt="Antes" 
-                          fill 
-                          className="object-cover"
-                          priority
-                          data-ai-hint="before woman"
-                        />
-                        <div className="absolute top-6 left-6 bg-black/40 backdrop-blur-sm text-white px-4 py-1.5 rounded-full font-black uppercase tracking-widest text-xs">
-                          Antes
-                        </div>
-                      </CarouselItem>
-                      <CarouselItem className="relative h-full">
-                        <Image 
-                          src="/foto2.png" 
-                          alt="Depois" 
-                          fill 
-                          className="object-cover"
-                          priority
-                          data-ai-hint="after woman"
-                        />
-                        <div className="absolute top-6 left-6 bg-primary text-white px-4 py-1.5 rounded-full font-black uppercase tracking-widest text-xs shadow-lg shadow-primary/20">
-                          Depois
-                        </div>
-                      </CarouselItem>
-                    </CarouselContent>
-                    <CarouselPrevious className="left-4 bg-white/50 backdrop-blur-sm hover:bg-white text-slate-900" />
-                    <CarouselNext className="right-4 bg-white/50 backdrop-blur-sm hover:bg-white text-slate-900" />
-                  </Carousel>
+              {/* Image Comparison Slider */}
+              <div 
+                ref={sliderRef}
+                className="relative w-full aspect-square max-w-[400px] rounded-[2.5rem] overflow-hidden shadow-2xl border-4 border-white cursor-ew-resize select-none"
+                onMouseMove={handleComparisonMove}
+                onTouchMove={handleComparisonMove}
+              >
+                {/* Before Image (Base) */}
+                <div className="absolute inset-0">
+                  <Image src="/foto1.png" alt="Antes" fill className="object-cover" priority />
+                </div>
+                
+                {/* After Image (Overlay) */}
+                <div 
+                  className="absolute inset-0 z-10" 
+                  style={{ clipPath: `inset(0 ${100 - sliderPos}% 0 0)` }}
+                >
+                  <Image src="/foto2.png" alt="Depois" fill className="object-cover" priority />
                 </div>
 
-                <div className="text-center space-y-4 px-4">
-                  <h1 className="text-3xl md:text-5xl font-black text-[#0F172A] leading-[1.1] tracking-tight">
-                    Seu plano de treino personalizado de Pilates na parede está pronto!
-                  </h1>
-                  <p className="text-slate-500 font-medium">Arraste a imagem para o lado para ver a transformação</p>
+                {/* Slider Handle */}
+                <div 
+                  className="absolute top-0 bottom-0 z-20 w-1 bg-white shadow-xl flex items-center justify-center"
+                  style={{ left: `${sliderPos}%` }}
+                >
+                  <div className="w-8 h-8 rounded-full bg-white shadow-lg flex items-center justify-center -translate-x-1/2">
+                    <div className="flex gap-0.5">
+                      <div className="w-0 h-0 border-t-4 border-t-transparent border-b-4 border-b-transparent border-r-4 border-r-slate-400" />
+                      <div className="w-0 h-0 border-t-4 border-t-transparent border-b-4 border-b-transparent border-l-4 border-l-slate-400" />
+                    </div>
+                  </div>
                 </div>
-              </section>
+              </div>
 
-              {/* Specific Pricing Card */}
-              <section className="relative max-w-[440px] mx-auto px-2">
-                <div className="rounded-[2.5rem] border-2 border-[#22C55E] bg-white overflow-hidden shadow-2xl shadow-green-100">
+              <div className="text-center space-y-4 px-4">
+                <h1 className="text-2xl md:text-3xl font-black text-[#0F172A] leading-tight">
+                  Seu plano de treino personalizado de Pilates na parede está pronto!
+                </h1>
+              </div>
+
+              {/* Pricing Card */}
+              <section className="relative w-full max-w-[440px] mx-auto px-2">
+                <div className="rounded-[2.5rem] border-2 border-[#22C55E] bg-white overflow-hidden shadow-2xl">
                   <div className="bg-[#22C55E] py-3 text-center">
-                    <span className="text-white font-black text-xs uppercase tracking-[0.15em]">
+                    <span className="text-white font-black text-[10px] uppercase tracking-[0.15em]">
                       ESSE DESCONTO ACABARÁ HOJE!
                     </span>
                   </div>
                   <div className="p-8 space-y-6">
                     <div className="flex justify-between items-start">
                       <div className="space-y-2">
-                        <h3 className="text-2xl font-black text-slate-900">Pilates em Casa</h3>
+                        <h3 className="text-xl font-black text-slate-900">Pilates em Casa</h3>
                         <div className="space-y-0">
-                          <p className="text-red-500 line-through text-lg italic font-medium">R$ 47,90</p>
+                          <p className="text-red-500 line-through text-base italic font-medium">R$ 47,90</p>
                           <p className="text-[#22C55E] font-black text-4xl tracking-tight">R$ 27,90</p>
                         </div>
                       </div>
-                      <div className="bg-slate-50 border border-slate-200 rounded-[1.5rem] p-4 text-center min-w-[110px] flex flex-col items-center justify-center">
-                        <p className="text-[10px] font-black text-slate-400 uppercase leading-none tracking-widest mb-1">VITALÍCIO</p>
-                        <div className="flex items-baseline gap-0.5">
-                          <span className="text-sm font-black text-slate-900">R$</span>
-                          <span className="text-3xl font-black text-slate-900 leading-none">0,93</span>
+                      <div className="bg-slate-50 border border-slate-200 rounded-[1.5rem] p-4 text-center min-w-[100px]">
+                        <p className="text-[8px] font-black text-slate-400 uppercase leading-none tracking-widest mb-1">VITALÍCIO</p>
+                        <div className="flex items-baseline justify-center gap-0.5">
+                          <span className="text-xs font-black text-slate-900">R$</span>
+                          <span className="text-2xl font-black text-slate-900">0,93</span>
                         </div>
-                        <p className="text-[10px] font-black text-slate-400 uppercase leading-none tracking-widest mt-1">POR DIA</p>
+                        <p className="text-[8px] font-black text-slate-400 uppercase leading-none tracking-widest mt-1">POR DIA</p>
                       </div>
                     </div>
-                    <Button className="w-full py-10 text-xl font-black rounded-[1.8rem] bg-[#22C55E] hover:bg-[#1ead52] text-white shadow-xl shadow-green-200 uppercase tracking-tight transition-transform active:scale-95 h-auto">
+                    <Button className="w-full py-10 text-xl font-black rounded-[1.8rem] bg-[#22C55E] hover:bg-[#1ead52] text-white shadow-xl shadow-green-200 uppercase tracking-tight h-auto">
                       OBTER MEU PLANO AGORA
                     </Button>
                   </div>
                 </div>
               </section>
 
-              {/* Features and Benefits */}
-              <section className="space-y-12 pt-8">
-                <h2 className="text-3xl md:text-4xl font-black text-center text-foreground uppercase tracking-tight">
-                  O que você <span className="text-primary italic">vai receber</span>
-                </h2>
-                <div className="grid md:grid-cols-2 gap-4">
-                  {[
-                    "Exercícios simples e eficazes para fazer em casa",
-                    "Treinos focados em cintura fina, pernas e glúteos",
-                    "Rotina feminina prática para qualquer nível físico",
-                    "Aulas rápidas para encaixar na sua rotina",
-                    "Exercícios para definição corporal feminina",
-                    "Receitas personalizadas para acelerar resultados",
-                    "Técnicas para reduzir inchaço e retenção"
-                  ].map((item, i) => (
-                    <div key={i} className="flex items-start gap-3 bg-secondary/30 p-5 rounded-2xl border border-primary/5">
-                      <div className="bg-primary/10 rounded-full p-1 shrink-0">
-                        <CheckCircle2 className="w-5 h-5 text-primary" />
-                      </div>
-                      <span className="font-bold text-slate-700 leading-tight">{item}</span>
-                    </div>
-                  ))}
-                </div>
-              </section>
-
-              <section className="space-y-12">
+              {/* Benefits list */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
                 {[
-                  { title: "Redução de gordura", desc: "O excesso de gordura afeta diretamente a autoestima e a confiança feminina. Com o plano personalizado, você poderá acelerar sua transformação corporal de forma prática e progressiva.", icon: Flame },
-                  { title: "Pernas e glúteos mais definidos", desc: "Exercícios específicos para modelar pernas e aumentar a firmeza dos glúteos sem precisar de academia ou equipamentos complexos.", icon: Target },
-                  { title: "Mais energia e disposição", desc: "Recupere sua disposição diária e volte a se sentir bem com seu próprio corpo através de uma rotina simples e eficiente.", icon: Zap },
-                  { title: "Melhora da postura e aparência", desc: "Uma postura mais bonita transmite mais confiança, feminilidade e presença. O plano inclui exercícios voltados para alinhamento corporal e definição.", icon: Heart },
-                  { title: "Menos ansiedade e descontrole alimentar", desc: "Rotinas femininas equilibradas ajudam diretamente na relação com alimentação, autoestima e controle emocional diário.", icon: Clock }
-                ].map((benefit, i) => (
-                  <Card key={i} className="p-8 rounded-[2rem] border-none bg-white shadow-xl shadow-primary/5 flex flex-col md:flex-row gap-6 items-start">
-                    <div className="bg-primary/10 p-4 rounded-3xl shrink-0">
-                      <benefit.icon className="w-8 h-8 text-primary" />
-                    </div>
-                    <div className="space-y-2">
-                      <h4 className="text-xl font-black text-foreground">{benefit.title}</h4>
-                      <p className="text-muted-foreground leading-relaxed font-medium">{benefit.desc}</p>
-                    </div>
-                  </Card>
+                  "Exercícios simples e eficazes em casa",
+                  "Foco em cintura, pernas e glúteos",
+                  "Aulas rápidas de 15 minutos",
+                  "Receitas para acelerar queima de gordura"
+                ].map((item, i) => (
+                  <div key={i} className="flex items-center gap-3 bg-secondary/30 p-4 rounded-2xl border border-primary/5">
+                    <CheckCircle2 className="w-5 h-5 text-primary shrink-0" />
+                    <span className="font-bold text-slate-700 text-sm">{item}</span>
+                  </div>
                 ))}
-              </section>
-
-              {/* Social Proof */}
-              <section className="space-y-12 bg-primary/5 -mx-4 px-4 py-16 rounded-[3rem]">
-                <h2 className="text-3xl md:text-4xl font-black text-center text-foreground uppercase tracking-tight">
-                  Confira os resultados de algumas das nossas alunas
-                </h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                  {[
-                    { name: "Mariana", loss: "-8kg", desc: "Perdeu 8kg em apenas 21 dias.", seed: "m1" },
-                    { name: "Fernanda", loss: "-6kg", desc: "Perdeu 6kg em apenas 17 dias.", seed: "f2" },
-                    { name: "Juliana", loss: "-9kg", desc: "Perdeu 9kg em apenas 30 dias.", seed: "j3" },
-                    { name: "Patrícia", loss: "-7kg", desc: "Perdeu 7kg em poucas semanas.", seed: "p4" }
-                  ].map((res, i) => (
-                    <Card key={i} className="p-0 overflow-hidden rounded-[2rem] border-none shadow-xl bg-white text-center">
-                      <div className="relative w-full aspect-[4/5]">
-                        <Image src={`https://picsum.photos/seed/${res.seed}/400/500`} alt={res.name} fill className="object-cover" />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
-                        <div className="absolute bottom-4 left-0 right-0">
-                           <div className="text-2xl font-black text-white italic">{res.name} | {res.loss}</div>
-                        </div>
-                      </div>
-                      <div className="p-6">
-                        <p className="text-sm text-muted-foreground font-medium leading-tight">{res.desc}</p>
-                      </div>
-                    </Card>
-                  ))}
-                </div>
-              </section>
-
-              {/* Sticky Footer CTA */}
-              <section className="text-center space-y-10 pt-16 pb-20 border-t border-primary/10">
-                <div className="space-y-6">
-                  <h2 className="text-3xl md:text-5xl font-black text-foreground leading-tight max-w-3xl mx-auto">
-                    Seu corpo pode mudar mais rápido do que você imagina.
-                  </h2>
-                  <p className="text-xl text-muted-foreground font-medium max-w-2xl mx-auto">
-                    Comece hoje seu plano feminino personalizado e dê o primeiro passo para conquistar a silhueta que você deseja.
-                  </p>
-                </div>
-                <Button className="w-full max-w-md py-10 text-2xl font-black rounded-3xl shadow-2xl shadow-primary/40 uppercase tracking-tight bg-primary text-white hover:scale-[1.05] transition-all h-auto px-8 leading-tight whitespace-normal italic">
-                  QUERO COMEÇAR AGORA
-                </Button>
-              </section>
+              </div>
 
             </div>
           </div>
@@ -1476,29 +1103,15 @@ function LoadingScreen({ title, steps, onComplete, duration = 3000 }: { title: s
   return (
     <div className="space-y-12 text-center py-10 w-full">
       <h2 className="text-2xl font-bold text-primary leading-tight px-4">{title}</h2>
-      
       <div className="relative py-10 flex justify-center">
         <div className="w-48 h-48 rounded-full border-8 border-primary/10 flex items-center justify-center relative">
-          <motion.div 
-            className="absolute inset-0 rounded-full border-8 border-primary border-t-transparent"
-            animate={{ rotate: 360 }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
-          />
+          <motion.div className="absolute inset-0 rounded-full border-8 border-primary border-t-transparent" animate={{ rotate: 360 }} transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }} />
           <div className="w-4 h-4 bg-primary rounded-full animate-pulse" />
         </div>
       </div>
-
       <div className="space-y-4 px-6">
         <AnimatePresence mode="wait">
-          <motion.p 
-            key={currentStep}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            className="text-lg font-bold text-primary animate-pulse"
-          >
-            {steps[currentStep]}
-          </motion.p>
+          <motion.p key={currentStep} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="text-lg font-bold text-primary animate-pulse">{steps[currentStep]}</motion.p>
         </AnimatePresence>
         <div className="w-full h-1 bg-secondary rounded-full overflow-hidden">
           <motion.div className="h-full bg-primary" style={{ width: `${prog}%` }} />
