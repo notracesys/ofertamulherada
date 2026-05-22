@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
@@ -14,7 +15,7 @@ import { useRouter } from "next/navigation";
 import { generatePersonalizedAfricanMethodPlan, type GeneratePersonalizedAfricanMethodPlanInput, type GeneratePersonalizedAfricanMethodPlanOutput } from "@/ai/flows/generate-personalized-african-method-plan";
 import { QuizStep } from "./QuizStep";
 import { cn } from "@/lib/utils";
-import { Area, AreaChart, ResponsiveContainer, XAxis, YAxis, CartesianGrid, ReferenceDot } from "recharts";
+import { Area, AreaChart, ResponsiveContainer, XAxis, YAxis, CartesianGrid, ReferenceDot, Label } from "recharts";
 
 const TOTAL_STEPS = 24;
 const STORAGE_KEY = "fitness_fem_quiz_state";
@@ -228,12 +229,12 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
 
   const progress = (stepId / TOTAL_STEPS) * 100;
 
-  const currentWeight = parseInt(state.weight || "70");
-  const targetWeight = parseInt(state.targetWeight || "60");
+  const currentWeightValue = parseInt(state.weight || "70");
+  const targetWeightValue = parseInt(state.targetWeight || "60");
   const weightData = [
-    { week: "SEMANA 1", weight: currentWeight },
-    { week: "SEMANA 2", weight: currentWeight - (currentWeight - targetWeight) * 0.5 },
-    { week: "SEMANA 3", weight: targetWeight },
+    { week: "SEMANA 1", weight: currentWeightValue },
+    { week: "SEMANA 2", weight: currentWeightValue - (currentWeightValue - targetWeightValue) * 0.5 },
+    { week: "SEMANA 3", weight: targetWeightValue },
   ];
 
   const renderStep = () => {
@@ -1014,9 +1015,9 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
               </p>
             </div>
 
-            <div className="relative w-full h-[360px] mt-8 overflow-visible">
+            <div className="relative w-full h-[360px] mt-8 overflow-visible flex flex-col">
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={weightData} margin={{ top: 120, right: 30, left: 30, bottom: 20 }} style={{ overflow: 'visible' }}>
+                <AreaChart data={weightData} margin={{ top: 100, right: 40, left: 40, bottom: 20 }} style={{ overflow: 'visible' }}>
                   <defs>
                     <linearGradient id="areaGradientStep20" x1="0" y1="0" x2="1" y2="0">
                       <stop offset="0%" stopColor="#EF4444" stopOpacity={0.8} />
@@ -1043,44 +1044,17 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     animationDuration={2000}
                   />
                   
-                  <ReferenceDot 
-                    x="SEMANA 1" 
-                    y={currentWeight} 
-                    r={6} 
-                    fill="#fff" 
-                    stroke="#EF4444" 
-                    strokeWidth={3}
-                    label={({ cx, cy }: any) => {
-                      if (!cx || !cy || isNaN(cx) || isNaN(cy)) return null;
-                      return (
-                        <g>
-                          <text x={cx} y={cy - 45} textAnchor="middle" fill="#64748b" fontSize="10" fontWeight="bold">SEU PESO</text>
-                          <text x={cx} y={cy - 15} textAnchor="middle" fill="#EF4444" fontSize="20" fontWeight="900">{currentWeight}kg</text>
-                        </g>
-                      );
-                    }}
-                  />
+                  <ReferenceDot x="SEMANA 1" y={currentWeightValue} r={6} fill="#fff" stroke="#EF4444" strokeWidth={3}>
+                    <Label value="SEU PESO" position="top" offset={40} fill="#64748b" fontSize={10} fontWeight="bold" />
+                    <Label value={`${currentWeightValue}kg`} position="top" offset={10} fill="#EF4444" fontSize={20} fontWeight={900} />
+                  </ReferenceDot>
 
                   <ReferenceDot x="SEMANA 2" y={weightData[1].weight} r={5} fill="#fff" stroke="#EAB308" strokeWidth={3} />
                   
-                  <ReferenceDot 
-                    x="SEMANA 3" 
-                    y={targetWeight} 
-                    r={6} 
-                    fill="#fff" 
-                    stroke="#22C55E" 
-                    strokeWidth={3}
-                    label={({ cx, cy }: any) => {
-                      if (!cx || !cy || isNaN(cx) || isNaN(cy)) return null;
-                      return (
-                        <g>
-                          <rect x={cx - 35} y={cy - 65} width="70" height="22" rx="11" fill="#EC4899" />
-                          <text x={cx} y={cy - 50} textAnchor="middle" fill="#fff" fontSize="10" fontWeight="bold">3 semanas</text>
-                          <text x={cx} y={cy - 15} textAnchor="middle" fill="#22C55E" fontSize="20" fontWeight="900">{targetWeight}kg</text>
-                        </g>
-                      );
-                    }}
-                  />
+                  <ReferenceDot x="SEMANA 3" y={targetWeightValue} r={6} fill="#fff" stroke="#22C55E" strokeWidth={3}>
+                    <Label value="3 semanas" position="top" offset={40} fill="#EC4899" fontSize={10} fontWeight="bold" />
+                    <Label value={`${targetWeightValue}kg`} position="top" offset={10} fill="#22C55E" fontSize={20} fontWeight={900} />
+                  </ReferenceDot>
                 </AreaChart>
               </ResponsiveContainer>
             </div>
@@ -1214,9 +1188,9 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                <div className="absolute top-0 left-0 h-full bg-primary w-full" />
             </div>
 
-            <div className="relative w-full h-[360px] mb-8 overflow-visible">
+            <div className="relative w-full h-[360px] mb-8 overflow-visible flex flex-col">
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={weightData} margin={{ top: 120, right: 30, left: 30, bottom: 20 }} style={{ overflow: 'visible' }}>
+                <AreaChart data={weightData} margin={{ top: 100, right: 40, left: 40, bottom: 20 }} style={{ overflow: 'visible' }}>
                   <defs>
                     <linearGradient id="areaGradientFinal" x1="0" y1="0" x2="1" y2="0">
                       <stop offset="0%" stopColor="#EF4444" stopOpacity={0.8} />
@@ -1243,44 +1217,17 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     animationDuration={2000}
                   />
                   
-                  <ReferenceDot 
-                    x="SEMANA 1" 
-                    y={currentWeight} 
-                    r={6} 
-                    fill="#fff" 
-                    stroke="#EF4444" 
-                    strokeWidth={3}
-                    label={({ cx, cy }: any) => {
-                      if (!cx || !cy || isNaN(cx) || isNaN(cy)) return null;
-                      return (
-                        <g>
-                          <text x={cx} y={cy - 45} textAnchor="middle" fill="#64748b" fontSize="10" fontWeight="bold">SEU PESO</text>
-                          <text x={cx} y={cy - 15} textAnchor="middle" fill="#EF4444" fontSize="20" fontWeight="900">{currentWeight}kg</text>
-                        </g>
-                      );
-                    }}
-                  />
+                  <ReferenceDot x="SEMANA 1" y={currentWeightValue} r={6} fill="#fff" stroke="#EF4444" strokeWidth={3}>
+                    <Label value="SEU PESO" position="top" offset={40} fill="#64748b" fontSize={10} fontWeight="bold" />
+                    <Label value={`${currentWeightValue}kg`} position="top" offset={10} fill="#EF4444" fontSize={20} fontWeight={900} />
+                  </ReferenceDot>
 
                   <ReferenceDot x="SEMANA 2" y={weightData[1].weight} r={5} fill="#fff" stroke="#EAB308" strokeWidth={3} />
                   
-                  <ReferenceDot 
-                    x="SEMANA 3" 
-                    y={targetWeight} 
-                    r={6} 
-                    fill="#fff" 
-                    stroke="#22C55E" 
-                    strokeWidth={3}
-                    label={({ cx, cy }: any) => {
-                      if (!cx || !cy || isNaN(cx) || isNaN(cy)) return null;
-                      return (
-                        <g>
-                          <rect x={cx - 35} y={cy - 65} width="70" height="22" rx="11" fill="#EC4899" />
-                          <text x={cx} y={cy - 50} textAnchor="middle" fill="#fff" fontSize="10" fontWeight="bold">3 semanas</text>
-                          <text x={cx} y={cy - 15} textAnchor="middle" fill="#22C55E" fontSize="20" fontWeight="900">{targetWeight}kg</text>
-                        </g>
-                      );
-                    }}
-                  />
+                  <ReferenceDot x="SEMANA 3" y={targetWeightValue} r={6} fill="#fff" stroke="#22C55E" strokeWidth={3}>
+                    <Label value="3 semanas" position="top" offset={40} fill="#EC4899" fontSize={10} fontWeight="bold" />
+                    <Label value={`${targetWeightValue}kg`} position="top" offset={10} fill="#22C55E" fontSize={20} fontWeight={900} />
+                  </ReferenceDot>
                 </AreaChart>
               </ResponsiveContainer>
             </div>
