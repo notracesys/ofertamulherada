@@ -17,7 +17,15 @@ import { useRouter } from "next/navigation";
 import { generatePersonalizedAfricanMethodPlan, type GeneratePersonalizedAfricanMethodPlanInput } from "@/ai/flows/generate-personalized-african-method-plan";
 import { QuizStep } from "./QuizStep";
 import { cn } from "@/lib/utils";
-import { Area as RechartsArea, AreaChart, ResponsiveContainer, CartesianGrid, ReferenceDot } from "recharts";
+import { 
+  Area as RechartsArea, 
+  AreaChart, 
+  ResponsiveContainer, 
+  CartesianGrid, 
+  ReferenceDot,
+  XAxis,
+  YAxis
+} from "recharts";
 
 const TOTAL_STEPS = 25;
 const STORAGE_KEY = "fitness_fem_quiz_state";
@@ -869,6 +877,8 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                         <stop offset="0%" stopColor="#ef4444" stopOpacity={0.8}/><stop offset="50%" stopColor="#facc15" stopOpacity={0.8}/><stop offset="100%" stopColor="#22c55e" stopOpacity={0.8}/>
                       </linearGradient>
                     </defs>
+                    <XAxis dataKey="week" hide />
+                    <YAxis domain={['dataMin - 5', 'dataMax + 5']} hide />
                     <CartesianGrid strokeDasharray="3 3" vertical={true} horizontal={true} stroke="#e2e8f0" />
                     <CustomAreaChartArea type="monotone" dataKey="weight" stroke="hsl(var(--primary))" strokeWidth={5} fill="url(#areaGradientStep20)" animationDuration={2000} />
                     <ReferenceDot x="SEMANA 1" y={currentWeightValue} r={6} fill="#fff" stroke="#94a3b8" strokeWidth={3} />
@@ -938,6 +948,8 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                         <stop offset="0%" stopColor="#ef4444" stopOpacity={0.8}/><stop offset="50%" stopColor="#facc15" stopOpacity={0.8}/><stop offset="100%" stopColor="#22c55e" stopOpacity={0.8}/>
                       </linearGradient>
                     </defs>
+                    <XAxis dataKey="week" hide />
+                    <YAxis domain={['dataMin - 5', 'dataMax + 5']} hide />
                     <CartesianGrid strokeDasharray="3 3" vertical={true} horizontal={true} stroke="#e2e8f0" />
                     <CustomAreaChartArea type="monotone" dataKey="weight" stroke="hsl(var(--primary))" strokeWidth={5} fill="url(#areaGradientStep24)" animationDuration={2500} />
                     <ReferenceDot x="SEMANA 1" y={currentWeightValue} r={6} fill="#fff" stroke="#94a3b8" strokeWidth={3} />
@@ -1033,7 +1045,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
 
               <div className="text-center space-y-4 px-4">
                 <h1 className="text-2xl md:text-3xl font-black text-[#0F172A] leading-tight">
-                  Seu plano de treino personalizado de Programa Feminino de Definição está pronto!
+                  Seu plano de Programa Feminino de Definição está pronto!
                 </h1>
               </div>
 
@@ -1065,7 +1077,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                   ))}
                 </div>
 
-                <div className="relative w-full aspect-[4/3] rounded-[2.5rem] overflow-hidden shadow-xl border-8 border-white bg-slate-100">
+                <div className="relative w-full aspect-[4/3] rounded-[2.5rem] overflow-hidden shadow-xl border-8 border-white bg-slate-100 mt-8">
                   <Image 
                     src="/videos.gif" 
                     alt="Vídeo das aulas" 
