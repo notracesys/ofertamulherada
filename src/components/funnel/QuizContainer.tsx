@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
@@ -857,7 +858,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                       </linearGradient>
                     </defs>
                     <CartesianGrid strokeDasharray="3 3" vertical={true} horizontal={true} stroke="#e2e8f0" />
-                    <Area type="monotone" dataKey="weight" stroke="#ec4899" strokeWidth={5} fill="url(#areaGradientStep20)" animationDuration={2000} />
+                    <CustomArea type="monotone" dataKey="weight" stroke="#ec4899" strokeWidth={5} fill="url(#areaGradientStep20)" animationDuration={2000} />
                     <ReferenceDot x="SEMANA 1" y={currentWeightValue} r={6} fill="#fff" stroke="#94a3b8" strokeWidth={3} />
                     <ReferenceDot x="SEMANA 3" y={targetWeightValue} r={6} fill="#fff" stroke="#ec4899" strokeWidth={3} />
                   </AreaChart>
@@ -925,7 +926,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                       </linearGradient>
                     </defs>
                     <CartesianGrid strokeDasharray="3 3" vertical={true} horizontal={true} stroke="#e2e8f0" />
-                    <Area type="monotone" dataKey="weight" stroke="#ec4899" strokeWidth={5} fill="url(#areaGradientStep24)" animationDuration={2500} />
+                    <CustomArea type="monotone" dataKey="weight" stroke="#ec4899" strokeWidth={5} fill="url(#areaGradientStep24)" animationDuration={2500} />
                     <ReferenceDot x="SEMANA 1" y={currentWeightValue} r={6} fill="#fff" stroke="#94a3b8" strokeWidth={3} />
                     <ReferenceDot x="SEMANA 3" y={targetWeightValue} r={6} fill="#fff" stroke="#ec4899" strokeWidth={3} />
                   </AreaChart>
@@ -980,7 +981,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
 
               <div className="text-center space-y-4 px-4">
                 <h1 className="text-2xl md:text-3xl font-black text-[#0F172A] leading-tight">
-                  Seu plano de treino personalizado de Pilates na parede está pronto!
+                  Seu programa feminino de definição personalizado está pronto!
                 </h1>
               </div>
 
@@ -995,7 +996,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                   <div className="p-8 space-y-6">
                     <div className="flex justify-between items-start">
                       <div className="space-y-2">
-                        <h3 className="text-xl font-black text-slate-900">Pilates em Casa</h3>
+                        <h3 className="text-xl font-black text-slate-900">Programa Feminino de Definição</h3>
                         <div className="space-y-0">
                           <p className="text-red-500 line-through text-base italic font-medium">R$ 47,90</p>
                           <p className="text-[#22C55E] font-black text-4xl tracking-tight">R$ 27,90</p>
@@ -1134,9 +1135,9 @@ function LoadingScreen({ title, steps, onComplete, duration = 3000 }: { title: s
 }
 
 // Estabilização para evitar erro de NaN no Recharts
-const Area = (props: any) => {
+const CustomArea = (props: any) => {
   const { path } = props;
   if (!path || path.includes('NaN')) return null;
   return <RechartsArea {...props} />;
 };
-Area.displayName = "Area";
+CustomArea.displayName = "CustomArea";
