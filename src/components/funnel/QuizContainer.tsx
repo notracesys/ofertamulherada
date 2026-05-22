@@ -1058,7 +1058,8 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                       if (typeof cx !== 'number' || typeof cy !== 'number' || isNaN(cx) || isNaN(cy)) return null;
                       return (
                         <g>
-                          <text x={cx} y={cy - 25} textAnchor="middle" fill="#000" fontSize="14" fontWeight="600">Seu peso</text>
+                          <text x={cx} y={cy - 45} textAnchor="middle" fill="#64748b" fontSize="10" fontWeight="bold">SEU PESO</text>
+                          <text x={cx} y={cy - 15} textAnchor="middle" fill="#EF4444" fontSize={20} fontWeight="900">{currentWeightValue}kg</text>
                         </g>
                       );
                     }} />
@@ -1222,7 +1223,8 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                       if (typeof cx !== 'number' || typeof cy !== 'number' || isNaN(cx) || isNaN(cy)) return null;
                       return (
                         <g>
-                          <text x={cx} y={cy - 25} textAnchor="middle" fill="#000" fontSize="14" fontWeight="600">Seu peso</text>
+                          <text x={cx} y={cy - 45} textAnchor="middle" fill="#64748b" fontSize="10" fontWeight="bold">SEU PESO</text>
+                          <text x={cx} y={cy - 15} textAnchor="middle" fill="#EF4444" fontSize={20} fontWeight="900">{currentWeightValue}kg</text>
                         </g>
                       );
                     }} />
@@ -1246,7 +1248,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
 
             <div className="text-center space-y-4 mb-8">
               <h1 className="text-3xl font-black text-slate-900 leading-tight">
-                <span className="text-primary italic">Amiga</span> seu plano de treino de Pilates na Parede de 3 semanas está pronto!
+                seu plano de definição em 21 dias está pronto!
               </h1>
             </div>
 
