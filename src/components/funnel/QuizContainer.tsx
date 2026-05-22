@@ -1021,9 +1021,6 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
               <h2 className="text-3xl font-black leading-tight text-slate-900">
                 Prepare-se para ver <span className="text-[#10B981]">{state.targetWeight}kg</span> no espelho!
               </h2>
-              <p className="text-slate-600 font-medium leading-relaxed px-2">
-                Sua análise corporal mostra que seu metabolismo está pronto para uma transformação radical nos próximos 21 dias.
-              </p>
             </div>
 
             <div className="relative w-full h-[360px] mt-8 overflow-visible flex flex-col">
@@ -1061,8 +1058,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                       if (typeof cx !== 'number' || typeof cy !== 'number' || isNaN(cx) || isNaN(cy)) return null;
                       return (
                         <g>
-                          <text x={cx} y={cy - 45} textAnchor="middle" fill="#64748b" fontSize="10" fontWeight="bold">SEU PESO</text>
-                          <text x={cx} y={cy - 15} textAnchor="middle" fill="#EF4444" fontSize={20} fontWeight="900">{currentWeightValue}kg</text>
+                          <text x={cx} y={cy - 25} textAnchor="middle" fill="#000" fontSize="14" fontWeight="600">Seu peso</text>
                         </g>
                       );
                     }} />
@@ -1074,9 +1070,8 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                       if (typeof cx !== 'number' || typeof cy !== 'number' || isNaN(cx) || isNaN(cy)) return null;
                       return (
                         <g>
-                          <rect x={cx - 30} y={cy - 65} width="60" height="20" rx="10" fill="#EC4899" />
-                          <text x={cx} y={cy - 51} textAnchor="middle" fill="#fff" fontSize="8" fontWeight="bold">3 semanas</text>
-                          <text x={cx} y={cy - 15} textAnchor="middle" fill="#22C55E" fontSize={20} fontWeight="900">{targetWeightValue}kg</text>
+                          <rect x={cx - 45} y={cy - 35} width="90" height="26" rx="13" fill="#EC4899" />
+                          <text x={cx} y={cy - 18} textAnchor="middle" fill="#fff" fontSize="11" fontWeight="bold">3 semanas</text>
                         </g>
                       );
                     }} />
@@ -1192,11 +1187,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
       case 24:
         return (
           <div className="flex flex-col items-center w-full max-w-md mx-auto px-4 pb-10">
-            <div className="w-full h-1.5 bg-primary/20 rounded-full mb-8 overflow-hidden relative">
-               <div className="absolute top-0 left-0 h-full bg-primary w-full" />
-            </div>
-
-            <div className="relative w-full h-[360px] mb-8 overflow-visible flex flex-col">
+            <div className="relative w-full h-[320px] mb-8 overflow-visible flex flex-col">
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={weightData} margin={{ top: 120, right: 40, left: 40, bottom: 20 }} style={{ overflow: 'visible' }}>
                   <defs>
@@ -1231,8 +1222,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                       if (typeof cx !== 'number' || typeof cy !== 'number' || isNaN(cx) || isNaN(cy)) return null;
                       return (
                         <g>
-                          <text x={cx} y={cy - 45} textAnchor="middle" fill="#64748b" fontSize="10" fontWeight="bold">SEU PESO</text>
-                          <text x={cx} y={cy - 15} textAnchor="middle" fill="#EF4444" fontSize={20} fontWeight="900">{currentWeightValue}kg</text>
+                          <text x={cx} y={cy - 25} textAnchor="middle" fill="#000" fontSize="14" fontWeight="600">Seu peso</text>
                         </g>
                       );
                     }} />
@@ -1244,9 +1234,8 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                       if (typeof cx !== 'number' || typeof cy !== 'number' || isNaN(cx) || isNaN(cy)) return null;
                       return (
                         <g>
-                          <rect x={cx - 30} y={cy - 65} width="60" height="20" rx="10" fill="#EC4899" />
-                          <text x={cx} y={cy - 51} textAnchor="middle" fill="#fff" fontSize="8" fontWeight="bold">3 semanas</text>
-                          <text x={cx} y={cy - 15} textAnchor="middle" fill="#22C55E" fontSize={20} fontWeight="900">{targetWeightValue}kg</text>
+                          <rect x={cx - 45} y={cy - 35} width="90" height="26" rx="13" fill="#EC4899" />
+                          <text x={cx} y={cy - 18} textAnchor="middle" fill="#fff" fontSize="11" fontWeight="bold">3 semanas</text>
                         </g>
                       );
                     }} />
@@ -1255,7 +1244,20 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
               </ResponsiveContainer>
             </div>
 
-            <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl shadow-primary/30 uppercase tracking-widest bg-primary text-white hover:scale-[1.02] transition-all">
+            <div className="text-center space-y-4 mb-8">
+              <h1 className="text-3xl font-black text-slate-900 leading-tight">
+                <span className="text-primary italic">Amiga</span> seu plano de treino de Pilates na Parede de 3 semanas está pronto!
+              </h1>
+            </div>
+
+            <div className="bg-[#DCFCE7] p-6 rounded-3xl text-center mb-8 border border-green-100">
+              <h3 className="text-[#15803D] font-black text-xl mb-2">Mudança para sempre</h3>
+              <p className="text-[#166534] text-sm leading-relaxed font-medium">
+                Assim que atingir o seu peso ideal, utilizaremos as últimas semanas do seu programa para o ajudar a criar hábitos saudáveis que lhe permitam manter o seu peso!
+              </p>
+            </div>
+
+            <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-full shadow-xl shadow-primary/30 uppercase tracking-widest bg-primary text-white hover:scale-[1.02] transition-all">
               CONTINUAR
             </Button>
           </div>
