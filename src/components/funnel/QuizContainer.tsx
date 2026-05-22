@@ -18,13 +18,13 @@ import { generatePersonalizedAfricanMethodPlan, type GeneratePersonalizedAfrican
 import { QuizStep } from "./QuizStep";
 import { cn } from "@/lib/utils";
 import { 
-  Area as RechartsArea, 
+  Area, 
   AreaChart, 
   ResponsiveContainer, 
   CartesianGrid, 
-  ReferenceDot,
   XAxis,
-  YAxis
+  YAxis,
+  ReferenceDot
 } from "recharts";
 import {
   Carousel,
@@ -152,7 +152,6 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
     }
   }, [stepId, isClient, state.height, state.weight, state.targetWeight, router]);
 
-  // Autoplay for step 19 carousel
   useEffect(() => {
     if (!api || stepId !== 19) return;
     const interval = setInterval(() => {
@@ -259,12 +258,10 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
   const progress = (stepId / TOTAL_STEPS) * 100;
   const currentWeightValue = parseInt(state.weight || "70");
   const targetWeightValue = parseInt(state.targetWeight || "60");
-  const midWeight = currentWeightValue - (currentWeightValue - targetWeightValue) * 0.5;
 
   const weightData = [
-    { week: "SEMANA 1", weight: currentWeightValue },
-    { week: "SEMANA 2", weight: midWeight },
-    { week: "SEMANA 3", weight: targetWeightValue },
+    { day: "Hoje", weight: currentWeightValue },
+    { day: "21 dias", weight: targetWeightValue },
   ];
 
   const renderStep = () => {
@@ -935,37 +932,62 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
       case 20:
         return (
           <div className="space-y-6 text-center py-4 max-w-md mx-auto w-full px-4">
-            <h2 className="text-3xl font-black leading-tight text-slate-900">Prepare-se para ver <span className="text-[#10B981]">{state.targetWeight}kg</span> no espelho!</h2>
-            <div className="relative">
-              <div className="flex justify-between items-end px-8 relative z-20 pointer-events-none h-14">
-                <div className="text-left">
-                  <span className="text-[10px] font-bold text-muted-foreground block uppercase leading-none mb-1">Seu peso</span>
-                  <span className="text-2xl font-black text-slate-900 leading-none">{currentWeightValue}kg</span>
+             <div className="space-y-1">
+              <p className="text-muted-foreground text-sm font-medium">Prevemos que você estará com</p>
+              <h2 className="text-3xl font-black text-slate-900">
+                <span className="text-[#22c55e]">{state.targetWeight}kg</span> em até 21 dias
+              </h2>
+            </div>
+            
+            <div className="relative w-full h-[320px] mt-8 bg-white rounded-[2.5rem] border border-slate-100 p-6 shadow-sm overflow-visible">
+              {/* Custom Weight Bubbles over Chart */}
+              <div className="absolute inset-x-6 top-8 flex justify-between z-20 pointer-events-none">
+                <div className="relative">
+                  <div className="bg-[#ef4444] text-white px-3 py-1.5 rounded-xl text-lg font-black shadow-lg mb-2 relative flex items-center justify-center min-w-[50px]">
+                    {currentWeightValue}
+                    <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-[#ef4444] rotate-45" />
+                  </div>
                 </div>
-                <div className="text-right flex flex-col items-center">
-                  <div className="bg-primary text-white px-4 py-1.5 rounded-2xl text-lg font-black shadow-lg shadow-primary/20 leading-none">{targetWeightValue}kg</div>
-                  <span className="text-[10px] font-bold text-primary mt-1 uppercase leading-none">3 semanas</span>
+                <div className="relative">
+                  <div className="bg-white text-slate-900 border border-slate-200 px-3 py-1.5 rounded-xl text-lg font-black shadow-lg mb-2 relative flex items-center justify-center min-w-[50px]">
+                    {targetWeightValue}
+                    <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-white border-b border-r border-slate-200 rotate-45" />
+                  </div>
                 </div>
               </div>
 
-              <div className="relative w-full h-[320px] mt-2 overflow-hidden bg-white rounded-[2.5rem] border border-primary/5 p-4 shadow-sm">
-                <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart data={weightData} margin={{ top: 20, right: 10, left: 10, bottom: 0 }}>
-                    <defs>
-                      <linearGradient id="areaGradientStep20" x1="0" y1="0" x2="1" y2="0">
-                        <stop offset="0%" stopColor="#ef4444" stopOpacity={0.8}/><stop offset="50%" stopColor="#facc15" stopOpacity={0.8}/><stop offset="100%" stopColor="#22c55e" stopOpacity={0.8}/>
-                      </linearGradient>
-                    </defs>
-                    <XAxis dataKey="week" hide />
-                    <YAxis domain={['dataMin - 5', 'dataMax + 5']} hide />
-                    <CartesianGrid strokeDasharray="3 3" vertical={true} horizontal={true} stroke="#e2e8f0" />
-                    <CustomAreaChartArea type="monotone" dataKey="weight" stroke="hsl(var(--primary))" strokeWidth={5} fill="url(#areaGradientStep20)" animationDuration={2000} />
-                    <ReferenceDot x="SEMANA 1" y={currentWeightValue} r={6} fill="#fff" stroke="#94a3b8" strokeWidth={3} />
-                    <ReferenceDot x="SEMANA 3" y={targetWeightValue} r={6} fill="#fff" stroke="hsl(var(--primary))" strokeWidth={3} />
-                  </AreaChart>
-                </ResponsiveContainer>
-              </div>
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={weightData} margin={{ top: 60, right: 10, left: 10, bottom: 20 }}>
+                  <defs>
+                    <linearGradient id="areaGradient" x1="0" y1="0" x2="1" y2="0">
+                      <stop offset="0%" stopColor="#ef4444" stopOpacity={0.6}/>
+                      <stop offset="50%" stopColor="#facc15" stopOpacity={0.4}/>
+                      <stop offset="100%" stopColor="#22c55e" stopOpacity={0.2}/>
+                    </linearGradient>
+                  </defs>
+                  <XAxis 
+                    dataKey="day" 
+                    axisLine={false} 
+                    tickLine={false} 
+                    tick={{ fill: '#94a3b8', fontSize: 12, fontWeight: 700 }}
+                    padding={{ left: 10, right: 10 }}
+                  />
+                  <YAxis domain={['dataMin - 10', 'dataMax + 10']} hide />
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
+                  <Area 
+                    type="monotone" 
+                    dataKey="weight" 
+                    stroke="#ef4444" 
+                    strokeWidth={4} 
+                    fill="url(#areaGradient)" 
+                    animationDuration={2000} 
+                  />
+                  <ReferenceDot x="Hoje" y={currentWeightValue} r={6} fill="#ef4444" stroke="#fff" strokeWidth={3} />
+                  <ReferenceDot x="21 dias" y={targetWeightValue} r={6} fill="#22c55e" stroke="#fff" strokeWidth={3} />
+                </AreaChart>
+              </ResponsiveContainer>
             </div>
+
             <div className="mt-8">
               <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl bg-primary text-white flex items-center justify-center gap-3">CONTINUAR <ArrowRight className="w-6 h-6" /></Button>
             </div>
@@ -1007,40 +1029,65 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
       case 24:
         return (
           <div className="flex flex-col items-center w-full max-w-md mx-auto px-4 pb-10">
-            <div className="relative w-full">
-              <div className="flex justify-between items-end px-8 relative z-20 pointer-events-none mt-20 h-14">
-                <div className="text-left">
-                  <span className="text-[10px] font-bold text-muted-foreground block uppercase leading-none mb-1">Seu peso</span>
-                  <span className="text-2xl font-black text-slate-900 leading-none">{currentWeightValue}kg</span>
+            <div className="space-y-1 text-center mb-6">
+              <p className="text-muted-foreground text-sm font-medium">Prevemos que você estará com</p>
+              <h2 className="text-3xl font-black text-slate-900">
+                <span className="text-[#22c55e]">{state.targetWeight}kg</span> em até 21 dias
+              </h2>
+            </div>
+            
+            <div className="relative w-full h-[320px] bg-white rounded-[2.5rem] border border-slate-100 p-6 shadow-sm overflow-visible">
+               <div className="absolute inset-x-6 top-8 flex justify-between z-20 pointer-events-none">
+                <div className="relative">
+                  <div className="bg-[#ef4444] text-white px-3 py-1.5 rounded-xl text-lg font-black shadow-lg mb-2 relative flex items-center justify-center min-w-[50px]">
+                    {currentWeightValue}
+                    <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-[#ef4444] rotate-45" />
+                  </div>
                 </div>
-                <div className="text-right flex flex-col items-center">
-                  <div className="bg-primary text-white px-4 py-1.5 rounded-2xl text-lg font-black shadow-lg shadow-primary/20 leading-none">{targetWeightValue}kg</div>
-                  <span className="text-[10px] font-bold text-primary mt-1 uppercase leading-none">3 semanas</span>
+                <div className="relative">
+                  <div className="bg-white text-slate-900 border border-slate-200 px-3 py-1.5 rounded-xl text-lg font-black shadow-lg mb-2 relative flex items-center justify-center min-w-[50px]">
+                    {targetWeightValue}
+                    <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-white border-b border-r border-slate-200 rotate-45" />
+                  </div>
                 </div>
               </div>
 
-              <div className="relative w-full h-[320px] mt-2 overflow-hidden bg-white rounded-[2.5rem] border border-primary/5 p-4 shadow-sm">
-                <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart data={weightData} margin={{ top: 20, right: 10, left: 10, bottom: 0 }}>
-                    <defs>
-                      <linearGradient id="areaGradientStep24" x1="0" y1="0" x2="1" y2="0">
-                        <stop offset="0%" stopColor="#ef4444" stopOpacity={0.8}/><stop offset="50%" stopColor="#facc15" stopOpacity={0.8}/><stop offset="100%" stopColor="#22c55e" stopOpacity={0.8}/>
-                      </linearGradient>
-                    </defs>
-                    <XAxis dataKey="week" hide />
-                    <YAxis domain={['dataMin - 5', 'dataMax + 5']} hide />
-                    <CartesianGrid strokeDasharray="3 3" vertical={true} horizontal={true} stroke="#e2e8f0" />
-                    <CustomAreaChartArea type="monotone" dataKey="weight" stroke="hsl(var(--primary))" strokeWidth={5} fill="url(#areaGradientStep24)" animationDuration={2500} />
-                    <ReferenceDot x="SEMANA 1" y={currentWeightValue} r={6} fill="#fff" stroke="#94a3b8" strokeWidth={3} />
-                    <ReferenceDot x="SEMANA 3" y={targetWeightValue} r={6} fill="#fff" stroke="hsl(var(--primary))" strokeWidth={3} />
-                  </AreaChart>
-                </ResponsiveContainer>
-              </div>
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={weightData} margin={{ top: 60, right: 10, left: 10, bottom: 20 }}>
+                  <defs>
+                    <linearGradient id="areaGradient24" x1="0" y1="0" x2="1" y2="0">
+                      <stop offset="0%" stopColor="#ef4444" stopOpacity={0.6}/>
+                      <stop offset="50%" stopColor="#facc15" stopOpacity={0.4}/>
+                      <stop offset="100%" stopColor="#22c55e" stopOpacity={0.2}/>
+                    </linearGradient>
+                  </defs>
+                  <XAxis 
+                    dataKey="day" 
+                    axisLine={false} 
+                    tickLine={false} 
+                    tick={{ fill: '#94a3b8', fontSize: 12, fontWeight: 700 }}
+                    padding={{ left: 10, right: 10 }}
+                  />
+                  <YAxis domain={['dataMin - 10', 'dataMax + 10']} hide />
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
+                  <Area 
+                    type="monotone" 
+                    dataKey="weight" 
+                    stroke="#ef4444" 
+                    strokeWidth={4} 
+                    fill="url(#areaGradient24)" 
+                    animationDuration={2500} 
+                  />
+                  <ReferenceDot x="Hoje" y={currentWeightValue} r={6} fill="#ef4444" stroke="#fff" strokeWidth={3} />
+                  <ReferenceDot x="21 dias" y={targetWeightValue} r={6} fill="#22c55e" stroke="#fff" strokeWidth={3} />
+                </AreaChart>
+              </ResponsiveContainer>
             </div>
+
             <div className="text-center space-y-4 mb-8 mt-10">
-              <h1 className="text-2xl font-black text-slate-900 leading-tight">seu plano de definição em 21 dias está pronto!</h1>
+              <h1 className="text-2xl font-black text-slate-900 leading-tight uppercase tracking-tight">seu plano de definição em 21 dias está pronto!</h1>
             </div>
-            <div className="bg-[#f3e8ff] p-8 rounded-[2rem] text-center mb-8 border-none w-full">
+            <div className="bg-secondary p-8 rounded-[2rem] text-center mb-8 border-none w-full">
               <h3 className="text-primary font-black text-2xl mb-2">Mudança para sempre</h3>
               <p className="text-primary text-sm leading-relaxed font-medium">Assim que atingir o seu peso ideal, utilizaremos as últimas semanas do seu programa para o ajudar a criar hábitos saudáveis!</p>
             </div>
@@ -1388,10 +1435,3 @@ function LoadingScreen({ title, steps, onComplete, duration = 3000 }: { title: s
     </div>
   );
 }
-
-const CustomAreaChartArea = (props: any) => {
-  const { path } = props;
-  if (!path || path.includes('NaN')) return null;
-  return <RechartsArea {...props} />;
-};
-CustomAreaChartArea.displayName = "CustomAreaChartArea";
