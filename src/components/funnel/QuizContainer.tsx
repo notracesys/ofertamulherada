@@ -14,7 +14,7 @@ import { useRouter } from "next/navigation";
 import { generatePersonalizedAfricanMethodPlan, type GeneratePersonalizedAfricanMethodPlanInput, type GeneratePersonalizedAfricanMethodPlanOutput } from "@/ai/flows/generate-personalized-african-method-plan";
 import { QuizStep } from "./QuizStep";
 import { cn } from "@/lib/utils";
-import { Area, AreaChart, ResponsiveContainer, XAxis, YAxis, Tooltip as RechartsTooltip, ReferenceDot } from "recharts";
+import { Area, AreaChart, ResponsiveContainer, XAxis, YAxis, CartesianGrid, ReferenceDot } from "recharts";
 
 const TOTAL_STEPS = 24;
 const STORAGE_KEY = "fitness_fem_quiz_state";
@@ -231,10 +231,9 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
   const currentWeight = parseInt(state.weight || "70");
   const targetWeight = parseInt(state.targetWeight || "60");
   const weightData = [
-    { day: "Hoje", weight: currentWeight },
-    { day: "7 dias", weight: currentWeight - (currentWeight - targetWeight) * 0.4 },
-    { day: "14 dias", weight: currentWeight - (currentWeight - targetWeight) * 0.8 },
-    { day: "21 dias", weight: targetWeight },
+    { week: "SEMANA 1", weight: currentWeight },
+    { week: "SEMANA 2", weight: currentWeight - (currentWeight - targetWeight) * 0.5 },
+    { week: "SEMANA 3", weight: targetWeight },
   ];
 
   const renderStep = () => {
@@ -1015,75 +1014,85 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
               </p>
             </div>
 
-            <div className="relative w-full h-[280px] mt-2">
+            <div className="relative w-full h-[320px] mt-4">
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={weightData} margin={{ top: 50, right: 40, left: 40, bottom: 20 }}>
+                <AreaChart data={weightData} margin={{ top: 50, right: 30, left: 30, bottom: 20 }}>
                   <defs>
-                    <linearGradient id="weightGradient" x1="0" y1="0" x2="1" y2="0">
-                      <stop offset="0%" stopColor="#EF4444" stopOpacity={0.8} />
-                      <stop offset="100%" stopColor="#10B981" stopOpacity={0.8} />
-                    </linearGradient>
                     <linearGradient id="areaGradient" x1="0" y1="0" x2="1" y2="0">
-                      <stop offset="0%" stopColor="#EF4444" stopOpacity={0.4} />
-                      <stop offset="100%" stopColor="#10B981" stopOpacity={0.4} />
+                      <stop offset="0%" stopColor="#EF4444" stopOpacity={0.8} />
+                      <stop offset="50%" stopColor="#EAB308" stopOpacity={0.8} />
+                      <stop offset="100%" stopColor="#22C55E" stopOpacity={0.8} />
                     </linearGradient>
                   </defs>
-                  <XAxis dataKey="day" hide />
-                  <YAxis hide domain={['dataMin - 10', 'dataMax + 10']} />
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E2E8F0" />
+                  <XAxis 
+                    dataKey="week" 
+                    axisLine={false} 
+                    tickLine={false} 
+                    tick={{ fill: '#94A3B8', fontSize: 10, fontWeight: 'bold' }}
+                    dy={10}
+                  />
+                  <YAxis hide domain={['dataMin - 15', 'dataMax + 15']} />
                   <Area 
                     type="monotone" 
                     dataKey="weight" 
-                    stroke="url(#weightGradient)" 
+                    stroke="url(#areaGradient)" 
                     strokeWidth={4} 
                     fill="url(#areaGradient)" 
+                    fillOpacity={0.4}
                     animationDuration={2000}
                   />
                   
                   <ReferenceDot 
-                    x="Hoje" 
+                    x="SEMANA 1" 
                     y={currentWeight} 
                     r={6} 
                     fill="#fff" 
                     stroke="#EF4444" 
-                    strokeWidth={2}
+                    strokeWidth={3}
                     label={{ 
                       position: 'top', 
                       offset: 15,
                       content: (props: any) => {
                         const { x, y } = props;
-                        if (typeof x !== 'number' || typeof y !== 'number' || isNaN(x) || isNaN(y)) return null;
+                        if (!x || !y) return null;
                         return (
-                          <text x={x} y={y - 10} textAnchor="middle" fill="#EF4444" fontSize="16" fontWeight="black">{currentWeight}kg</text>
+                          <g>
+                            <text x={x} y={y - 25} textAnchor="middle" fill="#0F172A" fontSize="12" fontWeight="bold">Seu peso</text>
+                            <text x={x} y={y - 10} textAnchor="middle" fill="#EF4444" fontSize="16" fontWeight="black">{currentWeight}kg</text>
+                          </g>
                         );
                       }
                     }}
                   />
+
+                  <ReferenceDot x="SEMANA 2" y={weightData[1].weight} r={5} fill="#fff" stroke="#EAB308" strokeWidth={3} />
                   
                   <ReferenceDot 
-                    x="21 dias" 
+                    x="SEMANA 3" 
                     y={targetWeight} 
                     r={6} 
                     fill="#fff" 
-                    stroke="#10B981" 
-                    strokeWidth={2}
+                    stroke="#22C55E" 
+                    strokeWidth={3}
                     label={{ 
                       position: 'top', 
                       offset: 15,
                       content: (props: any) => {
                         const { x, y } = props;
-                        if (typeof x !== 'number' || typeof y !== 'number' || isNaN(x) || isNaN(y)) return null;
+                        if (!x || !y) return null;
                         return (
-                          <text x={x} y={y - 10} textAnchor="middle" fill="#10B981" fontSize="16" fontWeight="black">{targetWeight}kg</text>
+                          <g>
+                            <rect x={x - 40} y={y - 45} width="80" height="25" rx="12.5" fill="#EC4899" />
+                            <text x={x} y={y - 28} textAnchor="middle" fill="#fff" fontSize="10" fontWeight="bold">3 semanas</text>
+                            <text x={x} y={y - 10} textAnchor="middle" fill="#22C55E" fontSize="16" fontWeight="black">{targetWeight}kg</text>
+                          </g>
                         );
                       }
                     }}
                   />
                 </AreaChart>
               </ResponsiveContainer>
-              <div className="flex justify-between px-10 text-[10px] font-bold text-muted-foreground uppercase tracking-widest mt-[-10px]">
-                <span>PONTO DE PARTIDA</span>
-                <span>SUA NOVA VERSÃO</span>
-              </div>
             </div>
 
             <div className="space-y-4 mt-4">
@@ -1215,89 +1224,82 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                <div className="absolute top-0 left-0 h-full bg-primary w-full" />
             </div>
 
-            <div className="relative w-full h-[280px] mb-8">
+            <div className="relative w-full h-[320px] mb-8">
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={weightData} margin={{ top: 60, right: 40, left: 40, bottom: 20 }}>
+                <AreaChart data={weightData} margin={{ top: 60, right: 30, left: 30, bottom: 20 }}>
                   <defs>
-                    <linearGradient id="gradientFinal" x1="0" y1="0" x2="1" y2="0">
-                      <stop offset="0%" stopColor="#ef4444" stopOpacity={0.8} />
-                      <stop offset="100%" stopColor="#22c55e" stopOpacity={0.8} />
-                    </linearGradient>
-                    <linearGradient id="fillFinal" x1="0" y1="0" x2="1" y2="0">
-                      <stop offset="0%" stopColor="#ef4444" stopOpacity={0.4} />
-                      <stop offset="100%" stopColor="#22c55e" stopOpacity={0.4} />
+                    <linearGradient id="areaGradientFinal" x1="0" y1="0" x2="1" y2="0">
+                      <stop offset="0%" stopColor="#EF4444" stopOpacity={0.8} />
+                      <stop offset="50%" stopColor="#EAB308" stopOpacity={0.8} />
+                      <stop offset="100%" stopColor="#22C55E" stopOpacity={0.8} />
                     </linearGradient>
                   </defs>
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E2E8F0" />
                   <XAxis 
-                    dataKey="day" 
+                    dataKey="week" 
                     axisLine={false} 
                     tickLine={false} 
-                    interval={0}
-                    tick={(props: any) => {
-                      const { x, y, payload } = props;
-                      if (typeof x !== 'number' || typeof y !== 'number' || isNaN(x) || isNaN(y)) return null;
-                      let label = "";
-                      if (payload.value === "Hoje") label = "SEMANA 1";
-                      if (payload.value === "14 dias") label = "SEMANA 2";
-                      if (payload.value === "21 dias") label = "SEMANA 3";
-                      if (!label) return null;
-                      return (
-                        <text x={x} y={y + 15} textAnchor="middle" fill="#94a3b8" fontSize="10" fontWeight="bold">
-                          {label}
-                        </text>
-                      );
-                    }}
+                    tick={{ fill: '#94A3B8', fontSize: 10, fontWeight: 'bold' }}
+                    dy={10}
                   />
                   <YAxis hide domain={['dataMin - 15', 'dataMax + 15']} />
                   <Area 
                     type="monotone" 
                     dataKey="weight" 
-                    stroke="url(#gradientFinal)" 
+                    stroke="url(#areaGradientFinal)" 
                     strokeWidth={4} 
-                    fill="url(#fillFinal)" 
+                    fill="url(#areaGradientFinal)" 
+                    fillOpacity={0.4}
                     animationDuration={2000}
                   />
                   
                   <ReferenceDot 
-                    x="Hoje" 
+                    x="SEMANA 1" 
                     y={currentWeight} 
-                    r={5} 
+                    r={6} 
                     fill="#fff" 
                     stroke="#EF4444" 
-                    strokeWidth={2} 
+                    strokeWidth={3}
                     label={{ 
                       position: 'top', 
-                      offset: 15, 
+                      offset: 15,
                       content: (props: any) => {
                         const { x, y } = props;
-                        if (typeof x !== 'number' || typeof y !== 'number' || isNaN(x) || isNaN(y)) return null;
+                        if (!x || !y) return null;
                         return (
-                          <text x={x} y={y - 12} textAnchor="middle" fill="#000" fontSize="16" fontWeight="black">{currentWeight}kg</text>
+                          <g>
+                            <text x={x} y={y - 25} textAnchor="middle" fill="#0F172A" fontSize="12" fontWeight="bold">Seu peso</text>
+                            <text x={x} y={y - 10} textAnchor="middle" fill="#EF4444" fontSize="16" fontWeight="black">{currentWeight}kg</text>
+                          </g>
                         );
                       }
-                    }} 
+                    }}
                   />
-                  
-                  <ReferenceDot x="14 dias" y={currentWeight - (currentWeight - targetWeight) * 0.8} r={5} fill="#fff" stroke="#cbd5e1" strokeWidth={2} />
+
+                  <ReferenceDot x="SEMANA 2" y={weightData[1].weight} r={5} fill="#fff" stroke="#EAB308" strokeWidth={3} />
                   
                   <ReferenceDot 
-                    x="21 dias" 
+                    x="SEMANA 3" 
                     y={targetWeight} 
-                    r={5} 
+                    r={6} 
                     fill="#fff" 
-                    stroke="#22c55e" 
-                    strokeWidth={2} 
+                    stroke="#22C55E" 
+                    strokeWidth={3}
                     label={{ 
                       position: 'top', 
-                      offset: 15, 
+                      offset: 15,
                       content: (props: any) => {
                         const { x, y } = props;
-                        if (typeof x !== 'number' || typeof y !== 'number' || isNaN(x) || isNaN(y)) return null;
+                        if (!x || !y) return null;
                         return (
-                          <text x={x} y={y - 12} textAnchor="middle" fill="#000" fontSize="16" fontWeight="black">{targetWeight}kg</text>
+                          <g>
+                            <rect x={x - 40} y={y - 45} width="80" height="25" rx="12.5" fill="#EC4899" />
+                            <text x={x} y={y - 28} textAnchor="middle" fill="#fff" fontSize="10" fontWeight="bold">3 semanas</text>
+                            <text x={x} y={y - 10} textAnchor="middle" fill="#22C55E" fontSize="16" fontWeight="black">{targetWeight}kg</text>
+                          </g>
                         );
                       }
-                    }} 
+                    }}
                   />
                 </AreaChart>
               </ResponsiveContainer>
