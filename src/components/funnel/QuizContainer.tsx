@@ -30,7 +30,7 @@ import { useRouter } from "next/navigation";
 import { generatePersonalizedAfricanMethodPlan, type GeneratePersonalizedAfricanMethodPlanInput, type GeneratePersonalizedAfricanMethodPlanOutput } from "@/ai/flows/generate-personalized-african-method-plan";
 import { QuizStep } from "./QuizStep";
 import { cn } from "@/lib/utils";
-import { Area, AreaChart, ResponsiveContainer, XAxis, YAxis, CartesianGrid, ReferenceDot, Label } from "recharts";
+import { Area, AreaChart, ResponsiveContainer, XAxis, YAxis, ReferenceDot, Label } from "recharts";
 
 const TOTAL_STEPS = 25;
 const STORAGE_KEY = "fitness_fem_quiz_state";
@@ -1024,9 +1024,9 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
               </h2>
             </div>
 
-            <div className="relative w-full h-[320px] mt-8 overflow-visible flex flex-col bg-white rounded-3xl border-2 border-primary/5 p-4 pt-16">
+            <div className="relative w-full h-[320px] mt-20 overflow-visible flex flex-col bg-white rounded-3xl border-2 border-primary/5 p-4">
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={weightData} margin={{ top: 20, right: 30, left: 30, bottom: 0 }} style={{ overflow: 'visible' }}>
+                <AreaChart data={weightData} margin={{ top: 120, right: 30, left: 30, bottom: 20 }} style={{ overflow: 'visible' }}>
                   <defs>
                     <linearGradient id="areaGradientStep20" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.2}/>
@@ -1035,10 +1035,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                   </defs>
                   <XAxis 
                     dataKey="week" 
-                    axisLine={false} 
-                    tickLine={false} 
-                    tick={{ fill: '#94A3B8', fontSize: 11, fontWeight: 'bold' }}
-                    dy={10}
+                    hide
                   />
                   <YAxis hide domain={['dataMin - 10', 'dataMax + 10']} />
                   <Area 
@@ -1070,9 +1067,9 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                       if (typeof cx !== 'number' || typeof cy !== 'number' || isNaN(cx) || isNaN(cy)) return null;
                       return (
                         <g>
-                          <rect x={cx - 40} y={cy - 45} width="80" height="28" rx="14" fill="#EC4899" />
-                          <text x={cx} y={cy - 26} textAnchor="middle" fill="#fff" fontSize="12" fontWeight="bold">3 semanas</text>
-                          <text x={cx} y={cy + 35} textAnchor="middle" fill="#22C55E" fontSize={20} fontWeight="900">{targetWeightValue}kg</text>
+                          <rect x={cx - 40} y={cy - 105} width="80" height="28" rx="14" fill="#EC4899" />
+                          <text x={cx} y={cy - 86} textAnchor="middle" fill="#fff" fontSize="12" fontWeight="bold">3 semanas</text>
+                          <text x={cx} y={cy - 25} textAnchor="middle" fill="#22C55E" fontSize={22} fontWeight="900">{targetWeightValue}kg</text>
                         </g>
                       );
                     }} />
@@ -1188,9 +1185,9 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
       case 24:
         return (
           <div className="flex flex-col items-center w-full max-w-md mx-auto px-4 pb-10">
-            <div className="relative w-full h-[320px] mb-8 overflow-visible flex flex-col bg-white rounded-[2.5rem] border-2 border-primary/5 p-4 pt-20">
+            <div className="relative w-full h-[320px] mb-8 mt-20 overflow-visible flex flex-col bg-white rounded-[2.5rem] border-2 border-primary/5 p-4">
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={weightData} margin={{ top: 20, right: 30, left: 30, bottom: 0 }} style={{ overflow: 'visible' }}>
+                <AreaChart data={weightData} margin={{ top: 120, right: 30, left: 30, bottom: 20 }} style={{ overflow: 'visible' }}>
                   <defs>
                     <linearGradient id="areaGradientFinal" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.25}/>
@@ -1199,10 +1196,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                   </defs>
                   <XAxis 
                     dataKey="week" 
-                    axisLine={false} 
-                    tickLine={false} 
-                    tick={{ fill: '#94A3B8', fontSize: 11, fontWeight: 'bold' }}
-                    dy={12}
+                    hide
                   />
                   <YAxis hide domain={['dataMin - 10', 'dataMax + 10']} />
                   <Area 
@@ -1234,9 +1228,9 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                       if (typeof cx !== 'number' || typeof cy !== 'number' || isNaN(cx) || isNaN(cy)) return null;
                       return (
                         <g>
-                          <rect x={cx - 45} y={cy - 48} width="90" height="30" rx="15" fill="#EC4899" />
-                          <text x={cx} y={cy - 28} textAnchor="middle" fill="#fff" fontSize="13" fontWeight="bold">3 semanas</text>
-                          <text x={cx} y={cy + 40} textAnchor="middle" fill="#22C55E" fontSize={24} fontWeight="900">{targetWeightValue}kg</text>
+                          <rect x={cx - 45} y={cy - 108} width="90" height="30" rx="15" fill="#EC4899" />
+                          <text x={cx} y={cy - 88} textAnchor="middle" fill="#fff" fontSize="13" fontWeight="bold">3 semanas</text>
+                          <text x={cx} y={cy - 28} textAnchor="middle" fill="#22C55E" fontSize={24} fontWeight="900">{targetWeightValue}kg</text>
                         </g>
                       );
                     }} />
@@ -1246,12 +1240,12 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
             </div>
 
             <div className="text-center space-y-4 mb-8">
-              <h1 className="text-3xl font-black text-slate-900 leading-tight">
+              <h1 className="text-3xl font-black text-slate-900 leading-tight px-4">
                 seu plano de definição em 21 dias está pronto!
               </h1>
             </div>
 
-            <div className="bg-[#DCFCE7] p-6 rounded-[2rem] text-center mb-8 border border-green-100 shadow-sm">
+            <div className="bg-[#DCFCE7] p-6 rounded-[2rem] text-center mb-8 border border-green-100 shadow-sm w-full">
               <h3 className="text-[#15803D] font-black text-xl mb-2">Mudança para sempre</h3>
               <p className="text-[#166534] text-sm leading-relaxed font-medium">
                 Assim que atingir o seu peso ideal, utilizaremos as últimas semanas do seu programa para o ajudar a criar hábitos saudáveis que lhe permitam manter o seu peso!
