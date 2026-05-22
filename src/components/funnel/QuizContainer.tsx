@@ -1050,19 +1050,15 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     fill="#fff" 
                     stroke="#EF4444" 
                     strokeWidth={3}
-                    label={{ 
-                      position: 'top', 
-                      offset: 15,
-                      content: (props: any) => {
-                        const { x, y } = props;
-                        if (!x || !y) return null;
-                        return (
-                          <g>
-                            <text x={x} y={y - 25} textAnchor="middle" fill="#0F172A" fontSize="12" fontWeight="bold">Seu peso</text>
-                            <text x={x} y={y - 10} textAnchor="middle" fill="#EF4444" fontSize="16" fontWeight="black">{currentWeight}kg</text>
-                          </g>
-                        );
-                      }
+                    label={(props: any) => {
+                      const { x, y } = props;
+                      if (isNaN(x) || isNaN(y)) return null;
+                      return (
+                        <g>
+                          <text x={x} y={y - 28} textAnchor="middle" fill="#64748b" fontSize="10" fontWeight="bold">SEU PESO</text>
+                          <text x={x} y={y - 10} textAnchor="middle" fill="#EF4444" fontSize="16" fontWeight="black">{currentWeight}kg</text>
+                        </g>
+                      );
                     }}
                   />
 
@@ -1075,20 +1071,16 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     fill="#fff" 
                     stroke="#22C55E" 
                     strokeWidth={3}
-                    label={{ 
-                      position: 'top', 
-                      offset: 15,
-                      content: (props: any) => {
-                        const { x, y } = props;
-                        if (!x || !y) return null;
-                        return (
-                          <g>
-                            <rect x={x - 40} y={y - 45} width="80" height="25" rx="12.5" fill="#EC4899" />
-                            <text x={x} y={y - 28} textAnchor="middle" fill="#fff" fontSize="10" fontWeight="bold">3 semanas</text>
-                            <text x={x} y={y - 10} textAnchor="middle" fill="#22C55E" fontSize="16" fontWeight="black">{targetWeight}kg</text>
-                          </g>
-                        );
-                      }
+                    label={(props: any) => {
+                      const { x, y } = props;
+                      if (isNaN(x) || isNaN(y)) return null;
+                      return (
+                        <g>
+                          <rect x={x - 40} y={y - 45} width="80" height="25" rx="12.5" fill="#EC4899" />
+                          <text x={x} y={y - 28} textAnchor="middle" fill="#fff" fontSize="10" fontWeight="bold">3 semanas</text>
+                          <text x={x} y={y - 10} textAnchor="middle" fill="#22C55E" fontSize="16" fontWeight="black">{targetWeight}kg</text>
+                        </g>
+                      );
                     }}
                   />
                 </AreaChart>
@@ -1260,19 +1252,15 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     fill="#fff" 
                     stroke="#EF4444" 
                     strokeWidth={3}
-                    label={{ 
-                      position: 'top', 
-                      offset: 15,
-                      content: (props: any) => {
-                        const { x, y } = props;
-                        if (!x || !y) return null;
-                        return (
-                          <g>
-                            <text x={x} y={y - 25} textAnchor="middle" fill="#0F172A" fontSize="12" fontWeight="bold">Seu peso</text>
-                            <text x={x} y={y - 10} textAnchor="middle" fill="#EF4444" fontSize="16" fontWeight="black">{currentWeight}kg</text>
-                          </g>
-                        );
-                      }
+                    label={(props: any) => {
+                      const { x, y } = props;
+                      if (isNaN(x) || isNaN(y)) return null;
+                      return (
+                        <g>
+                          <text x={x} y={y - 28} textAnchor="middle" fill="#64748b" fontSize="10" fontWeight="bold">SEU PESO</text>
+                          <text x={x} y={y - 10} textAnchor="middle" fill="#EF4444" fontSize="16" fontWeight="black">{currentWeight}kg</text>
+                        </g>
+                      );
                     }}
                   />
 
@@ -1285,20 +1273,16 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     fill="#fff" 
                     stroke="#22C55E" 
                     strokeWidth={3}
-                    label={{ 
-                      position: 'top', 
-                      offset: 15,
-                      content: (props: any) => {
-                        const { x, y } = props;
-                        if (!x || !y) return null;
-                        return (
-                          <g>
-                            <rect x={x - 40} y={y - 45} width="80" height="25" rx="12.5" fill="#EC4899" />
-                            <text x={x} y={y - 28} textAnchor="middle" fill="#fff" fontSize="10" fontWeight="bold">3 semanas</text>
-                            <text x={x} y={y - 10} textAnchor="middle" fill="#22C55E" fontSize="16" fontWeight="black">{targetWeight}kg</text>
-                          </g>
-                        );
-                      }
+                    label={(props: any) => {
+                      const { x, y } = props;
+                      if (isNaN(x) || isNaN(y)) return null;
+                      return (
+                        <g>
+                          <rect x={x - 40} y={y - 45} width="80" height="25" rx="12.5" fill="#EC4899" />
+                          <text x={x} y={y - 28} textAnchor="middle" fill="#fff" fontSize="10" fontWeight="bold">3 semanas</text>
+                          <text x={x} y={y - 10} textAnchor="middle" fill="#22C55E" fontSize="16" fontWeight="black">{targetWeight}kg</text>
+                        </g>
+                      );
                     }}
                   />
                 </AreaChart>
