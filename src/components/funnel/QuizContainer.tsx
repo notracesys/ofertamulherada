@@ -1016,7 +1016,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
 
             <div className="relative w-full h-[320px] mt-4">
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={weightData} margin={{ top: 60, right: 30, left: 30, bottom: 20 }}>
+                <AreaChart data={weightData} margin={{ top: 80, right: 30, left: 30, bottom: 20 }} style={{ overflow: 'visible' }}>
                   <defs>
                     <linearGradient id="areaGradient" x1="0" y1="0" x2="1" y2="0">
                       <stop offset="0%" stopColor="#EF4444" stopOpacity={0.8} />
@@ -1052,11 +1052,11 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     strokeWidth={3}
                     label={(props: any) => {
                       const { cx, cy } = props;
-                      if (!cx || !cy) return null;
+                      if (!cx || !cy || isNaN(cx) || isNaN(cy)) return null;
                       return (
                         <g>
-                          <text x={cx} y={cy - 32} textAnchor="middle" fill="#64748b" fontSize="10" fontWeight="bold">SEU PESO</text>
-                          <text x={cx} y={cy - 12} textAnchor="middle" fill="#EF4444" fontSize="16" fontWeight="black">{currentWeight}kg</text>
+                          <text x={cx} y={cy - 40} textAnchor="middle" fill="#64748b" fontSize="10" fontWeight="bold" style={{ textTransform: 'uppercase' }}>SEU PESO</text>
+                          <text x={cx} y={cy - 15} textAnchor="middle" fill="#EF4444" fontSize="18" fontWeight="900">{currentWeight}kg</text>
                         </g>
                       );
                     }}
@@ -1073,12 +1073,12 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     strokeWidth={3}
                     label={(props: any) => {
                       const { cx, cy } = props;
-                      if (!cx || !cy) return null;
+                      if (!cx || !cy || isNaN(cx) || isNaN(cy)) return null;
                       return (
                         <g>
-                          <rect x={cx - 40} y={cy - 48} width="80" height="24" rx="12" fill="#EC4899" />
-                          <text x={cx} y={cy - 32} textAnchor="middle" fill="#fff" fontSize="10" fontWeight="bold">3 semanas</text>
-                          <text x={cx} y={cy - 12} textAnchor="middle" fill="#22C55E" fontSize="16" fontWeight="black">{targetWeight}kg</text>
+                          <rect x={cx - 40} y={cy - 52} width="80" height="24" rx="12" fill="#EC4899" />
+                          <text x={cx} y={cy - 36} textAnchor="middle" fill="#fff" fontSize="10" fontWeight="bold">3 semanas</text>
+                          <text x={cx} y={cy - 12} textAnchor="middle" fill="#22C55E" fontSize="18" fontWeight="900">{targetWeight}kg</text>
                         </g>
                       );
                     }}
@@ -1218,7 +1218,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
 
             <div className="relative w-full h-[320px] mb-8">
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={weightData} margin={{ top: 60, right: 30, left: 30, bottom: 20 }}>
+                <AreaChart data={weightData} margin={{ top: 80, right: 30, left: 30, bottom: 20 }} style={{ overflow: 'visible' }}>
                   <defs>
                     <linearGradient id="areaGradientFinal" x1="0" y1="0" x2="1" y2="0">
                       <stop offset="0%" stopColor="#EF4444" stopOpacity={0.8} />
@@ -1254,11 +1254,11 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     strokeWidth={3}
                     label={(props: any) => {
                       const { cx, cy } = props;
-                      if (!cx || !cy) return null;
+                      if (!cx || !cy || isNaN(cx) || isNaN(cy)) return null;
                       return (
                         <g>
-                          <text x={cx} y={cy - 32} textAnchor="middle" fill="#64748b" fontSize="10" fontWeight="bold">SEU PESO</text>
-                          <text x={cx} y={cy - 12} textAnchor="middle" fill="#EF4444" fontSize="16" fontWeight="black">{currentWeight}kg</text>
+                          <text x={cx} y={cy - 40} textAnchor="middle" fill="#64748b" fontSize="10" fontWeight="bold" style={{ textTransform: 'uppercase' }}>SEU PESO</text>
+                          <text x={cx} y={cy - 15} textAnchor="middle" fill="#EF4444" fontSize="18" fontWeight="900">{currentWeight}kg</text>
                         </g>
                       );
                     }}
@@ -1275,12 +1275,12 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     strokeWidth={3}
                     label={(props: any) => {
                       const { cx, cy } = props;
-                      if (!cx || !cy) return null;
+                      if (!cx || !cy || isNaN(cx) || isNaN(cy)) return null;
                       return (
                         <g>
-                          <rect x={cx - 40} y={cy - 48} width="80" height="24" rx="12" fill="#EC4899" />
-                          <text x={cx} y={cy - 32} textAnchor="middle" fill="#fff" fontSize="10" fontWeight="bold">3 semanas</text>
-                          <text x={cx} y={cy - 12} textAnchor="middle" fill="#22C55E" fontSize="16" fontWeight="black">{targetWeight}kg</text>
+                          <rect x={cx - 40} y={cy - 52} width="80" height="24" rx="12" fill="#EC4899" />
+                          <text x={cx} y={cy - 36} textAnchor="middle" fill="#fff" fontSize="10" fontWeight="bold">3 semanas</text>
+                          <text x={cx} y={cy - 12} textAnchor="middle" fill="#22C55E" fontSize="18" fontWeight="900">{targetWeight}kg</text>
                         </g>
                       );
                     }}
