@@ -243,9 +243,10 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
   const currentWeightValue = parseInt(state.weight || "70");
   const targetWeightValue = parseInt(state.targetWeight || "60");
   const weightData = [
-    { week: "SEMANA 1", weight: currentWeightValue },
-    { week: "SEMANA 2", weight: currentWeightValue - (currentWeightValue - targetWeightValue) * 0.5 },
-    { week: "SEMANA 3", weight: targetWeightValue },
+    { week: "Hoje", weight: currentWeightValue },
+    { week: "Semana 1", weight: currentWeightValue - (currentWeightValue - targetWeightValue) * 0.3 },
+    { week: "Semana 2", weight: currentWeightValue - (currentWeightValue - targetWeightValue) * 0.65 },
+    { week: "Semana 3", weight: targetWeightValue },
   ];
 
   const renderStep = () => {
@@ -1023,56 +1024,55 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
               </h2>
             </div>
 
-            <div className="relative w-full h-[360px] mt-8 overflow-visible flex flex-col">
+            <div className="relative w-full h-[320px] mt-8 overflow-visible flex flex-col bg-white rounded-3xl border-2 border-primary/5 p-4 pt-16">
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={weightData} margin={{ top: 120, right: 40, left: 40, bottom: 20 }} style={{ overflow: 'visible' }}>
+                <AreaChart data={weightData} margin={{ top: 20, right: 30, left: 30, bottom: 0 }} style={{ overflow: 'visible' }}>
                   <defs>
-                    <linearGradient id="areaGradientStep20" x1="0" y1="0" x2="1" y2="0">
-                      <stop offset="0%" stopColor="#EF4444" stopOpacity={0.8} />
-                      <stop offset="50%" stopColor="#EAB308" stopOpacity={0.8} />
-                      <stop offset="100%" stopColor="#22C55E" stopOpacity={0.8} />
+                    <linearGradient id="areaGradientStep20" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.2}/>
+                      <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
                     </linearGradient>
                   </defs>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E2E8F0" />
                   <XAxis 
                     dataKey="week" 
                     axisLine={false} 
                     tickLine={false} 
-                    tick={{ fill: '#94A3B8', fontSize: 10, fontWeight: 'bold' }}
+                    tick={{ fill: '#94A3B8', fontSize: 11, fontWeight: 'bold' }}
                     dy={10}
                   />
-                  <YAxis hide domain={['dataMin - 15', 'dataMax + 15']} />
+                  <YAxis hide domain={['dataMin - 10', 'dataMax + 10']} />
                   <Area 
                     type="monotone" 
                     dataKey="weight" 
-                    stroke="url(#areaGradientStep20)" 
-                    strokeWidth={4} 
+                    stroke="hsl(var(--primary))" 
+                    strokeWidth={5} 
+                    fillOpacity={1} 
                     fill="url(#areaGradientStep20)" 
-                    fillOpacity={0.4}
                     animationDuration={2000}
                   />
                   
-                  <ReferenceDot x="SEMANA 1" y={currentWeightValue} r={6} fill="#fff" stroke="#EF4444" strokeWidth={3}>
+                  <ReferenceDot x="Hoje" y={currentWeightValue} r={8} fill="hsl(var(--primary))" stroke="#fff" strokeWidth={3}>
                     <Label content={(props: any) => {
                       const { cx, cy } = props;
                       if (typeof cx !== 'number' || typeof cy !== 'number' || isNaN(cx) || isNaN(cy)) return null;
                       return (
                         <g>
-                          <text x={cx} y={cy - 45} textAnchor="middle" fill="#64748b" fontSize="10" fontWeight="bold">SEU PESO</text>
-                          <text x={cx} y={cy - 15} textAnchor="middle" fill="#EF4444" fontSize={20} fontWeight="900">{currentWeightValue}kg</text>
+                          <text x={cx} y={cy - 50} textAnchor="middle" fill="#64748b" fontSize="11" fontWeight="bold" letterSpacing="1">SEU PESO</text>
+                          <text x={cx} y={cy - 25} textAnchor="middle" fill="#0F172A" fontSize={22} fontWeight="900">{currentWeightValue}kg</text>
                         </g>
                       );
                     }} />
                   </ReferenceDot>
 
-                  <ReferenceDot x="SEMANA 3" y={targetWeightValue} r={6} fill="#fff" stroke="#22C55E" strokeWidth={3}>
+                  <ReferenceDot x="Semana 3" y={targetWeightValue} r={8} fill="#22C55E" stroke="#fff" strokeWidth={3}>
                     <Label content={(props: any) => {
                       const { cx, cy } = props;
                       if (typeof cx !== 'number' || typeof cy !== 'number' || isNaN(cx) || isNaN(cy)) return null;
                       return (
                         <g>
-                          <rect x={cx - 45} y={cy - 35} width="90" height="26" rx="13" fill="#EC4899" />
-                          <text x={cx} y={cy - 18} textAnchor="middle" fill="#fff" fontSize="11" fontWeight="bold">3 semanas</text>
+                          <rect x={cx - 40} y={cy - 45} width="80" height="28" rx="14" fill="#EC4899" />
+                          <text x={cx} y={cy - 26} textAnchor="middle" fill="#fff" fontSize="12" fontWeight="bold">3 semanas</text>
+                          <text x={cx} y={cy + 35} textAnchor="middle" fill="#22C55E" fontSize={20} fontWeight="900">{targetWeightValue}kg</text>
                         </g>
                       );
                     }} />
@@ -1188,56 +1188,55 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
       case 24:
         return (
           <div className="flex flex-col items-center w-full max-w-md mx-auto px-4 pb-10">
-            <div className="relative w-full h-[320px] mb-8 overflow-visible flex flex-col">
+            <div className="relative w-full h-[320px] mb-8 overflow-visible flex flex-col bg-white rounded-[2.5rem] border-2 border-primary/5 p-4 pt-20">
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={weightData} margin={{ top: 120, right: 40, left: 40, bottom: 20 }} style={{ overflow: 'visible' }}>
+                <AreaChart data={weightData} margin={{ top: 20, right: 30, left: 30, bottom: 0 }} style={{ overflow: 'visible' }}>
                   <defs>
-                    <linearGradient id="areaGradientFinal" x1="0" y1="0" x2="1" y2="0">
-                      <stop offset="0%" stopColor="#EF4444" stopOpacity={0.8} />
-                      <stop offset="50%" stopColor="#EAB308" stopOpacity={0.8} />
-                      <stop offset="100%" stopColor="#22C55E" stopOpacity={0.8} />
+                    <linearGradient id="areaGradientFinal" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.25}/>
+                      <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
                     </linearGradient>
                   </defs>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E2E8F0" />
                   <XAxis 
                     dataKey="week" 
                     axisLine={false} 
                     tickLine={false} 
-                    tick={{ fill: '#94A3B8', fontSize: 10, fontWeight: 'bold' }}
-                    dy={10}
+                    tick={{ fill: '#94A3B8', fontSize: 11, fontWeight: 'bold' }}
+                    dy={12}
                   />
-                  <YAxis hide domain={['dataMin - 15', 'dataMax + 15']} />
+                  <YAxis hide domain={['dataMin - 10', 'dataMax + 10']} />
                   <Area 
                     type="monotone" 
                     dataKey="weight" 
-                    stroke="url(#areaGradientFinal)" 
-                    strokeWidth={4} 
+                    stroke="hsl(var(--primary))" 
+                    strokeWidth={6} 
+                    fillOpacity={1} 
                     fill="url(#areaGradientFinal)" 
-                    fillOpacity={0.4}
-                    animationDuration={2000}
+                    animationDuration={2500}
                   />
                   
-                  <ReferenceDot x="SEMANA 1" y={currentWeightValue} r={6} fill="#fff" stroke="#EF4444" strokeWidth={3}>
+                  <ReferenceDot x="Hoje" y={currentWeightValue} r={10} fill="hsl(var(--primary))" stroke="#fff" strokeWidth={4}>
                     <Label content={(props: any) => {
                       const { cx, cy } = props;
                       if (typeof cx !== 'number' || typeof cy !== 'number' || isNaN(cx) || isNaN(cy)) return null;
                       return (
                         <g>
-                          <text x={cx} y={cy - 45} textAnchor="middle" fill="#64748b" fontSize="10" fontWeight="bold">SEU PESO</text>
-                          <text x={cx} y={cy - 15} textAnchor="middle" fill="#EF4444" fontSize={20} fontWeight="900">{currentWeightValue}kg</text>
+                          <text x={cx} y={cy - 55} textAnchor="middle" fill="#64748b" fontSize="11" fontWeight="bold" letterSpacing="1">SEU PESO</text>
+                          <text x={cx} y={cy - 28} textAnchor="middle" fill="#0F172A" fontSize={24} fontWeight="900">{currentWeightValue}kg</text>
                         </g>
                       );
                     }} />
                   </ReferenceDot>
 
-                  <ReferenceDot x="SEMANA 3" y={targetWeightValue} r={6} fill="#fff" stroke="#22C55E" strokeWidth={3}>
+                  <ReferenceDot x="Semana 3" y={targetWeightValue} r={10} fill="#22C55E" stroke="#fff" strokeWidth={4}>
                     <Label content={(props: any) => {
                       const { cx, cy } = props;
                       if (typeof cx !== 'number' || typeof cy !== 'number' || isNaN(cx) || isNaN(cy)) return null;
                       return (
                         <g>
-                          <rect x={cx - 45} y={cy - 35} width="90" height="26" rx="13" fill="#EC4899" />
-                          <text x={cx} y={cy - 18} textAnchor="middle" fill="#fff" fontSize="11" fontWeight="bold">3 semanas</text>
+                          <rect x={cx - 45} y={cy - 48} width="90" height="30" rx="15" fill="#EC4899" />
+                          <text x={cx} y={cy - 28} textAnchor="middle" fill="#fff" fontSize="13" fontWeight="bold">3 semanas</text>
+                          <text x={cx} y={cy + 40} textAnchor="middle" fill="#22C55E" fontSize={24} fontWeight="900">{targetWeightValue}kg</text>
                         </g>
                       );
                     }} />
@@ -1252,7 +1251,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
               </h1>
             </div>
 
-            <div className="bg-[#DCFCE7] p-6 rounded-3xl text-center mb-8 border border-green-100">
+            <div className="bg-[#DCFCE7] p-6 rounded-[2rem] text-center mb-8 border border-green-100 shadow-sm">
               <h3 className="text-[#15803D] font-black text-xl mb-2">Mudança para sempre</h3>
               <p className="text-[#166534] text-sm leading-relaxed font-medium">
                 Assim que atingir o seu peso ideal, utilizaremos as últimas semanas do seu programa para o ajudar a criar hábitos saudáveis que lhe permitam manter o seu peso!
