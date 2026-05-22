@@ -264,6 +264,12 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
     { day: "21 dias", weight: targetWeightValue },
   ];
 
+  const DisclaimerText = () => (
+    <p className="text-[10px] text-slate-400 leading-tight mt-6 px-4 text-center italic max-w-[320px] mx-auto">
+      *Baseado nos dados dos usuários que registram seu progresso no aplicativo. Consulte primeiro seu médico. O gráfico é uma ilustração não-personalizada e os resultados podem variar.
+    </p>
+  );
+
   const renderStep = () => {
     switch (stepId) {
       case 1:
@@ -940,7 +946,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
             </div>
             
             <div className="space-y-4">
-              <div className="flex justify-between items-end px-2">
+              <div className="flex justify-between items-end px-2 mb-2">
                 <div className="flex flex-col items-start gap-1">
                   <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">HOJE</span>
                   <div className="bg-[#ef4444] text-white px-4 py-2 rounded-2xl font-black text-2xl shadow-xl shadow-red-500/20">
@@ -955,9 +961,9 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 </div>
               </div>
               
-              <div className="relative w-full h-[320px] bg-white rounded-[2.5rem] border border-slate-100 p-6 shadow-sm overflow-visible">
+              <div className="relative w-full h-[280px] bg-white rounded-[2.5rem] border border-slate-100 p-6 shadow-sm overflow-visible">
                 <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart data={weightData} margin={{ top: 20, right: 30, left: 30, bottom: 20 }}>
+                  <AreaChart data={weightData} margin={{ top: 10, right: 30, left: 30, bottom: 10 }}>
                     <defs>
                       <linearGradient id="areaGradientStep20" x1="0" y1="0" x2="1" y2="0">
                         <stop offset="0%" stopColor="#ef4444" stopOpacity={0.6}/>
@@ -965,13 +971,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                         <stop offset="100%" stopColor="#22c55e" stopOpacity={0.2}/>
                       </linearGradient>
                     </defs>
-                    <XAxis 
-                      dataKey="day" 
-                      axisLine={false} 
-                      tickLine={false} 
-                      tick={{ fill: '#94a3b8', fontSize: 12, fontWeight: 700 }}
-                      padding={{ left: 10, right: 10 }}
-                    />
+                    <XAxis dataKey="day" hide />
                     <YAxis domain={['dataMin - 15', 'dataMax + 15']} hide />
                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
                     <Area 
@@ -986,6 +986,8 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 </ResponsiveContainer>
               </div>
             </div>
+
+            <DisclaimerText />
 
             <div className="mt-8">
               <button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl bg-primary text-white flex items-center justify-center gap-3">CONTINUAR <ArrowRight className="w-6 h-6" /></button>
@@ -1036,7 +1038,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
             </div>
             
             <div className="w-full space-y-4">
-              <div className="flex justify-between items-end px-2">
+              <div className="flex justify-between items-end px-2 mb-2">
                 <div className="flex flex-col items-start gap-1">
                   <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">HOJE</span>
                   <div className="bg-[#ef4444] text-white px-4 py-2 rounded-2xl font-black text-2xl shadow-xl shadow-red-500/20">
@@ -1051,9 +1053,9 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 </div>
               </div>
               
-              <div className="relative w-full h-[320px] bg-white rounded-[2.5rem] border border-slate-100 p-6 shadow-sm overflow-visible">
+              <div className="relative w-full h-[280px] bg-white rounded-[2.5rem] border border-slate-100 p-6 shadow-sm overflow-visible">
                 <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart data={weightData} margin={{ top: 20, right: 30, left: 30, bottom: 20 }}>
+                  <AreaChart data={weightData} margin={{ top: 10, right: 30, left: 30, bottom: 10 }}>
                     <defs>
                       <linearGradient id="areaGradient24" x1="0" y1="0" x2="1" y2="0">
                         <stop offset="0%" stopColor="#ef4444" stopOpacity={0.6}/>
@@ -1061,13 +1063,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                         <stop offset="100%" stopColor="#22c55e" stopOpacity={0.2}/>
                       </linearGradient>
                     </defs>
-                    <XAxis 
-                      dataKey="day" 
-                      axisLine={false} 
-                      tickLine={false} 
-                      tick={{ fill: '#94a3b8', fontSize: 12, fontWeight: 700 }}
-                      padding={{ left: 10, right: 10 }}
-                    />
+                    <XAxis dataKey="day" hide />
                     <YAxis domain={['dataMin - 15', 'dataMax + 15']} hide />
                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
                     <Area 
@@ -1082,6 +1078,8 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 </ResponsiveContainer>
               </div>
             </div>
+
+            <DisclaimerText />
 
             <div className="text-center space-y-4 mb-8 mt-10">
               <h1 className="text-2xl font-black text-slate-900 leading-tight uppercase tracking-tight">seu plano de definição em 21 dias está pronto!</h1>
