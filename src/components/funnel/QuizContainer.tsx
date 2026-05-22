@@ -64,7 +64,6 @@ interface QuizContainerProps {
 
 export function QuizContainer({ stepId }: QuizContainerProps) {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
   const [quizOutput, setQuizOutput] = useState<GeneratePersonalizedAfricanMethodPlanOutput | null>(null);
   const [isClient, setIsClient] = useState(false);
   const [state, setState] = useState<GeneratePersonalizedAfricanMethodPlanInput>(INITIAL_STATE);
@@ -183,7 +182,6 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
   };
 
   const finishQuiz = async () => {
-    setLoading(true);
     try {
       const result = await generatePersonalizedAfricanMethodPlan(state);
       setQuizOutput(result);
@@ -191,8 +189,6 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
     } catch (error) {
       console.error(error);
       router.push(`/step/24`);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -1061,7 +1057,8 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                   />
                   
                   <ReferenceDot x="SEMANA 1" y={currentWeightValue} r={6} fill="#fff" stroke="#EF4444" strokeWidth={3}>
-                    <Label content={({ cx, cy }: any) => {
+                    <Label content={(props: any) => {
+                      const { cx, cy } = props;
                       if (typeof cx !== 'number' || typeof cy !== 'number' || isNaN(cx) || isNaN(cy)) return null;
                       return (
                         <g>
@@ -1072,10 +1069,9 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     }} />
                   </ReferenceDot>
 
-                  <ReferenceDot x="SEMANA 2" y={weightData[1].weight} r={5} fill="#fff" stroke="#EAB308" strokeWidth={3} />
-                  
                   <ReferenceDot x="SEMANA 3" y={targetWeightValue} r={6} fill="#fff" stroke="#22C55E" strokeWidth={3}>
-                    <Label content={({ cx, cy }: any) => {
+                    <Label content={(props: any) => {
+                      const { cx, cy } = props;
                       if (typeof cx !== 'number' || typeof cy !== 'number' || isNaN(cx) || isNaN(cy)) return null;
                       return (
                         <g>
@@ -1088,20 +1084,6 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                   </ReferenceDot>
                 </AreaChart>
               </ResponsiveContainer>
-            </div>
-
-            <div className="space-y-4 mt-4">
-              <div className="bg-[#DCFCE7] p-6 rounded-[2rem] text-center space-y-3 border border-[#86EFAC] shadow-sm relative overflow-hidden">
-                <div className="absolute top-0 right-0 p-2 opacity-10">
-                  <TrendingDown className="w-12 h-12" />
-                </div>
-                <h3 className="text-xl font-black text-[#166534] leading-tight">
-                  Sua hora chegou!
-                </h3>
-                <p className="text-sm text-[#166534]/80 leading-relaxed font-medium">
-                  Com base no seu perfil, você tem o biotipo ideal para responder rapidamente a este protocolo. Em 21 dias, o peso que você deseja será sua nova realidade.
-                </p>
-              </div>
             </div>
 
             <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl shadow-primary/30 uppercase tracking-widest bg-primary text-white hover:scale-[1.02] transition-all flex items-center justify-center gap-3">
@@ -1245,7 +1227,8 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                   />
                   
                   <ReferenceDot x="SEMANA 1" y={currentWeightValue} r={6} fill="#fff" stroke="#EF4444" strokeWidth={3}>
-                    <Label content={({ cx, cy }: any) => {
+                    <Label content={(props: any) => {
+                      const { cx, cy } = props;
                       if (typeof cx !== 'number' || typeof cy !== 'number' || isNaN(cx) || isNaN(cy)) return null;
                       return (
                         <g>
@@ -1256,10 +1239,9 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     }} />
                   </ReferenceDot>
 
-                  <ReferenceDot x="SEMANA 2" y={weightData[1].weight} r={5} fill="#fff" stroke="#EAB308" strokeWidth={3} />
-                  
                   <ReferenceDot x="SEMANA 3" y={targetWeightValue} r={6} fill="#fff" stroke="#22C55E" strokeWidth={3}>
-                    <Label content={({ cx, cy }: any) => {
+                    <Label content={(props: any) => {
+                      const { cx, cy } = props;
                       if (typeof cx !== 'number' || typeof cy !== 'number' || isNaN(cx) || isNaN(cy)) return null;
                       return (
                         <g>
@@ -1272,19 +1254,6 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                   </ReferenceDot>
                 </AreaChart>
               </ResponsiveContainer>
-            </div>
-
-            <div className="space-y-4 mb-8 text-center px-4">
-              <h2 className="text-2xl md:text-3xl font-black text-[#0F172A] leading-tight uppercase italic tracking-tight">
-                seu plano de treino de definição de 3 semanas está pronto!
-              </h2>
-            </div>
-
-            <div className="bg-[#E6F9EF] p-6 rounded-[2rem] text-center space-y-2 border border-[#BFF2D6] w-full mb-8 shadow-sm">
-              <h3 className="text-xl font-black text-[#166534]">Mudança para sempre</h3>
-              <p className="text-sm text-[#166534]/80 font-medium leading-relaxed">
-                Assim que atingir o seu peso ideal, utilizaremos as últimas semanas do seu programa para o ajudar a criar hábitos saudáveis que lhe permitam manter o seu peso!
-              </p>
             </div>
 
             <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl shadow-primary/30 uppercase tracking-widest bg-primary text-white hover:scale-[1.02] transition-all">
@@ -1591,7 +1560,7 @@ function LoadingScreen({ title, steps, onComplete, duration = 3000 }: { title: s
           </motion.p>
         </AnimatePresence>
         <div className="w-full h-1 bg-secondary rounded-full overflow-hidden">
-          <motion.div className="h-full bg-primary loading-bar-glow" style={{ width: `${prog}%` }} />
+          <motion.div className="h-full bg-primary" style={{ width: `${prog}%` }} />
         </div>
       </div>
     </div>
