@@ -34,6 +34,7 @@ import {
 
 const TOTAL_STEPS = 25;
 const STORAGE_KEY = "fitness_fem_quiz_state";
+const PAYMENT_LINK = "https://app.pushinpay.com.br/service/pay/A1D7AF52-0C11-4777-9DE6-BEF75B31577C";
 
 const INITIAL_STATE: GeneratePersonalizedAfricanMethodPlanInput = {
   age: "",
@@ -946,7 +947,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
               </h2>
             </div>
             
-            <div className="space-y-4">
+            <div className="w-full space-y-4">
               <div className="flex justify-between items-end px-2 mb-2">
                 <div className="flex flex-col items-start gap-1">
                   <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">HOJE</span>
@@ -1158,9 +1159,11 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     <p className="text-[8px] font-black text-slate-400 uppercase leading-none tracking-widest mt-1">POR DIA</p>
                   </div>
                 </div>
-                <button className="w-full py-10 text-xl font-black rounded-[1.8rem] bg-[#22c55e] hover:bg-[#16a34a] text-white shadow-xl shadow-green-500/20 uppercase tracking-tight h-auto">
-                  OBTER MEU PLANO AGORA
-                </button>
+                <a href={PAYMENT_LINK} className="block w-full">
+                  <button className="w-full py-10 text-xl font-black rounded-[1.8rem] bg-[#22c55e] hover:bg-[#16a34a] text-white shadow-xl shadow-green-500/20 uppercase tracking-tight h-auto transition-all active:scale-95">
+                    OBTER MEU PLANO AGORA
+                  </button>
+                </a>
               </div>
             </div>
             <div className="text-center mt-6">
