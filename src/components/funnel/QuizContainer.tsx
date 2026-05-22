@@ -1050,12 +1050,15 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     fill="#fff" 
                     stroke="#EF4444" 
                     strokeWidth={3}
-                    label={({ cx, cy }: any) => (
-                      <g>
-                        <text x={cx} y={cy - 45} textAnchor="middle" fill="#64748b" fontSize="10" fontWeight="bold">SEU PESO</text>
-                        <text x={cx} y={cy - 15} textAnchor="middle" fill="#EF4444" fontSize="20" fontWeight="900">{currentWeight}kg</text>
-                      </g>
-                    )}
+                    label={({ cx, cy }: any) => {
+                      if (!cx || !cy || isNaN(cx) || isNaN(cy)) return null;
+                      return (
+                        <g>
+                          <text x={cx} y={cy - 45} textAnchor="middle" fill="#64748b" fontSize="10" fontWeight="bold">SEU PESO</text>
+                          <text x={cx} y={cy - 15} textAnchor="middle" fill="#EF4444" fontSize="20" fontWeight="900">{currentWeight}kg</text>
+                        </g>
+                      );
+                    }}
                   />
 
                   <ReferenceDot x="SEMANA 2" y={weightData[1].weight} r={5} fill="#fff" stroke="#EAB308" strokeWidth={3} />
@@ -1067,13 +1070,16 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     fill="#fff" 
                     stroke="#22C55E" 
                     strokeWidth={3}
-                    label={({ cx, cy }: any) => (
-                      <g>
-                        <rect x={cx - 35} y={cy - 65} width="70" height="22" rx="11" fill="#EC4899" />
-                        <text x={cx} y={cy - 50} textAnchor="middle" fill="#fff" fontSize="10" fontWeight="bold">3 semanas</text>
-                        <text x={cx} y={cy - 15} textAnchor="middle" fill="#22C55E" fontSize="20" fontWeight="900">{targetWeight}kg</text>
-                      </g>
-                    )}
+                    label={({ cx, cy }: any) => {
+                      if (!cx || !cy || isNaN(cx) || isNaN(cy)) return null;
+                      return (
+                        <g>
+                          <rect x={cx - 35} y={cy - 65} width="70" height="22" rx="11" fill="#EC4899" />
+                          <text x={cx} y={cy - 50} textAnchor="middle" fill="#fff" fontSize="10" fontWeight="bold">3 semanas</text>
+                          <text x={cx} y={cy - 15} textAnchor="middle" fill="#22C55E" fontSize="20" fontWeight="900">{targetWeight}kg</text>
+                        </g>
+                      );
+                    }}
                   />
                 </AreaChart>
               </ResponsiveContainer>
@@ -1244,12 +1250,15 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     fill="#fff" 
                     stroke="#EF4444" 
                     strokeWidth={3}
-                    label={({ cx, cy }: any) => (
-                      <g>
-                        <text x={cx} y={cy - 45} textAnchor="middle" fill="#64748b" fontSize="10" fontWeight="bold">SEU PESO</text>
-                        <text x={cx} y={cy - 15} textAnchor="middle" fill="#EF4444" fontSize="20" fontWeight="900">{currentWeight}kg</text>
-                      </g>
-                    )}
+                    label={({ cx, cy }: any) => {
+                      if (!cx || !cy || isNaN(cx) || isNaN(cy)) return null;
+                      return (
+                        <g>
+                          <text x={cx} y={cy - 45} textAnchor="middle" fill="#64748b" fontSize="10" fontWeight="bold">SEU PESO</text>
+                          <text x={cx} y={cy - 15} textAnchor="middle" fill="#EF4444" fontSize="20" fontWeight="900">{currentWeight}kg</text>
+                        </g>
+                      );
+                    }}
                   />
 
                   <ReferenceDot x="SEMANA 2" y={weightData[1].weight} r={5} fill="#fff" stroke="#EAB308" strokeWidth={3} />
@@ -1261,13 +1270,16 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     fill="#fff" 
                     stroke="#22C55E" 
                     strokeWidth={3}
-                    label={({ cx, cy }: any) => (
-                      <g>
-                        <rect x={cx - 35} y={cy - 65} width="70" height="22" rx="11" fill="#EC4899" />
-                        <text x={cx} y={cy - 50} textAnchor="middle" fill="#fff" fontSize="10" fontWeight="bold">3 semanas</text>
-                        <text x={cx} y={cy - 15} textAnchor="middle" fill="#22C55E" fontSize="20" fontWeight="900">{targetWeight}kg</text>
-                      </g>
-                    )}
+                    label={({ cx, cy }: any) => {
+                      if (!cx || !cy || isNaN(cx) || isNaN(cy)) return null;
+                      return (
+                        <g>
+                          <rect x={cx - 35} y={cy - 65} width="70" height="22" rx="11" fill="#EC4899" />
+                          <text x={cx} y={cy - 50} textAnchor="middle" fill="#fff" fontSize="10" fontWeight="bold">3 semanas</text>
+                          <text x={cx} y={cy - 15} textAnchor="middle" fill="#22C55E" fontSize="20" fontWeight="900">{targetWeight}kg</text>
+                        </g>
+                      );
+                    }}
                   />
                 </AreaChart>
               </ResponsiveContainer>
