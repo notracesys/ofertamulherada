@@ -982,7 +982,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                   </div>
                   <div>
                     <div className="flex gap-0.5 mb-0.5">
-                      {[1,2,3,4,5].map(i => <Star key={i} className="w-3 h-3 fill-yellow-400 text-yellow-400" />)}
+                      {[1,2,3,4,5].map(i => <Star key={i} className="w-3 i-3 fill-yellow-400 text-yellow-400" />)}
                     </div>
                     <p className="font-bold text-sm text-foreground">Rafaela</p>
                     <p className="text-[10px] text-muted-foreground">01/04/2026</p>
@@ -1051,12 +1051,12 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     stroke="#EF4444" 
                     strokeWidth={3}
                     label={(props: any) => {
-                      const { x, y } = props;
-                      if (isNaN(x) || isNaN(y)) return null;
+                      const { cx, cy } = props;
+                      if (!cx || !cy) return null;
                       return (
                         <g>
-                          <text x={x} y={y - 28} textAnchor="middle" fill="#64748b" fontSize="10" fontWeight="bold">SEU PESO</text>
-                          <text x={x} y={y - 10} textAnchor="middle" fill="#EF4444" fontSize="16" fontWeight="black">{currentWeight}kg</text>
+                          <text x={cx} y={cy - 32} textAnchor="middle" fill="#64748b" fontSize="10" fontWeight="bold">SEU PESO</text>
+                          <text x={cx} y={cy - 12} textAnchor="middle" fill="#EF4444" fontSize="16" fontWeight="black">{currentWeight}kg</text>
                         </g>
                       );
                     }}
@@ -1072,13 +1072,13 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     stroke="#22C55E" 
                     strokeWidth={3}
                     label={(props: any) => {
-                      const { x, y } = props;
-                      if (isNaN(x) || isNaN(y)) return null;
+                      const { cx, cy } = props;
+                      if (!cx || !cy) return null;
                       return (
                         <g>
-                          <rect x={x - 40} y={y - 45} width="80" height="25" rx="12.5" fill="#EC4899" />
-                          <text x={x} y={y - 28} textAnchor="middle" fill="#fff" fontSize="10" fontWeight="bold">3 semanas</text>
-                          <text x={x} y={y - 10} textAnchor="middle" fill="#22C55E" fontSize="16" fontWeight="black">{targetWeight}kg</text>
+                          <rect x={cx - 40} y={cy - 48} width="80" height="24" rx="12" fill="#EC4899" />
+                          <text x={cx} y={cy - 32} textAnchor="middle" fill="#fff" fontSize="10" fontWeight="bold">3 semanas</text>
+                          <text x={cx} y={cy - 12} textAnchor="middle" fill="#22C55E" fontSize="16" fontWeight="black">{targetWeight}kg</text>
                         </g>
                       );
                     }}
@@ -1253,12 +1253,12 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     stroke="#EF4444" 
                     strokeWidth={3}
                     label={(props: any) => {
-                      const { x, y } = props;
-                      if (isNaN(x) || isNaN(y)) return null;
+                      const { cx, cy } = props;
+                      if (!cx || !cy) return null;
                       return (
                         <g>
-                          <text x={x} y={y - 28} textAnchor="middle" fill="#64748b" fontSize="10" fontWeight="bold">SEU PESO</text>
-                          <text x={x} y={y - 10} textAnchor="middle" fill="#EF4444" fontSize="16" fontWeight="black">{currentWeight}kg</text>
+                          <text x={cx} y={cy - 32} textAnchor="middle" fill="#64748b" fontSize="10" fontWeight="bold">SEU PESO</text>
+                          <text x={cx} y={cy - 12} textAnchor="middle" fill="#EF4444" fontSize="16" fontWeight="black">{currentWeight}kg</text>
                         </g>
                       );
                     }}
@@ -1274,13 +1274,13 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     stroke="#22C55E" 
                     strokeWidth={3}
                     label={(props: any) => {
-                      const { x, y } = props;
-                      if (isNaN(x) || isNaN(y)) return null;
+                      const { cx, cy } = props;
+                      if (!cx || !cy) return null;
                       return (
                         <g>
-                          <rect x={x - 40} y={y - 45} width="80" height="25" rx="12.5" fill="#EC4899" />
-                          <text x={x} y={y - 28} textAnchor="middle" fill="#fff" fontSize="10" fontWeight="bold">3 semanas</text>
-                          <text x={x} y={y - 10} textAnchor="middle" fill="#22C55E" fontSize="16" fontWeight="black">{targetWeight}kg</text>
+                          <rect x={cx - 40} y={cy - 48} width="80" height="24" rx="12" fill="#EC4899" />
+                          <text x={cx} y={cy - 32} textAnchor="middle" fill="#fff" fontSize="10" fontWeight="bold">3 semanas</text>
+                          <text x={cx} y={cy - 12} textAnchor="middle" fill="#22C55E" fontSize="16" fontWeight="black">{targetWeight}kg</text>
                         </g>
                       );
                     }}
