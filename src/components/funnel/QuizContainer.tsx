@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
@@ -263,6 +264,26 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
     { day: "Hoje", weight: currentWeightValue },
     { day: "21 dias", weight: targetWeightValue },
   ];
+
+  const CustomWeightLabel = (props: any) => {
+    const { x, y, value, isTarget } = props;
+    return (
+      <foreignObject x={x - 30} y={y - 65} width={60} height={50} style={{ overflow: 'visible' }}>
+        <div className="flex flex-col items-center">
+          <div className={cn(
+            "px-2.5 py-1.5 rounded-xl text-lg font-black shadow-xl relative flex items-center justify-center min-w-[50px] whitespace-nowrap",
+            isTarget ? "bg-white text-slate-900 border border-slate-200" : "bg-[#ef4444] text-white"
+          )}>
+            {value}kg
+            <div className={cn(
+              "absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 rotate-45",
+              isTarget ? "bg-white border-b border-r border-slate-200" : "bg-[#ef4444]"
+            )} />
+          </div>
+        </div>
+      </foreignObject>
+    );
+  };
 
   const renderStep = () => {
     switch (stepId) {
@@ -940,26 +961,10 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
             </div>
             
             <div className="relative w-full h-[320px] mt-8 bg-white rounded-[2.5rem] border border-slate-100 p-6 shadow-sm overflow-visible">
-              {/* Custom Weight Bubbles over Chart */}
-              <div className="absolute inset-x-6 top-8 flex justify-between z-20 pointer-events-none">
-                <div className="relative">
-                  <div className="bg-[#ef4444] text-white px-3 py-1.5 rounded-xl text-lg font-black shadow-lg mb-2 relative flex items-center justify-center min-w-[50px]">
-                    {currentWeightValue}
-                    <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-[#ef4444] rotate-45" />
-                  </div>
-                </div>
-                <div className="relative">
-                  <div className="bg-white text-slate-900 border border-slate-200 px-3 py-1.5 rounded-xl text-lg font-black shadow-lg mb-2 relative flex items-center justify-center min-w-[50px]">
-                    {targetWeightValue}
-                    <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-white border-b border-r border-slate-200 rotate-45" />
-                  </div>
-                </div>
-              </div>
-
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={weightData} margin={{ top: 60, right: 10, left: 10, bottom: 20 }}>
+                <AreaChart data={weightData} margin={{ top: 80, right: 30, left: 30, bottom: 20 }}>
                   <defs>
-                    <linearGradient id="areaGradient" x1="0" y1="0" x2="1" y2="0">
+                    <linearGradient id="areaGradientStep20" x1="0" y1="0" x2="1" y2="0">
                       <stop offset="0%" stopColor="#ef4444" stopOpacity={0.6}/>
                       <stop offset="50%" stopColor="#facc15" stopOpacity={0.4}/>
                       <stop offset="100%" stopColor="#22c55e" stopOpacity={0.2}/>
@@ -972,18 +977,34 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     tick={{ fill: '#94a3b8', fontSize: 12, fontWeight: 700 }}
                     padding={{ left: 10, right: 10 }}
                   />
-                  <YAxis domain={['dataMin - 10', 'dataMax + 10']} hide />
+                  <YAxis domain={['dataMin - 15', 'dataMax + 15']} hide />
                   <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
                   <Area 
                     type="monotone" 
                     dataKey="weight" 
                     stroke="#ef4444" 
                     strokeWidth={4} 
-                    fill="url(#areaGradient)" 
+                    fill="url(#areaGradientStep20)" 
                     animationDuration={2000} 
                   />
-                  <ReferenceDot x="Hoje" y={currentWeightValue} r={6} fill="#ef4444" stroke="#fff" strokeWidth={3} />
-                  <ReferenceDot x="21 dias" y={targetWeightValue} r={6} fill="#22c55e" stroke="#fff" strokeWidth={3} />
+                  <ReferenceDot 
+                    x="Hoje" 
+                    y={currentWeightValue} 
+                    r={6} 
+                    fill="#ef4444" 
+                    stroke="#fff" 
+                    strokeWidth={3} 
+                    label={<CustomWeightLabel value={currentWeightValue} isTarget={false} />}
+                  />
+                  <ReferenceDot 
+                    x="21 dias" 
+                    y={targetWeightValue} 
+                    r={6} 
+                    fill="#22c55e" 
+                    stroke="#fff" 
+                    strokeWidth={3} 
+                    label={<CustomWeightLabel value={targetWeightValue} isTarget={true} />}
+                  />
                 </AreaChart>
               </ResponsiveContainer>
             </div>
@@ -1037,23 +1058,8 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
             </div>
             
             <div className="relative w-full h-[320px] bg-white rounded-[2.5rem] border border-slate-100 p-6 shadow-sm overflow-visible">
-               <div className="absolute inset-x-6 top-8 flex justify-between z-20 pointer-events-none">
-                <div className="relative">
-                  <div className="bg-[#ef4444] text-white px-3 py-1.5 rounded-xl text-lg font-black shadow-lg mb-2 relative flex items-center justify-center min-w-[50px]">
-                    {currentWeightValue}
-                    <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-[#ef4444] rotate-45" />
-                  </div>
-                </div>
-                <div className="relative">
-                  <div className="bg-white text-slate-900 border border-slate-200 px-3 py-1.5 rounded-xl text-lg font-black shadow-lg mb-2 relative flex items-center justify-center min-w-[50px]">
-                    {targetWeightValue}
-                    <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-white border-b border-r border-slate-200 rotate-45" />
-                  </div>
-                </div>
-              </div>
-
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={weightData} margin={{ top: 60, right: 10, left: 10, bottom: 20 }}>
+                <AreaChart data={weightData} margin={{ top: 80, right: 30, left: 30, bottom: 20 }}>
                   <defs>
                     <linearGradient id="areaGradient24" x1="0" y1="0" x2="1" y2="0">
                       <stop offset="0%" stopColor="#ef4444" stopOpacity={0.6}/>
@@ -1068,7 +1074,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     tick={{ fill: '#94a3b8', fontSize: 12, fontWeight: 700 }}
                     padding={{ left: 10, right: 10 }}
                   />
-                  <YAxis domain={['dataMin - 10', 'dataMax + 10']} hide />
+                  <YAxis domain={['dataMin - 15', 'dataMax + 15']} hide />
                   <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
                   <Area 
                     type="monotone" 
@@ -1078,8 +1084,24 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     fill="url(#areaGradient24)" 
                     animationDuration={2500} 
                   />
-                  <ReferenceDot x="Hoje" y={currentWeightValue} r={6} fill="#ef4444" stroke="#fff" strokeWidth={3} />
-                  <ReferenceDot x="21 dias" y={targetWeightValue} r={6} fill="#22c55e" stroke="#fff" strokeWidth={3} />
+                  <ReferenceDot 
+                    x="Hoje" 
+                    y={currentWeightValue} 
+                    r={6} 
+                    fill="#ef4444" 
+                    stroke="#fff" 
+                    strokeWidth={3} 
+                    label={<CustomWeightLabel value={currentWeightValue} isTarget={false} />}
+                  />
+                  <ReferenceDot 
+                    x="21 dias" 
+                    y={targetWeightValue} 
+                    r={6} 
+                    fill="#22c55e" 
+                    stroke="#fff" 
+                    strokeWidth={3} 
+                    label={<CustomWeightLabel value={targetWeightValue} isTarget={true} />}
+                  />
                 </AreaChart>
               </ResponsiveContainer>
             </div>
