@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
@@ -980,7 +981,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
 
               <div className="text-center space-y-4 px-4">
                 <h1 className="text-2xl md:text-3xl font-black text-[#0F172A] leading-tight">
-                  Seu programa feminino de definição personalizado está pronto!
+                  Seu plano de treino personalizado de Programa Feminino de Definição está pronto!
                 </h1>
               </div>
 
@@ -1103,6 +1104,26 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                       </p>
                     </div>
                   </div>
+
+                  {/* Benefício 3: Glúteos e Pernas */}
+                  <div className="space-y-8">
+                    <div className="relative w-full max-w-[400px] mx-auto rounded-[2.5rem] overflow-hidden shadow-lg bg-slate-50">
+                      <Image 
+                        src="/gluteos1.png" 
+                        alt="Benefício Glúteos e Pernas" 
+                        width={400}
+                        height={500}
+                        className="w-full h-auto object-contain"
+                      />
+                    </div>
+                    <div className="space-y-4">
+                      <h3 className="text-2xl font-black text-slate-900">Glúteos e Pernas</h3>
+                      <p className="text-slate-500 text-lg leading-relaxed font-medium">
+                        A definição da parte inferior do corpo é um dos pilares do nosso programa. 
+                        Com exercícios de ativação muscular profunda, você vai tonificar glúteos e pernas, combatendo a flacidez e esculpindo suas curvas de forma natural e eficiente.
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </section>
 
@@ -1184,7 +1205,7 @@ function LoadingScreen({ title, steps, onComplete, duration = 3000 }: { title: s
   );
 }
 
-// Estabilização renomeada para evitar conflito
+// Estabilização renomeada para evitar conflito com importações globais
 const CustomArea = (props: any) => {
   const { path } = props;
   if (!path || path.includes('NaN')) return null;
