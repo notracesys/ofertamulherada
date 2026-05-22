@@ -378,9 +378,11 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
             <div className="relative w-full aspect-[4/3] max-w-[320px] mx-auto rounded-3xl overflow-hidden premium-shadow">
               <Image src="/step3.webp" alt="Transformação" fill className="object-cover" priority />
             </div>
-            <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl shadow-primary/30 uppercase tracking-wide bg-primary text-white">
-              Continuar
-            </Button>
+            <div className="mt-8">
+              <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl shadow-primary/30 uppercase tracking-wide bg-primary text-white">
+                Continuar
+              </Button>
+            </div>
           </div>
         );
 
@@ -570,9 +572,11 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 </Card>
               ))}
             </div>
-            <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl shadow-primary/30 uppercase bg-primary text-white mt-8">
-              PRÓXIMO PASSO
-            </Button>
+            <div className="mt-8">
+              <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl shadow-primary/30 uppercase bg-primary text-white">
+                PRÓXIMO PASSO
+              </Button>
+            </div>
           </div>
         );
 
@@ -592,9 +596,11 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 </p>
               </div>
             </div>
-            <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl shadow-primary/30 uppercase tracking-wide bg-primary text-white">
-              Continuar
-            </Button>
+            <div className="mt-8">
+              <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl shadow-primary/30 uppercase tracking-wide bg-primary text-white">
+                Continuar
+              </Button>
+            </div>
           </div>
         );
 
@@ -750,7 +756,9 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
               </div>
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-12 w-1 bg-primary rounded-full shadow-lg z-10 pointer-events-none" />
             </div>
-            <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl bg-primary text-white mt-4">PRÓXIMO PASSO</Button>
+            <div className="mt-8">
+              <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl bg-primary text-white">PRÓXIMO PASSO</Button>
+            </div>
           </div>
         );
 
@@ -776,7 +784,9 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
               </div>
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-12 w-1 bg-primary rounded-full shadow-lg z-10 pointer-events-none" />
             </div>
-            <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl bg-primary text-white mt-8">PRÓXIMO PASSO</Button>
+            <div className="mt-8">
+              <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl bg-primary text-white">PRÓXIMO PASSO</Button>
+            </div>
           </div>
         );
 
@@ -802,7 +812,9 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
               </div>
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-14 w-1 bg-primary rounded-full shadow-lg z-10 pointer-events-none" />
             </div>
-            <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl bg-primary text-white mt-4">PRÓXIMO PASSO</Button>
+            <div className="mt-8">
+              <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl bg-primary text-white">PRÓXIMO PASSO</Button>
+            </div>
           </div>
         );
 
@@ -813,7 +825,9 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
             <div className="pt-4">
               <Input type="number" placeholder="Exemplo: 39" className="h-16 rounded-3xl text-center text-xl italic border-primary/20 bg-white shadow-sm focus-visible:ring-primary" value={state.age || ""} onChange={(e) => updateState("age", e.target.value)} />
             </div>
-            <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl bg-primary text-white mt-4">PRÓXIMO PASSO</Button>
+            <div className="mt-8">
+              <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl bg-primary text-white">PRÓXIMO PASSO</Button>
+            </div>
           </div>
         );
 
@@ -864,7 +878,9 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 </ResponsiveContainer>
               </div>
             </div>
-            <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl bg-primary text-white flex items-center justify-center gap-3">CONTINUAR <ArrowRight className="w-6 h-6" /></Button>
+            <div className="mt-8">
+              <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl bg-primary text-white flex items-center justify-center gap-3">CONTINUAR <ArrowRight className="w-6 h-6" /></Button>
+            </div>
           </div>
         );
 
@@ -939,7 +955,9 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
               <h3 className="text-[#15803D] font-black text-2xl mb-2">Mudança para sempre</h3>
               <p className="text-[#15803D] text-sm leading-relaxed font-medium">Assim que atingir o seu peso ideal, utilizaremos as últimas semanas do seu programa para o ajudar a criar hábitos saudáveis!</p>
             </div>
-            <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl bg-primary text-white uppercase tracking-widest">CONTINUAR</Button>
+            <div className="mt-4 w-full">
+              <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl bg-primary text-white uppercase tracking-widest">CONTINUAR</Button>
+            </div>
           </div>
         );
 
@@ -1171,7 +1189,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                   <div className="space-y-4">
                     <div className="space-y-1">
                       <h3 className="text-xl font-bold text-primary">Juliana | -6kg</h3>
-                      <p className="font-bold text-slate-900">Perdeu 6kg em apenas 14 dias.</p>
+                      <p className="font-bold text-slate-900">perdeu 10kg em 23 dias</p>
                     </div>
                     <div className="relative w-full max-w-[400px] mx-auto rounded-[2.5rem] overflow-hidden shadow-lg border-4 border-white">
                       <Image 
