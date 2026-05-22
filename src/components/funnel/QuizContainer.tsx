@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
@@ -57,6 +56,27 @@ const INITIAL_STATE: GeneratePersonalizedAfricanMethodPlanInput = {
   weight: "65",
   targetWeight: "60",
 };
+
+const TESTIMONIALS = [
+  {
+    name: "Rafaela",
+    date: "01/04/2026",
+    text: '"Essa foi de longe a melhor escolha que eu fiz na minha vida! Exercícios que realmente funciona e trazem resultados rápidos.. 🙏"',
+    img: "/ref1.jpg"
+  },
+  {
+    name: "Letícia",
+    date: "05/04/2026",
+    text: '"Eu estava desanimada, mas o Programa Feminino de Definição mudou tudo. Perdi 8kg e me sinto outra mulher! 😍"',
+    img: "/ref2.jpg"
+  },
+  {
+    name: "Amanda",
+    date: "12/04/2026",
+    text: '"Incrível como os exercícios são simples mas funcionam tanto. Minha barriga sumiu! Recomendo demais. 🙌"',
+    img: "/ref3.jpg"
+  }
+];
 
 interface QuizContainerProps {
   stepId: number;
@@ -135,7 +155,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
 
       if (stepId === 22) {
         setStep22Progress(0);
-        const duration = 7000;
+        const duration = 10000;
         const interval = duration / 100;
         const timer = setInterval(() => {
           setStep22Progress(p => {
@@ -153,7 +173,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
   }, [stepId, isClient, state.height, state.weight, state.targetWeight, router]);
 
   useEffect(() => {
-    if (!api || stepId !== 19) return;
+    if (!api || (stepId !== 19 && stepId !== 22)) return;
     const interval = setInterval(() => {
       api.scrollNext();
     }, 3000);
@@ -883,26 +903,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
 
             <Carousel setApi={setApi} className="w-full max-w-[360px] mx-auto" opts={{ loop: true }}>
               <CarouselContent>
-                {[
-                  {
-                    name: "Rafaela",
-                    date: "01/04/2026",
-                    text: '"Essa foi de longe a melhor escolha que eu fiz na minha vida! Exercícios que realmente funciona e trazem resultados rápidos.. 🙏"',
-                    img: "/ref1.jpg"
-                  },
-                  {
-                    name: "Letícia",
-                    date: "05/04/2026",
-                    text: '"Eu estava desanimada, mas o Programa Feminino de Definição mudou tudo. Perdi 8kg e me sinto outra mulher! 😍"',
-                    img: "/ref2.jpg"
-                  },
-                  {
-                    name: "Amanda",
-                    date: "12/04/2026",
-                    text: '"Incrível como os exercícios são simples mas funcionam tanto. Minha barriga sumiu! Recomendo demais. 🙌"',
-                    img: "/ref3.jpg"
-                  }
-                ].map((testimonial, i) => (
+                {TESTIMONIALS.map((testimonial, i) => (
                   <CarouselItem key={i}>
                     <motion.div 
                       initial={{ opacity: 0, y: 20 }}
@@ -1011,8 +1012,8 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
 
       case 22:
         return (
-          <div className="space-y-10 py-6 text-center w-full max-lg mx-auto">
-            <div className="space-y-4 px-4">
+          <div className="space-y-10 py-6 text-center w-full max-w-lg mx-auto px-4">
+            <div className="space-y-4">
                <div className="flex justify-between items-center mb-1">
                 <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Analizando o seu perfil...</span>
                 <span className="text-[10px] font-bold text-primary">{step22Progress}%</span>
@@ -1020,7 +1021,43 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
               <Progress value={step22Progress} className="h-1.5 bg-secondary" />
               <p className="text-sm font-bold text-muted-foreground">Criando seu plano de treino personalizado de definição feminina</p>
             </div>
-            <h2 className="text-4xl md:text-5xl font-black text-primary leading-none">1 milhão de pessoas</h2>
+            
+            <div className="space-y-2">
+              <h2 className="text-3xl md:text-4xl font-black text-primary leading-tight uppercase tracking-tight">
+                +1 milhão de pessoas
+              </h2>
+              <p className="text-lg text-slate-600 font-medium">já escolheram o nosso produto para transformar suas vidas!</p>
+            </div>
+
+            <Carousel setApi={setApi} className="w-full max-w-[360px] mx-auto mt-6" opts={{ loop: true }}>
+              <CarouselContent>
+                {TESTIMONIALS.map((testimonial, i) => (
+                  <CarouselItem key={i}>
+                    <motion.div 
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="bg-white rounded-[2.5rem] p-8 shadow-2xl border border-slate-50 relative overflow-hidden text-left premium-shadow"
+                    >
+                      <div className="flex gap-4 items-start mb-5">
+                        <div className="relative w-14 h-14 rounded-full overflow-hidden shrink-0 border-2 border-primary/20 shadow-sm">
+                          <Image src={testimonial.img} alt={testimonial.name} fill className="object-cover" />
+                        </div>
+                        <div className="space-y-1">
+                           <div className="flex gap-0.5">
+                            {[1,2,3,4,5].map(s => <span key={s} className="text-yellow-400 text-sm">★</span>)}
+                          </div>
+                          <h4 className="font-black text-slate-900 leading-none text-lg">{testimonial.name}</h4>
+                          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{testimonial.date}</p>
+                        </div>
+                      </div>
+                      <p className="text-slate-600 font-medium leading-relaxed italic text-base">
+                        {testimonial.text}
+                      </p>
+                    </motion.div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+            </Carousel>
           </div>
         );
 
