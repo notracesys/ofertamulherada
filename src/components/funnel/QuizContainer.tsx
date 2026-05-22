@@ -1016,7 +1016,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
 
             <div className="relative w-full h-[320px] mt-4">
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={weightData} margin={{ top: 50, right: 30, left: 30, bottom: 20 }}>
+                <AreaChart data={weightData} margin={{ top: 60, right: 30, left: 30, bottom: 20 }}>
                   <defs>
                     <linearGradient id="areaGradient" x1="0" y1="0" x2="1" y2="0">
                       <stop offset="0%" stopColor="#EF4444" stopOpacity={0.8} />
