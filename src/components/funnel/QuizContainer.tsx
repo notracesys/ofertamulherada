@@ -841,15 +841,52 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
 
       case 19:
         return (
-          <div className="space-y-10 text-center py-4 w-full max-w-lg mx-auto">
-            <div className="space-y-4">
-              <div className="flex justify-between items-center mb-1">
-                <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Analisando o seu perfil...</span>
-                <span className="text-[10px] font-bold text-primary">{step19Progress}%</span>
+          <div className="space-y-10 text-center py-4 w-full max-w-lg mx-auto px-4">
+            <div className="space-y-2">
+              <div className="flex flex-col items-center gap-1 mb-2">
+                <h3 className="text-xl font-bold text-slate-900">Analisando o seu perfil...</h3>
+                <p className="text-sm text-muted-foreground font-medium italic">aguarde um momento ...</p>
               </div>
-              <Progress value={step19Progress} className="h-1.5 bg-secondary" />
+              <div className="relative pt-1">
+                <div className="flex mb-4 items-center justify-end">
+                  <span className="text-xs font-bold inline-block text-primary">
+                    {step19Progress}%
+                  </span>
+                </div>
+                <Progress value={step19Progress} className="h-2.5 bg-secondary shadow-inner" />
+              </div>
             </div>
-            <h2 className="text-3xl font-black text-[#0F172A] Math.round(step19Progress / 10) leading-tight px-4">No total, nossos usuários perderam em média <span className="text-green-500 font-black">14+ kg</span> 🤩</h2>
+
+            <h2 className="text-2xl md:text-3xl font-black text-slate-900 leading-[1.1] tracking-tight px-2">
+              No total, durante os últimos 3 meses, nossos usuários perderam em média <br />
+              <span className="text-[#10B981] text-4xl font-black">14+ kg</span> <span className="text-3xl">🤩</span>
+            </h2>
+
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+              className="bg-white rounded-[2.5rem] p-8 shadow-2xl border border-slate-50 max-w-[360px] mx-auto relative overflow-hidden text-left premium-shadow"
+            >
+              <div className="flex gap-4 items-start mb-5">
+                <div className="relative w-14 h-14 rounded-full overflow-hidden shrink-0 border-2 border-primary/20 shadow-sm">
+                  <Image src="https://picsum.photos/seed/rafaela/100/100" alt="Rafaela" fill className="object-cover" />
+                </div>
+                <div className="space-y-1">
+                   <div className="flex gap-0.5">
+                    {[1,2,3,4,5].map(s => <span key={s} className="text-yellow-400 text-sm">★</span>)}
+                  </div>
+                  <h4 className="font-black text-slate-900 leading-none text-lg">Rafaela</h4>
+                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">01/04/2026</p>
+                </div>
+              </div>
+              <p className="text-slate-600 font-medium leading-relaxed italic text-base">
+                &quot;Essa foi de longe a melhor escolha que eu fiz na minha vida! Exercícios que realmente funciona e trazem resultados rápidos.. 🙏&quot;
+              </p>
+              <div className="absolute top-4 right-4 text-primary/5">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor"><path d="M14.017 21L14.017 18C14.017 15.238 16.255 13 19.017 13H21V21H14.017ZM3.017 21L3.017 18C3.017 15.238 5.255 13 8.017 13H10V21H3.017Z" /></svg>
+              </div>
+            </motion.div>
           </div>
         );
 
