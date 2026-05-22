@@ -16,7 +16,6 @@ import {
   ChevronRight, 
   Zap, 
   Target, 
-  TrendingDown,
   Clock,
   Flame,
   User,
@@ -1088,7 +1087,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
       case 21:
         return (
           <div className="space-y-12 text-center px-4">
-            <h2 className="text-2xl font-bold text-[#0F172A] leading-tight px-6">
+            <h2 className="text-2xl font-bold text-[#0F172A] window.scrollTo({ top: 0, behavior: 'smooth' }) leading-tight px-6">
               Quanto tempo você deseja dedicar em seu corpo no dia?
             </h2>
             <div className="grid grid-cols-2 gap-4">
