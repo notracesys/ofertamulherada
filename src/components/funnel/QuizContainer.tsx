@@ -25,7 +25,6 @@ import {
   CartesianGrid, 
   XAxis,
   YAxis,
-  ReferenceDot
 } from "recharts";
 import {
   Carousel,
@@ -595,7 +594,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
               ))}
             </div>
             <div className="mt-8">
-              <button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl shadow-primary/30 uppercase bg-primary text-white">
+              <button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl bg-primary text-white">
                 PRÓXIMO PASSO
               </button>
             </div>
@@ -883,19 +882,19 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     name: "Rafaela",
                     date: "01/04/2026",
                     text: '"Essa foi de longe a melhor escolha que eu fiz na minha vida! Exercícios que realmente funciona e trazem resultados rápidos.. 🙏"',
-                    img: "https://picsum.photos/seed/rafaela/100/100"
+                    img: "/ref1.jpg"
                   },
                   {
                     name: "Letícia",
                     date: "05/04/2026",
                     text: '"Eu estava desanimada, mas o Programa Feminino de Definição mudou tudo. Perdi 8kg e me sinto outra mulher! 😍"',
-                    img: "https://picsum.photos/seed/leticia/100/100"
+                    img: "/ref2.jpg"
                   },
                   {
                     name: "Amanda",
                     date: "12/04/2026",
                     text: '"Incrível como os exercícios são simples mas funcionam tanto. Minha barriga sumiu! Recomendo demais. 🙌"',
-                    img: "https://picsum.photos/seed/amanda/100/100"
+                    img: "/ref3.jpg"
                   }
                 ].map((testimonial, i) => (
                   <CarouselItem key={i}>
@@ -958,7 +957,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
               
               <div className="relative w-full h-[320px] bg-white rounded-[2.5rem] border border-slate-100 p-6 shadow-sm overflow-visible">
                 <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart data={weightData} margin={{ top: 40, right: 30, left: 30, bottom: 20 }}>
+                  <AreaChart data={weightData} margin={{ top: 20, right: 30, left: 30, bottom: 20 }}>
                     <defs>
                       <linearGradient id="areaGradientStep20" x1="0" y1="0" x2="1" y2="0">
                         <stop offset="0%" stopColor="#ef4444" stopOpacity={0.6}/>
@@ -982,22 +981,6 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                       strokeWidth={4} 
                       fill="url(#areaGradientStep20)" 
                       animationDuration={2000} 
-                    />
-                    <ReferenceDot 
-                      x="Hoje" 
-                      y={currentWeightValue} 
-                      r={6} 
-                      fill="#ef4444" 
-                      stroke="#fff" 
-                      strokeWidth={3} 
-                    />
-                    <ReferenceDot 
-                      x="21 dias" 
-                      y={targetWeightValue} 
-                      r={6} 
-                      fill="#22c55e" 
-                      stroke="#fff" 
-                      strokeWidth={3} 
                     />
                   </AreaChart>
                 </ResponsiveContainer>
@@ -1070,7 +1053,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
               
               <div className="relative w-full h-[320px] bg-white rounded-[2.5rem] border border-slate-100 p-6 shadow-sm overflow-visible">
                 <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart data={weightData} margin={{ top: 40, right: 30, left: 30, bottom: 20 }}>
+                  <AreaChart data={weightData} margin={{ top: 20, right: 30, left: 30, bottom: 20 }}>
                     <defs>
                       <linearGradient id="areaGradient24" x1="0" y1="0" x2="1" y2="0">
                         <stop offset="0%" stopColor="#ef4444" stopOpacity={0.6}/>
@@ -1094,22 +1077,6 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                       strokeWidth={4} 
                       fill="url(#areaGradient24)" 
                       animationDuration={2500} 
-                    />
-                    <ReferenceDot 
-                      x="Hoje" 
-                      y={currentWeightValue} 
-                      r={6} 
-                      fill="#ef4444" 
-                      stroke="#fff" 
-                      strokeWidth={3} 
-                    />
-                    <ReferenceDot 
-                      x="21 dias" 
-                      y={targetWeightValue} 
-                      r={6} 
-                      fill="#22c55e" 
-                      stroke="#fff" 
-                      strokeWidth={3} 
                     />
                   </AreaChart>
                 </ResponsiveContainer>
