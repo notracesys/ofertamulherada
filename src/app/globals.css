@@ -10,21 +10,21 @@
     --card-foreground: 270 10% 15%;
     --popover: 0 0% 100%;
     --popover-foreground: 270 10% 10%;
-    --primary: 330 85% 65%;
+    --primary: 270 75% 55%;
     --primary-foreground: 0 0% 100%;
     --secondary: 270 30% 95%;
     --secondary-foreground: 270 60% 30%;
     --muted: 270 20% 94%;
     --muted-foreground: 270 10% 45%;
-    --accent: 330 85% 65%;
+    --accent: 270 75% 55%;
     --accent-foreground: 0 0% 100%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
     --border: 270 20% 90%;
     --input: 270 20% 90%;
-    --ring: 330 85% 65%;
+    --ring: 270 75% 55%;
     --radius: 1.5rem;
-    --chart-1: 330 85% 65%;
+    --chart-1: 270 75% 55%;
     --chart-2: 250 70% 70%;
   }
 }
@@ -42,10 +42,9 @@
 }
 
 .premium-shadow {
-  shadow-color: rgba(255, 105, 180, 0.1);
-  box-shadow: 0 10px 30px -5px rgba(255, 105, 180, 0.1);
+  box-shadow: 0 10px 30px -5px rgba(147, 51, 234, 0.15);
 }
 
 .loading-bar-glow {
-  box-shadow: 0 0 15px rgba(255, 105, 180, 0.5);
+  box-shadow: 0 0 15px rgba(147, 51, 234, 0.5);
 }

@@ -870,9 +870,9 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                       </linearGradient>
                     </defs>
                     <CartesianGrid strokeDasharray="3 3" vertical={true} horizontal={true} stroke="#e2e8f0" />
-                    <CustomAreaChartArea type="monotone" dataKey="weight" stroke="#ec4899" strokeWidth={5} fill="url(#areaGradientStep20)" animationDuration={2000} />
+                    <CustomAreaChartArea type="monotone" dataKey="weight" stroke="hsl(var(--primary))" strokeWidth={5} fill="url(#areaGradientStep20)" animationDuration={2000} />
                     <ReferenceDot x="SEMANA 1" y={currentWeightValue} r={6} fill="#fff" stroke="#94a3b8" strokeWidth={3} />
-                    <ReferenceDot x="SEMANA 3" y={targetWeightValue} r={6} fill="#fff" stroke="#ec4899" strokeWidth={3} />
+                    <ReferenceDot x="SEMANA 3" y={targetWeightValue} r={6} fill="#fff" stroke="hsl(var(--primary))" strokeWidth={3} />
                   </AreaChart>
                 </ResponsiveContainer>
               </div>
@@ -939,9 +939,9 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                       </linearGradient>
                     </defs>
                     <CartesianGrid strokeDasharray="3 3" vertical={true} horizontal={true} stroke="#e2e8f0" />
-                    <CustomAreaChartArea type="monotone" dataKey="weight" stroke="#ec4899" strokeWidth={5} fill="url(#areaGradientStep24)" animationDuration={2500} />
+                    <CustomAreaChartArea type="monotone" dataKey="weight" stroke="hsl(var(--primary))" strokeWidth={5} fill="url(#areaGradientStep24)" animationDuration={2500} />
                     <ReferenceDot x="SEMANA 1" y={currentWeightValue} r={6} fill="#fff" stroke="#94a3b8" strokeWidth={3} />
-                    <ReferenceDot x="SEMANA 3" y={targetWeightValue} r={6} fill="#fff" stroke="#ec4899" strokeWidth={3} />
+                    <ReferenceDot x="SEMANA 3" y={targetWeightValue} r={6} fill="#fff" stroke="hsl(var(--primary))" strokeWidth={3} />
                   </AreaChart>
                 </ResponsiveContainer>
               </div>
@@ -949,9 +949,9 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
             <div className="text-center space-y-4 mb-8 mt-10">
               <h1 className="text-2xl font-black text-slate-900 leading-tight">seu plano de definição em 21 dias está pronto!</h1>
             </div>
-            <div className="bg-[#DCFCE7] p-8 rounded-[2rem] text-center mb-8 border-none w-full">
-              <h3 className="text-[#15803D] font-black text-2xl mb-2">Mudança para sempre</h3>
-              <p className="text-[#15803D] text-sm leading-relaxed font-medium">Assim que atingir o seu peso ideal, utilizaremos as últimas semanas do seu programa para o ajudar a criar hábitos saudáveis!</p>
+            <div className="bg-[#f3e8ff] p-8 rounded-[2rem] text-center mb-8 border-none w-full">
+              <h3 className="text-primary font-black text-2xl mb-2">Mudança para sempre</h3>
+              <p className="text-primary text-sm leading-relaxed font-medium">Assim que atingir o seu peso ideal, utilizaremos as últimas semanas do seu programa para o ajudar a criar hábitos saudáveis!</p>
             </div>
             <div className="mt-4 w-full">
               <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl bg-primary text-white uppercase tracking-widest">CONTINUAR</Button>
@@ -962,8 +962,8 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
       case 25:
         const CTACard = () => (
           <section className="relative w-full max-w-[440px] mx-auto px-4 py-10">
-            <div className="rounded-[2.5rem] border-2 border-[#22C55E] bg-white overflow-hidden shadow-2xl">
-              <div className="bg-[#22C55E] py-3 text-center">
+            <div className="rounded-[2.5rem] border-2 border-primary bg-white overflow-hidden shadow-2xl">
+              <div className="bg-primary py-3 text-center">
                 <span className="text-white font-black text-[10px] uppercase tracking-[0.15em]">
                   ESSE DESCONTO ACABARÁ HOJE!
                 </span>
@@ -974,7 +974,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     <h3 className="text-xl font-black text-slate-900">Programa Feminino de Definição</h3>
                     <div className="space-y-0">
                       <p className="text-red-500 line-through text-base italic font-medium">R$ 47,90</p>
-                      <p className="text-[#22C55E] font-black text-4xl tracking-tight">R$ 27,90</p>
+                      <p className="text-primary font-black text-4xl tracking-tight">R$ 27,90</p>
                     </div>
                   </div>
                   <div className="bg-slate-50 border border-slate-200 rounded-[1.5rem] p-4 text-center min-w-[100px]">
@@ -986,7 +986,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     <p className="text-[8px] font-black text-slate-400 uppercase leading-none tracking-widest mt-1">POR DIA</p>
                   </div>
                 </div>
-                <Button className="w-full py-10 text-xl font-black rounded-[1.8rem] bg-[#22C55E] hover:bg-[#1ead52] text-white shadow-xl shadow-green-200 uppercase tracking-tight h-auto">
+                <Button className="w-full py-10 text-xl font-black rounded-[1.8rem] bg-primary hover:bg-primary/90 text-white shadow-xl shadow-primary/20 uppercase tracking-tight h-auto">
                   OBTER MEU PLANO AGORA
                 </Button>
               </div>
@@ -1055,7 +1055,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     "Receitas Personalizadas para acelerar o seu emagrecimento"
                   ].map((item, i) => (
                     <div key={i} className="flex items-start gap-4">
-                      <div className="mt-1 bg-[#4ADE80] rounded-sm p-0.5 shrink-0">
+                      <div className="mt-1 bg-primary rounded-sm p-0.5 shrink-0">
                         <Check className="w-3.5 h-3.5 text-white" strokeWidth={4} />
                       </div>
                       <span className="font-bold text-slate-800 text-lg leading-tight">
@@ -1201,12 +1201,12 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
               <CTACard />
 
               <section className="w-full max-w-2xl mx-auto px-4 py-10 space-y-8 flex flex-col items-center">
-                <div className="bg-[#DCFCE7] p-8 rounded-[2.5rem] text-center space-y-4 w-full border-none">
-                  <h3 className="text-[#15803D] font-black text-2xl">Garantia de 90 Dias</h3>
-                  <p className="text-[#15803D] text-base leading-relaxed font-medium">
+                <div className="bg-[#f3e8ff] p-8 rounded-[2.5rem] text-center space-y-4 w-full border-none">
+                  <h3 className="text-primary font-black text-2xl">Garantia de 90 Dias</h3>
+                  <p className="text-primary text-base leading-relaxed font-medium">
                     Se em até 90 dias você não estiver completamente satisfeita com os resultados, basta entrar em contato com a equipe, e nós devolvemos 100% do seu dinheiro, sem perguntas.
                   </p>
-                  <p className="text-[#15803D] text-lg font-bold">
+                  <p className="text-primary text-lg font-bold">
                     Seu investimento é totalmente seguro!
                   </p>
                 </div>
