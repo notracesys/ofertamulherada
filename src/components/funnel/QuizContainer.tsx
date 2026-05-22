@@ -26,6 +26,12 @@ import {
   XAxis,
   YAxis
 } from "recharts";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  type CarouselApi,
+} from "@/components/ui/carousel";
 
 const TOTAL_STEPS = 25;
 const STORAGE_KEY = "fitness_fem_quiz_state";
@@ -63,6 +69,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
   const [selectedLimitations, setSelectedLimitations] = useState<string[]>([]);
   const [heightUnit, setHeightUnit] = useState<"cm" | "pol">("cm");
   const [sliderPos, setSliderPos] = useState(50);
+  const [api, setApi] = useState<CarouselApi>();
   
   const heightRulerRef = useRef<HTMLDivElement>(null);
   const weightRulerRef = useRef<HTMLDivElement>(null);
@@ -144,6 +151,15 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
       }
     }
   }, [stepId, isClient, state.height, state.weight, state.targetWeight, router]);
+
+  // Autoplay for step 19 carousel
+  useEffect(() => {
+    if (!api || stepId !== 19) return;
+    const interval = setInterval(() => {
+      api.scrollNext();
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [api, stepId]);
 
   const nextStep = () => {
     if (stepId < TOTAL_STEPS) {
@@ -862,31 +878,57 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
               <span className="text-[#10B981] text-4xl font-black">14+ kg</span> <span className="text-3xl">🤩</span>
             </h2>
 
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
-              className="bg-white rounded-[2.5rem] p-8 shadow-2xl border border-slate-50 max-w-[360px] mx-auto relative overflow-hidden text-left premium-shadow"
-            >
-              <div className="flex gap-4 items-start mb-5">
-                <div className="relative w-14 h-14 rounded-full overflow-hidden shrink-0 border-2 border-primary/20 shadow-sm">
-                  <Image src="https://picsum.photos/seed/rafaela/100/100" alt="Rafaela" fill className="object-cover" />
-                </div>
-                <div className="space-y-1">
-                   <div className="flex gap-0.5">
-                    {[1,2,3,4,5].map(s => <span key={s} className="text-yellow-400 text-sm">★</span>)}
-                  </div>
-                  <h4 className="font-black text-slate-900 leading-none text-lg">Rafaela</h4>
-                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">01/04/2026</p>
-                </div>
-              </div>
-              <p className="text-slate-600 font-medium leading-relaxed italic text-base">
-                &quot;Essa foi de longe a melhor escolha que eu fiz na minha vida! Exercícios que realmente funciona e trazem resultados rápidos.. 🙏&quot;
-              </p>
-              <div className="absolute top-4 right-4 text-primary/5">
-                <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor"><path d="M14.017 21L14.017 18C14.017 15.238 16.255 13 19.017 13H21V21H14.017ZM3.017 21L3.017 18C3.017 15.238 5.255 13 8.017 13H10V21H3.017Z" /></svg>
-              </div>
-            </motion.div>
+            <Carousel setApi={setApi} className="w-full max-w-[360px] mx-auto" opts={{ loop: true }}>
+              <CarouselContent>
+                {[
+                  {
+                    name: "Rafaela",
+                    date: "01/04/2026",
+                    text: '"Essa foi de longe a melhor escolha que eu fiz na minha vida! Exercícios que realmente funciona e trazem resultados rápidos.. 🙏"',
+                    img: "https://picsum.photos/seed/rafaela/100/100"
+                  },
+                  {
+                    name: "Letícia",
+                    date: "05/04/2026",
+                    text: '"Eu estava desanimada, mas o Programa Feminino de Definição mudou tudo. Perdi 8kg e me sinto outra mulher! 😍"',
+                    img: "https://picsum.photos/seed/leticia/100/100"
+                  },
+                  {
+                    name: "Amanda",
+                    date: "12/04/2026",
+                    text: '"Incrível como os exercícios são simples mas funcionam tanto. Minha barriga sumiu! Recomendo demais. 🙌"',
+                    img: "https://picsum.photos/seed/amanda/100/100"
+                  }
+                ].map((testimonial, i) => (
+                  <CarouselItem key={i}>
+                    <motion.div 
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="bg-white rounded-[2.5rem] p-8 shadow-2xl border border-slate-50 relative overflow-hidden text-left premium-shadow"
+                    >
+                      <div className="flex gap-4 items-start mb-5">
+                        <div className="relative w-14 h-14 rounded-full overflow-hidden shrink-0 border-2 border-primary/20 shadow-sm">
+                          <Image src={testimonial.img} alt={testimonial.name} fill className="object-cover" />
+                        </div>
+                        <div className="space-y-1">
+                           <div className="flex gap-0.5">
+                            {[1,2,3,4,5].map(s => <span key={s} className="text-yellow-400 text-sm">★</span>)}
+                          </div>
+                          <h4 className="font-black text-slate-900 leading-none text-lg">{testimonial.name}</h4>
+                          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{testimonial.date}</p>
+                        </div>
+                      </div>
+                      <p className="text-slate-600 font-medium leading-relaxed italic text-base">
+                        {testimonial.text}
+                      </p>
+                      <div className="absolute top-4 right-4 text-primary/5">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor"><path d="M14.017 21L14.017 18C14.017 15.238 16.255 13 19.017 13H21V21H14.017ZM3.017 21L3.017 18C3.017 15.238 5.255 13 8.017 13H10V21H3.017Z" /></svg>
+                      </div>
+                    </motion.div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+            </Carousel>
           </div>
         );
 
