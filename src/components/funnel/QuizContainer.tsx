@@ -1061,24 +1061,30 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                   />
                   
                   <ReferenceDot x="SEMANA 1" y={currentWeightValue} r={6} fill="#fff" stroke="#EF4444" strokeWidth={3}>
-                    <Label content={({ cx, cy }: any) => (
-                      <g>
-                        <text x={cx} y={cy - 45} textAnchor="middle" fill="#64748b" fontSize="10" fontWeight="bold">SEU PESO</text>
-                        <text x={cx} y={cy - 15} textAnchor="middle" fill="#EF4444" fontSize={20} fontWeight="900">{currentWeightValue}kg</text>
-                      </g>
-                    )} />
+                    <Label content={({ cx, cy }: any) => {
+                      if (isNaN(cx) || isNaN(cy)) return null;
+                      return (
+                        <g>
+                          <text x={cx} y={cy - 45} textAnchor="middle" fill="#64748b" fontSize="10" fontWeight="bold">SEU PESO</text>
+                          <text x={cx} y={cy - 15} textAnchor="middle" fill="#EF4444" fontSize={20} fontWeight="900">{currentWeightValue}kg</text>
+                        </g>
+                      );
+                    }} />
                   </ReferenceDot>
 
                   <ReferenceDot x="SEMANA 2" y={weightData[1].weight} r={5} fill="#fff" stroke="#EAB308" strokeWidth={3} />
                   
                   <ReferenceDot x="SEMANA 3" y={targetWeightValue} r={6} fill="#fff" stroke="#22C55E" strokeWidth={3}>
-                    <Label content={({ cx, cy }: any) => (
-                      <g>
-                        <rect x={cx - 30} y={cy - 65} width="60" height="20" rx="10" fill="#EC4899" />
-                        <text x={cx} y={cy - 51} textAnchor="middle" fill="#fff" fontSize="8" fontWeight="bold">3 semanas</text>
-                        <text x={cx} y={cy - 15} textAnchor="middle" fill="#22C55E" fontSize={20} fontWeight="900">{targetWeightValue}kg</text>
-                      </g>
-                    )} />
+                    <Label content={({ cx, cy }: any) => {
+                      if (isNaN(cx) || isNaN(cy)) return null;
+                      return (
+                        <g>
+                          <rect x={cx - 30} y={cy - 65} width="60" height="20" rx="10" fill="#EC4899" />
+                          <text x={cx} y={cy - 51} textAnchor="middle" fill="#fff" fontSize="8" fontWeight="bold">3 semanas</text>
+                          <text x={cx} y={cy - 15} textAnchor="middle" fill="#22C55E" fontSize={20} fontWeight="900">{targetWeightValue}kg</text>
+                        </g>
+                      );
+                    }} />
                   </ReferenceDot>
                 </AreaChart>
               </ResponsiveContainer>
@@ -1239,24 +1245,30 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                   />
                   
                   <ReferenceDot x="SEMANA 1" y={currentWeightValue} r={6} fill="#fff" stroke="#EF4444" strokeWidth={3}>
-                    <Label content={({ cx, cy }: any) => (
-                      <g>
-                        <text x={cx} y={cy - 45} textAnchor="middle" fill="#64748b" fontSize="10" fontWeight="bold">SEU PESO</text>
-                        <text x={cx} y={cy - 15} textAnchor="middle" fill="#EF4444" fontSize={20} fontWeight="900">{currentWeightValue}kg</text>
-                      </g>
-                    )} />
+                    <Label content={({ cx, cy }: any) => {
+                      if (isNaN(cx) || isNaN(cy)) return null;
+                      return (
+                        <g>
+                          <text x={cx} y={cy - 45} textAnchor="middle" fill="#64748b" fontSize="10" fontWeight="bold">SEU PESO</text>
+                          <text x={cx} y={cy - 15} textAnchor="middle" fill="#EF4444" fontSize={20} fontWeight="900">{currentWeightValue}kg</text>
+                        </g>
+                      );
+                    }} />
                   </ReferenceDot>
 
                   <ReferenceDot x="SEMANA 2" y={weightData[1].weight} r={5} fill="#fff" stroke="#EAB308" strokeWidth={3} />
                   
                   <ReferenceDot x="SEMANA 3" y={targetWeightValue} r={6} fill="#fff" stroke="#22C55E" strokeWidth={3}>
-                    <Label content={({ cx, cy }: any) => (
-                      <g>
-                        <rect x={cx - 30} y={cy - 65} width="60" height="20" rx="10" fill="#EC4899" />
-                        <text x={cx} y={cy - 51} textAnchor="middle" fill="#fff" fontSize="8" fontWeight="bold">3 semanas</text>
-                        <text x={cx} y={cy - 15} textAnchor="middle" fill="#22C55E" fontSize={20} fontWeight="900">{targetWeightValue}kg</text>
-                      </g>
-                    )} />
+                    <Label content={({ cx, cy }: any) => {
+                      if (isNaN(cx) || isNaN(cy)) return null;
+                      return (
+                        <g>
+                          <rect x={cx - 30} y={cy - 65} width="60" height="20" rx="10" fill="#EC4899" />
+                          <text x={cx} y={cy - 51} textAnchor="middle" fill="#fff" fontSize="8" fontWeight="bold">3 semanas</text>
+                          <text x={cx} y={cy - 15} textAnchor="middle" fill="#22C55E" fontSize={20} fontWeight="900">{targetWeightValue}kg</text>
+                        </g>
+                      );
+                    }} />
                   </ReferenceDot>
                 </AreaChart>
               </ResponsiveContainer>
@@ -1284,10 +1296,8 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
       case 25:
         return (
           <div className="w-full bg-background overflow-x-hidden">
-            {/* Sales Page - Step 25 */}
             <div className="max-w-4xl mx-auto px-4 py-10 space-y-16">
               
-              {/* Hero Section */}
               <section className="text-center space-y-6">
                 <Badge variant="secondary" className="bg-primary/10 text-primary border-none px-4 py-1 rounded-full font-bold uppercase tracking-wider text-[10px]">
                   Acesso Imediato Liberado
@@ -1300,7 +1310,6 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 </p>
               </section>
 
-              {/* Offer Card */}
               <section className="relative">
                 <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-10">
                   <Badge className="bg-[#EF4444] text-white border-none px-6 py-2 rounded-full font-black uppercase italic tracking-widest animate-pulse shadow-lg">
@@ -1348,7 +1357,6 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 </Card>
               </section>
 
-              {/* What you'll receive */}
               <section className="space-y-10">
                 <h2 className="text-3xl md:text-4xl font-black text-center text-foreground uppercase tracking-tight">
                   O que você <span className="text-primary">vai receber</span>
@@ -1373,7 +1381,6 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 </div>
               </section>
 
-              {/* Benefits */}
               <section className="space-y-12">
                 <h2 className="text-3xl md:text-4xl font-black text-center text-foreground uppercase tracking-tight">
                   Transforme <span className="text-primary italic">seu corpo</span>
@@ -1399,7 +1406,6 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 </div>
               </section>
 
-              {/* Results */}
               <section className="space-y-12 bg-primary/5 -mx-4 px-4 py-16 rounded-[3rem]">
                 <h2 className="text-3xl md:text-4xl font-black text-center text-foreground uppercase tracking-tight">
                   Alunas que <span className="text-primary italic">conseguiram</span>
@@ -1428,7 +1434,6 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 </div>
               </section>
 
-              {/* Second Offer */}
               <section className="text-center space-y-8 bg-white p-10 rounded-[3rem] shadow-2xl shadow-primary/10 border-4 border-primary/10">
                 <h2 className="text-3xl md:text-4xl font-black text-foreground uppercase tracking-tight">
                   Adquira agora o seu plano
@@ -1450,7 +1455,6 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 </Button>
               </section>
 
-              {/* Bonus Section */}
               <section className="space-y-12">
                 <div className="text-center space-y-4">
                   <Badge variant="secondary" className="bg-yellow-100 text-yellow-700 border-none px-6 py-1 rounded-full font-black uppercase italic tracking-widest">
@@ -1478,7 +1482,6 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 </div>
               </section>
 
-              {/* CTA Final */}
               <section className="text-center space-y-10 pt-16 pb-20 border-t border-primary/10">
                 <div className="space-y-6">
                   <h2 className="text-3xl md:text-5xl font-black text-foreground leading-tight max-w-3xl mx-auto">
