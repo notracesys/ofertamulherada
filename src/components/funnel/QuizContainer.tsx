@@ -981,7 +981,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
 
               <div className="text-center space-y-4 px-4">
                 <h1 className="text-2xl md:text-3xl font-black text-[#0F172A] leading-tight">
-                  Seu programa feminino de definição personalizado está pronto!
+                  Seu Programa Feminino de Definição personalizado está pronto!
                 </h1>
               </div>
 
@@ -1051,7 +1051,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     src="/videos.gif" 
                     alt="Vídeo das aulas" 
                     fill 
-                    className="object-cover"
+                    className="object-contain"
                     unoptimized
                   />
                 </div>
@@ -1064,12 +1064,13 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 </h2>
                 
                 <div className="space-y-8">
-                  <div className="relative w-full aspect-[4/5] max-w-[400px] mx-auto rounded-[2.5rem] overflow-hidden shadow-lg">
+                  <div className="relative w-full max-w-[400px] mx-auto rounded-[2.5rem] overflow-hidden shadow-lg bg-slate-50">
                     <Image 
                       src="/perdadepeso.webp" 
                       alt="Benefício Perda de Peso" 
-                      fill 
-                      className="object-cover"
+                      width={400}
+                      height={500}
+                      className="w-full h-auto object-contain"
                     />
                   </div>
                   <div className="space-y-4">
