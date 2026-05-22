@@ -1221,13 +1221,12 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 
                 <div className="space-y-5 px-4">
                   {[
-                    "Exercícios fáceis, suaves e seguros para qualquer nível físico",
-                    "Exercícios para melhorar a flexibilidade, reduzir dores nos músculos e melhorar a circulação",
-                    "Stress e ansiedade reduzidos",
-                    "Melhoria da pressão arterial e da saúde das articulações",
-                    "Corpo forte, tonificado e definido",
-                    "+21 aulas para você assistir onde quiser",
-                    "Receitas Personalizadas para acelerar o seu emagrecimento"
+                    "Exercícios focados em ativação muscular para crescer glúteos e tornear as pernas",
+                    "Protocolo exclusivo para definição abdominal e queima de gordura localizada",
+                    "Plano Alimentar e Receitas Práticas para acelerar seu metabolismo",
+                    "Aulas rápidas de 10 a 15 minutos para fazer em qualquer lugar",
+                    "Suporte para reduzir a flacidez e tonificar todo o corpo",
+                    "Acesso imediato a +21 aulas práticas e fáceis de seguir"
                   ].map((item, i) => (
                     <div key={i} className="flex items-start gap-4">
                       <div className="mt-1 bg-primary rounded-sm p-0.5 shrink-0">
