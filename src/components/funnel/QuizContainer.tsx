@@ -14,6 +14,7 @@ import {
   Star, 
   ShieldCheck, 
   ChevronRight, 
+  ChevronLeft,
   Zap, 
   Target, 
   Clock,
@@ -1025,7 +1026,6 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
             </div>
 
             <div className="relative">
-              {/* DIV DE IDENTIFICAÇÃO DE PESO ACIMA DO GRÁFICO */}
               <div className="flex justify-between items-end px-8 mb-[-60px] relative z-20 pointer-events-none">
                 <div className="text-left">
                   <span className="text-[10px] font-bold text-muted-foreground block uppercase leading-none mb-1">Seu peso</span>
@@ -1175,7 +1175,6 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
         return (
           <div className="flex flex-col items-center w-full max-w-md mx-auto px-4 pb-10">
             <div className="relative w-full">
-              {/* DIV DE IDENTIFICAÇÃO DE PESO ACIMA DO GRÁFICO */}
               <div className="flex justify-between items-end px-8 mb-[-60px] relative z-20 pointer-events-none mt-20">
                 <div className="text-left">
                   <span className="text-[10px] font-bold text-muted-foreground block uppercase leading-none mb-1">Seu peso</span>
@@ -1239,64 +1238,73 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
       case 25:
         return (
           <div className="w-full bg-background overflow-x-hidden">
-            <div className="max-w-4xl mx-auto px-4 py-10 space-y-16">
+            <div className="max-w-4xl mx-auto px-4 py-10 space-y-12">
               
-              <section className="text-center space-y-6">
-                <h1 className="text-4xl md:text-6xl font-black text-foreground leading-[1.1] tracking-tight">
-                  Seu plano feminino personalizado <span className="text-primary italic">está pronto!</span>
-                </h1>
-                <p className="text-lg md:text-xl text-muted-foreground font-medium max-w-2xl mx-auto leading-relaxed">
-                  Transforme sua cintura, defina suas pernas e conquiste glúteos mais firmes sem precisar sair de casa.
-                </p>
-              </section>
-
-              <section className="relative">
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-10">
-                  <Badge className="bg-[#EF4444] text-white border-none px-6 py-2 rounded-full font-black uppercase italic tracking-widest animate-pulse shadow-lg">
-                    ESSE DESCONTO ACABARÁ HOJE!
-                  </Badge>
+              {/* Transformation Image Comparison */}
+              <section className="space-y-8">
+                <div className="relative w-full aspect-square max-w-[400px] mx-auto rounded-[2.5rem] overflow-hidden shadow-2xl bg-white border-4 border-white">
+                  <div className="absolute inset-0 flex">
+                    <div className="relative flex-1">
+                       <Image src="/foto1.png" alt="Before" fill className="object-cover" />
+                    </div>
+                    <div className="relative flex-1">
+                       <Image src="/foto2.png" alt="After" fill className="object-cover" />
+                    </div>
+                  </div>
+                  <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-1.5 bg-white shadow-xl flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-full bg-white shadow-2xl flex items-center justify-center border border-slate-100">
+                      <div className="flex gap-0.5">
+                        <ChevronLeft className="w-4 h-4 text-slate-400" />
+                        <ChevronRight className="w-4 h-4 text-slate-400" />
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <Card className="p-8 md:p-12 rounded-[3rem] border-4 border-primary/20 bg-white shadow-2xl shadow-primary/10 text-center space-y-8 overflow-hidden relative">
-                  <div className="space-y-2">
-                    <h3 className="text-2xl font-bold text-foreground">Plano Feminino de Silhueta</h3>
-                    <div className="flex items-center justify-center gap-2 text-muted-foreground line-through text-lg">
-                      De: R$ 97,90
-                    </div>
-                  </div>
 
-                  <div className="space-y-1">
-                    <p className="text-sm font-bold text-primary uppercase tracking-widest">Por apenas:</p>
-                    <div className="text-7xl font-black text-foreground tracking-tighter">
-                      R$ 27,90
-                    </div>
-                  </div>
-
-                  <div className="flex flex-col items-center gap-2">
-                    <Badge variant="outline" className="border-primary/30 text-primary font-black px-4 py-1">VITALÍCIO</Badge>
-                    <p className="text-[#166534] font-black text-xl italic uppercase">R$ 0,93 por dia</p>
-                  </div>
-
-                  <Button className="w-full py-10 text-xl md:text-2xl font-black rounded-3xl shadow-2xl shadow-primary/40 uppercase tracking-tight bg-primary text-white hover:scale-[1.02] transition-all group h-auto px-6 whitespace-normal leading-tight">
-                    OBTER MEU PLANO PERSONALIZADO AGORA!
-                    <ArrowRight className="w-6 h-6 ml-2" />
-                  </Button>
-
-                  <div className="flex items-center justify-center gap-4 pt-4 border-t border-dashed border-primary/20">
-                    <div className="flex items-center gap-1">
-                      <ShieldCheck className="w-4 h-4 text-[#166534]" />
-                      <span className="text-[10px] font-bold text-[#166534]">Pagamento Seguro</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <Timer className="w-4 h-4 text-[#166534]" />
-                      <span className="text-[10px] font-bold text-[#166534]">Acesso Imediato</span>
-                    </div>
-                  </div>
-                </Card>
+                <div className="text-center space-y-4 px-4">
+                  <h1 className="text-3xl md:text-5xl font-black text-[#0F172A] leading-[1.1] tracking-tight">
+                    Seu plano de treino personalizado de Pilates na parede está pronto!
+                  </h1>
+                </div>
               </section>
 
-              <section className="space-y-10">
+              {/* Specific Pricing Card from Image */}
+              <section className="relative max-w-[440px] mx-auto px-2">
+                <div className="rounded-[2.5rem] border-2 border-[#22C55E] bg-white overflow-hidden shadow-2xl shadow-green-100">
+                  <div className="bg-[#22C55E] py-3 text-center">
+                    <span className="text-white font-black text-xs uppercase tracking-[0.15em]">
+                      ESSE DESCONTO ACABARÁ HOJE!
+                    </span>
+                  </div>
+                  <div className="p-8 space-y-6">
+                    <div className="flex justify-between items-start">
+                      <div className="space-y-2">
+                        <h3 className="text-2xl font-black text-slate-900">Pilates em Casa</h3>
+                        <div className="space-y-0">
+                          <p className="text-red-500 line-through text-lg italic font-medium">R$ 47,90</p>
+                          <p className="text-[#22C55E] font-black text-4xl tracking-tight">R$ 27,90</p>
+                        </div>
+                      </div>
+                      <div className="bg-slate-50 border border-slate-200 rounded-[1.5rem] p-4 text-center min-w-[110px] flex flex-col items-center justify-center">
+                        <p className="text-[10px] font-black text-slate-400 uppercase leading-none tracking-widest mb-1">VITALÍCIO</p>
+                        <div className="flex items-baseline gap-0.5">
+                          <span className="text-sm font-black text-slate-900">R$</span>
+                          <span className="text-3xl font-black text-slate-900 leading-none">0,93</span>
+                        </div>
+                        <p className="text-[10px] font-black text-slate-400 uppercase leading-none tracking-widest mt-1">POR DIA</p>
+                      </div>
+                    </div>
+                    <Button className="w-full py-10 text-xl font-black rounded-[1.8rem] bg-[#22C55E] hover:bg-[#1ead52] text-white shadow-xl shadow-green-200 uppercase tracking-tight transition-transform active:scale-95 h-auto">
+                      OBTER MEU PLANO AGORA
+                    </Button>
+                  </div>
+                </div>
+              </section>
+
+              {/* Features and Benefits below the hero */}
+              <section className="space-y-12 pt-8">
                 <h2 className="text-3xl md:text-4xl font-black text-center text-foreground uppercase tracking-tight">
-                  O que você <span className="text-primary">vai receber</span>
+                  O que você <span className="text-primary italic">vai receber</span>
                 </h2>
                 <div className="grid md:grid-cols-2 gap-4">
                   {[
@@ -1338,6 +1346,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 ))}
               </section>
 
+              {/* Social Proof */}
               <section className="space-y-12 bg-primary/5 -mx-4 px-4 py-16 rounded-[3rem]">
                 <h2 className="text-3xl md:text-4xl font-black text-center text-foreground uppercase tracking-tight">
                   Confira os resultados de algumas das nossas alunas
@@ -1365,51 +1374,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 </div>
               </section>
 
-              <section className="text-center space-y-8 bg-white p-10 rounded-[3rem] shadow-2xl shadow-primary/10 border-4 border-primary/10">
-                <h2 className="text-3xl md:text-4xl font-black text-foreground uppercase tracking-tight">
-                  Adquira agora o seu plano
-                </h2>
-                <Badge className="bg-[#EF4444] text-white border-none px-6 py-2 rounded-full font-black uppercase italic tracking-widest animate-pulse shadow-lg">
-                  ESSE DESCONTO ACABARÁ HOJE!
-                </Badge>
-                <div className="space-y-2">
-                  <div className="flex items-center justify-center gap-2 text-muted-foreground line-through text-lg">
-                    De: R$ 97,90
-                  </div>
-                  <div className="text-6xl font-black text-primary tracking-tighter">
-                    R$ 27,90
-                  </div>
-                </div>
-                <Button className="w-full py-10 text-xl md:text-2xl font-black rounded-3xl shadow-2xl shadow-primary/40 uppercase tracking-tight bg-primary text-white hover:scale-[1.02] transition-all group h-auto px-6 whitespace-normal leading-tight">
-                  OBTER MEU PLANO PERSONALIZADO AGORA!
-                  <ArrowRight className="w-6 h-6 ml-2" />
-                </Button>
-              </section>
-
-              <section className="space-y-12">
-                <div className="text-center space-y-4">
-                  <h2 className="text-4xl md:text-5xl font-black text-foreground uppercase tracking-tight">+Bônus <span className="text-primary italic">Exclusivos</span></h2>
-                  <p className="text-muted-foreground font-medium max-w-xl mx-auto">Além do plano completo, você também receberá bônus especiais para acelerar ainda mais sua transformação corporal.</p>
-                </div>
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {[
-                    { title: "Guia Anti-Inchaço Feminino", desc: "Estratégias simples para reduzir retenção e desinchar rapidamente.", icon: Flame },
-                    { title: "Receitas Personalizadas", desc: "Receitas práticas para acelerar resultados sem dietas extremas.", icon: Heart },
-                    { title: "Cronograma Feminino de Definição", desc: "Rotina organizada para facilitar sua evolução semanal.", icon: Timer },
-                    { title: "Guia de Hábitos Femininos", desc: "Pequenas mudanças que ajudam diretamente na autoestima e consistência.", icon: CheckCircle2 },
-                    { title: "Suporte Prioritário", desc: "Equipe pronta para ajudar você durante sua jornada.", icon: User }
-                  ].map((bonus, i) => (
-                    <Card key={i} className="p-8 rounded-[2rem] border-2 border-primary/5 bg-white shadow-lg flex flex-col items-center text-center space-y-4">
-                      <div className="bg-primary/5 p-4 rounded-full">
-                        <bonus.icon className="w-8 h-8 text-primary" />
-                      </div>
-                      <h4 className="text-lg font-black text-foreground leading-tight">{bonus.title}</h4>
-                      <p className="text-sm text-muted-foreground leading-relaxed font-medium">{bonus.desc}</p>
-                    </Card>
-                  ))}
-                </div>
-              </section>
-
+              {/* Sticky Footer CTA */}
               <section className="text-center space-y-10 pt-16 pb-20 border-t border-primary/10">
                 <div className="space-y-6">
                   <h2 className="text-3xl md:text-5xl font-black text-foreground leading-tight max-w-3xl mx-auto">
