@@ -1034,7 +1034,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
             </div>
 
             <div className="relative">
-              {/* ID de Peso customizada acima do gráfico */}
+              {/* Identificação de peso robusta fora do SVG */}
               <div className="flex justify-between items-end px-8 relative z-20 pointer-events-none h-14">
                 <div className="text-left">
                   <span className="text-[10px] font-bold text-muted-foreground block uppercase leading-none mb-1">Seu peso</span>
@@ -1262,6 +1262,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                           fill 
                           className="object-cover"
                           priority
+                          data-ai-hint="before woman"
                         />
                         <div className="absolute top-6 left-6 bg-black/40 backdrop-blur-sm text-white px-4 py-1.5 rounded-full font-black uppercase tracking-widest text-xs">
                           Antes
@@ -1274,16 +1275,15 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                           fill 
                           className="object-cover"
                           priority
+                          data-ai-hint="after woman"
                         />
                         <div className="absolute top-6 left-6 bg-primary text-white px-4 py-1.5 rounded-full font-black uppercase tracking-widest text-xs shadow-lg shadow-primary/20">
                           Depois
                         </div>
                       </CarouselItem>
                     </CarouselContent>
-                    <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-10">
-                      <div className="w-2 h-2 rounded-full bg-white opacity-100" />
-                      <div className="w-2 h-2 rounded-full bg-white opacity-40" />
-                    </div>
+                    <CarouselPrevious className="left-4 bg-white/50 backdrop-blur-sm hover:bg-white text-slate-900" />
+                    <CarouselNext className="right-4 bg-white/50 backdrop-blur-sm hover:bg-white text-slate-900" />
                   </Carousel>
                 </div>
 
