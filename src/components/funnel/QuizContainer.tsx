@@ -1056,6 +1056,33 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                   />
                 </div>
               </section>
+
+              {/* Seção Descubra os Benefícios do Produto */}
+              <section className="w-full max-w-2xl mx-auto space-y-10 py-10 text-center px-4">
+                <h2 className="text-3xl font-black text-slate-900 uppercase tracking-tight leading-tight">
+                  Descubra os benefícios do <br /> Programa Feminino de Definição
+                </h2>
+                
+                <div className="space-y-8">
+                  <div className="relative w-full aspect-[4/5] max-w-[400px] mx-auto rounded-[2.5rem] overflow-hidden shadow-lg">
+                    <Image 
+                      src="/perdadepeso.webp" 
+                      alt="Benefício Perda de Peso" 
+                      fill 
+                      className="object-cover"
+                    />
+                  </div>
+                  <div className="space-y-4">
+                    <h3 className="text-2xl font-black text-slate-900">Perda de peso</h3>
+                    <p className="text-slate-500 text-lg leading-relaxed font-medium">
+                      O excesso de peso representa grandes riscos para a nossa autoestima e saúde geral. 
+                      Você pode se livrar do excesso de gordura de maneira rápida e efetiva com o nosso programa. 
+                      Você consegue se livrar rapidamente da gordura localizada com o plano personalizado.
+                    </p>
+                  </div>
+                </div>
+              </section>
+
             </div>
           </div>
         );
@@ -1138,6 +1165,7 @@ function LoadingScreen({ title, steps, onComplete, duration = 3000 }: { title: s
 const CustomArea = (props: any) => {
   const { path } = props;
   if (!path || path.includes('NaN')) return null;
-  return <RechartsArea {...props} />;
+  const { Area: RArea } = require('recharts');
+  return <RArea {...props} />;
 };
 CustomArea.displayName = "CustomArea";
