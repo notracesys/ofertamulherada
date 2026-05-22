@@ -841,7 +841,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
               </div>
               <Progress value={step19Progress} className="h-1.5 bg-secondary" />
             </div>
-            <h2 className="text-3xl font-black text-[#0F172A] leading-tight px-4">No total, nossos usuários perderam em média <span className="text-green-500 font-black">14+ kg</span> 🤩</h2>
+            <h2 className="text-3xl font-black text-[#0F172A] Math.round(step19Progress / 10) leading-tight px-4">No total, nossos usuários perderam em média <span className="text-green-500 font-black">14+ kg</span> 🤩</h2>
           </div>
         );
 
@@ -1189,15 +1189,38 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 </div>
               </section>
 
-              {/* Final CTA Section */}
-              <section className="w-full max-w-[440px] mx-auto px-4 py-10">
-                <div className="text-center space-y-6">
-                  <h2 className="text-2xl font-black text-slate-900 uppercase tracking-tight">
-                    Não perca mais tempo!
-                  </h2>
-                  <Button className="w-full py-10 text-xl font-black rounded-[1.8rem] bg-[#22C55E] hover:bg-[#1ead52] text-white shadow-xl shadow-green-200 uppercase tracking-tight h-auto">
-                    OBTER MEU PLANO AGORA
-                  </Button>
+              {/* Final CTA Section - Duplicated from the first one */}
+              <section className="relative w-full max-w-[440px] mx-auto px-4 py-10">
+                <div className="rounded-[2.5rem] border-2 border-[#22C55E] bg-white overflow-hidden shadow-2xl">
+                  <div className="bg-[#22C55E] py-3 text-center">
+                    <span className="text-white font-black text-[10px] uppercase tracking-[0.15em]">
+                      ESSE DESCONTO ACABARÁ HOJE!
+                    </span>
+                  </div>
+                  <div className="p-8 space-y-6">
+                    <div className="flex justify-between items-start">
+                      <div className="space-y-2 text-left">
+                        <h3 className="text-xl font-black text-slate-900">Programa Feminino de Definição</h3>
+                        <div className="space-y-0">
+                          <p className="text-red-500 line-through text-base italic font-medium">R$ 47,90</p>
+                          <p className="text-[#22C55E] font-black text-4xl tracking-tight">R$ 27,90</p>
+                        </div>
+                      </div>
+                      <div className="bg-slate-50 border border-slate-200 rounded-[1.5rem] p-4 text-center min-w-[100px]">
+                        <p className="text-[8px] font-black text-slate-400 uppercase leading-none tracking-widest mb-1">VITALÍCIO</p>
+                        <div className="flex items-baseline justify-center gap-0.5">
+                          <span className="text-xs font-black text-slate-900">R$</span>
+                          <span className="text-2xl font-black text-slate-900">0,93</span>
+                        </div>
+                        <p className="text-[8px] font-black text-slate-400 uppercase leading-none tracking-widest mt-1">POR DIA</p>
+                      </div>
+                    </div>
+                    <Button className="w-full py-10 text-xl font-black rounded-[1.8rem] bg-[#22C55E] hover:bg-[#1ead52] text-white shadow-xl shadow-green-200 uppercase tracking-tight h-auto">
+                      OBTER MEU PLANO AGORA
+                    </Button>
+                  </div>
+                </div>
+                <div className="text-center mt-6">
                   <p className="text-slate-400 text-xs font-bold uppercase tracking-widest">
                     Acesso imediato e vitalício
                   </p>
@@ -1229,7 +1252,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
       <div className={cn("w-full flex-1 flex flex-col items-center", stepId >= TOTAL_STEPS - 2 ? "pt-10" : "pt-20")}>
         <AnimatePresence mode="wait">
           <QuizStep key={stepId} stepId={stepId}>
-            {renderStep()}
+            {children}
           </QuizStep>
         </AnimatePresence>
       </div>
@@ -1285,7 +1308,6 @@ function LoadingScreen({ title, steps, onComplete, duration = 3000 }: { title: s
 const CustomArea = (props: any) => {
   const { path } = props;
   if (!path || path.includes('NaN')) return null;
-  const { Area: RArea } = require('recharts');
-  return <RArea {...props} />;
+  return <RechartsArea {...props} />;
 };
 CustomArea.displayName = "CustomArea";
