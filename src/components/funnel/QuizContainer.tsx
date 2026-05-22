@@ -29,7 +29,7 @@ import { useRouter } from "next/navigation";
 import { generatePersonalizedAfricanMethodPlan, type GeneratePersonalizedAfricanMethodPlanInput, type GeneratePersonalizedAfricanMethodPlanOutput } from "@/ai/flows/generate-personalized-african-method-plan";
 import { QuizStep } from "./QuizStep";
 import { cn } from "@/lib/utils";
-import { Area, AreaChart, ResponsiveContainer, XAxis, YAxis, ReferenceDot, Label } from "recharts";
+import { Area, AreaChart, ResponsiveContainer, XAxis, YAxis, ReferenceDot, Label, CartesianGrid } from "recharts";
 
 const TOTAL_STEPS = 25;
 const STORAGE_KEY = "fitness_fem_quiz_state";
@@ -241,11 +241,12 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
 
   const currentWeightValue = parseInt(state.weight || "70");
   const targetWeightValue = parseInt(state.targetWeight || "60");
+  const midWeight = currentWeightValue - (currentWeightValue - targetWeightValue) * 0.5;
+
   const weightData = [
-    { week: "Hoje", weight: currentWeightValue },
-    { week: "Semana 1", weight: currentWeightValue - (currentWeightValue - targetWeightValue) * 0.3 },
-    { week: "Semana 2", weight: currentWeightValue - (currentWeightValue - targetWeightValue) * 0.65 },
-    { week: "Semana 3", weight: targetWeightValue },
+    { week: "SEMANA 1", weight: currentWeightValue },
+    { week: "SEMANA 2", weight: midWeight },
+    { week: "SEMANA 3", weight: targetWeightValue },
   ];
 
   const renderStep = () => {
@@ -1023,49 +1024,48 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
               </h2>
             </div>
 
-            <div className="relative w-full h-[340px] mt-10 overflow-visible flex flex-col bg-white rounded-3xl border-2 border-primary/5 p-4">
+            <div className="relative w-full h-[320px] mt-16 overflow-visible flex flex-col bg-white rounded-3xl border border-primary/5 p-4">
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={weightData} margin={{ top: 100, right: 30, left: 30, bottom: 20 }} style={{ overflow: 'visible' }}>
+                <AreaChart data={weightData} margin={{ top: 60, right: 40, left: 40, bottom: 20 }} style={{ overflow: 'visible' }}>
                   <defs>
-                    <linearGradient id="areaGradientStep20" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.2}/>
-                      <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
+                    <linearGradient id="areaGradientStep20" x1="0" y1="0" x2="1" y2="0">
+                      <stop offset="0%" stopColor="#ef4444" stopOpacity={0.8}/>
+                      <stop offset="50%" stopColor="#facc15" stopOpacity={0.8}/>
+                      <stop offset="100%" stopColor="#22c55e" stopOpacity={0.8}/>
                     </linearGradient>
                   </defs>
-                  <XAxis dataKey="week" hide />
-                  <YAxis hide domain={['dataMin - 15', 'dataMax + 15']} />
+                  <CartesianGrid strokeDasharray="3 3" vertical={true} horizontal={true} stroke="#e2e8f0" />
+                  <XAxis dataKey="week" axisLine={false} tickLine={false} tick={{ fontSize: 10, fontWeight: 'bold', fill: '#64748b' }} dy={10} />
+                  <YAxis hide domain={['dataMin - 10', 'dataMax + 10']} />
                   <Area 
                     type="monotone" 
                     dataKey="weight" 
-                    stroke="hsl(var(--primary))" 
-                    strokeWidth={6} 
-                    fillOpacity={1} 
+                    stroke="#ec4899" 
+                    strokeWidth={4} 
                     fill="url(#areaGradientStep20)" 
                     animationDuration={2000}
                   />
                   
-                  <ReferenceDot x="Hoje" y={currentWeightValue} r={10} fill="hsl(var(--primary))" stroke="#fff" strokeWidth={4}>
+                  <ReferenceDot x="SEMANA 1" y={currentWeightValue} r={6} fill="#fff" stroke="#94a3b8" strokeWidth={2}>
                     <Label content={(props: any) => {
                       const { cx, cy } = props;
                       if (typeof cx !== 'number' || typeof cy !== 'number' || isNaN(cx) || isNaN(cy)) return null;
                       return (
                         <g>
-                          <text x={cx} y={cy - 50} textAnchor="middle" fill="#64748b" fontSize="11" fontWeight="bold">SEU PESO</text>
-                          <text x={cx} y={cy - 20} textAnchor="middle" fill="#0F172A" fontSize={24} fontWeight="900">{currentWeightValue}kg</text>
+                          <text x={cx} y={cy - 20} textAnchor="middle" fill="#0F172A" fontSize="12" fontWeight="bold">Seu peso</text>
                         </g>
                       );
                     }} />
                   </ReferenceDot>
 
-                  <ReferenceDot x="Semana 3" y={targetWeightValue} r={10} fill="#22C55E" stroke="#fff" strokeWidth={4}>
+                  <ReferenceDot x="SEMANA 3" y={targetWeightValue} r={6} fill="#fff" stroke="#ec4899" strokeWidth={2}>
                     <Label content={(props: any) => {
                       const { cx, cy } = props;
                       if (typeof cx !== 'number' || typeof cy !== 'number' || isNaN(cx) || isNaN(cy)) return null;
                       return (
                         <g>
-                          <rect x={cx - 45} y={cy - 110} width="90" height="28" rx="14" fill="#EC4899" />
-                          <text x={cx} y={cy - 92} textAnchor="middle" fill="#fff" fontSize="12" fontWeight="bold">3 semanas</text>
-                          <text x={cx} y={cy - 20} textAnchor="middle" fill="#22C55E" fontSize={24} fontWeight="900">{targetWeightValue}kg</text>
+                          <rect x={cx - 35} y={cy - 45} width="70" height="24" rx="12" fill="#ec4899" />
+                          <text x={cx} y={cy - 29} textAnchor="middle" fill="#fff" fontSize="10" fontWeight="bold">3 semanas</text>
                         </g>
                       );
                     }} />
@@ -1084,7 +1084,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
       case 21:
         return (
           <div className="space-y-12 text-center px-4">
-            <h2 className="text-2xl font-bold text-[#0F172A] window.scrollTo({ top: 0, behavior: 'smooth' }) leading-tight px-6">
+            <h2 className="text-2xl font-bold text-[#0F172A] leading-tight px-6">
               Quanto tempo você deseja dedicar em seu corpo no dia?
             </h2>
             <div className="grid grid-cols-2 gap-4">
@@ -1181,49 +1181,48 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
       case 24:
         return (
           <div className="flex flex-col items-center w-full max-w-md mx-auto px-4 pb-10">
-            <div className="relative w-full h-[360px] mb-8 mt-10 overflow-visible flex flex-col bg-white rounded-[2.5rem] border-2 border-primary/5 p-4">
+            <div className="relative w-full h-[320px] mb-8 mt-16 overflow-visible flex flex-col bg-white rounded-3xl border border-primary/5 p-4">
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={weightData} margin={{ top: 100, right: 30, left: 30, bottom: 20 }} style={{ overflow: 'visible' }}>
+                <AreaChart data={weightData} margin={{ top: 60, right: 40, left: 40, bottom: 20 }} style={{ overflow: 'visible' }}>
                   <defs>
-                    <linearGradient id="areaGradientFinal" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.25}/>
-                      <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
+                    <linearGradient id="areaGradientFinal" x1="0" y1="0" x2="1" y2="0">
+                      <stop offset="0%" stopColor="#ef4444" stopOpacity={0.8}/>
+                      <stop offset="50%" stopColor="#facc15" stopOpacity={0.8}/>
+                      <stop offset="100%" stopColor="#22c55e" stopOpacity={0.8}/>
                     </linearGradient>
                   </defs>
-                  <XAxis dataKey="week" hide />
-                  <YAxis hide domain={['dataMin - 15', 'dataMax + 15']} />
+                  <CartesianGrid strokeDasharray="3 3" vertical={true} horizontal={true} stroke="#e2e8f0" />
+                  <XAxis dataKey="week" axisLine={false} tickLine={false} tick={{ fontSize: 10, fontWeight: 'bold', fill: '#64748b' }} dy={10} />
+                  <YAxis hide domain={['dataMin - 10', 'dataMax + 10']} />
                   <Area 
                     type="monotone" 
                     dataKey="weight" 
-                    stroke="hsl(var(--primary))" 
-                    strokeWidth={8} 
-                    fillOpacity={1} 
+                    stroke="#ec4899" 
+                    strokeWidth={4} 
                     fill="url(#areaGradientFinal)" 
                     animationDuration={2500}
                   />
                   
-                  <ReferenceDot x="Hoje" y={currentWeightValue} r={12} fill="hsl(var(--primary))" stroke="#fff" strokeWidth={5}>
+                  <ReferenceDot x="SEMANA 1" y={currentWeightValue} r={6} fill="#fff" stroke="#94a3b8" strokeWidth={2}>
                     <Label content={(props: any) => {
                       const { cx, cy } = props;
                       if (typeof cx !== 'number' || typeof cy !== 'number' || isNaN(cx) || isNaN(cy)) return null;
                       return (
                         <g>
-                          <text x={cx} y={cy - 60} textAnchor="middle" fill="#64748b" fontSize="12" fontWeight="bold">SEU PESO</text>
-                          <text x={cx} y={cy - 25} textAnchor="middle" fill="#0F172A" fontSize={26} fontWeight="900">{currentWeightValue}kg</text>
+                          <text x={cx} y={cy - 20} textAnchor="middle" fill="#0F172A" fontSize="12" fontWeight="bold">Seu peso</text>
                         </g>
                       );
                     }} />
                   </ReferenceDot>
 
-                  <ReferenceDot x="Semana 3" y={targetWeightValue} r={12} fill="#22C55E" stroke="#fff" strokeWidth={5}>
+                  <ReferenceDot x="SEMANA 3" y={targetWeightValue} r={6} fill="#fff" stroke="#ec4899" strokeWidth={2}>
                     <Label content={(props: any) => {
                       const { cx, cy } = props;
                       if (typeof cx !== 'number' || typeof cy !== 'number' || isNaN(cx) || isNaN(cy)) return null;
                       return (
                         <g>
-                          <rect x={cx - 50} y={cy - 115} width="100" height="32" rx="16" fill="#EC4899" />
-                          <text x={cx} y={cy - 94} textAnchor="middle" fill="#fff" fontSize="13" fontWeight="bold">3 semanas</text>
-                          <text x={cx} y={cy - 25} textAnchor="middle" fill="#22C55E" fontSize={26} fontWeight="900">{targetWeightValue}kg</text>
+                          <rect x={cx - 35} y={cy - 45} width="70" height="24" rx="12" fill="#ec4899" />
+                          <text x={cx} y={cy - 29} textAnchor="middle" fill="#fff" fontSize="10" fontWeight="bold">3 semanas</text>
                         </g>
                       );
                     }} />
@@ -1233,19 +1232,19 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
             </div>
 
             <div className="text-center space-y-4 mb-8">
-              <h1 className="text-3xl font-black text-slate-900 leading-tight px-4">
+              <h1 className="text-2xl font-black text-slate-900 leading-tight">
                 seu plano de definição em 21 dias está pronto!
               </h1>
             </div>
 
-            <div className="bg-[#DCFCE7] p-6 rounded-[2rem] text-center mb-8 border border-green-100 shadow-sm w-full">
-              <h3 className="text-[#15803D] font-black text-xl mb-2">Mudança para sempre</h3>
-              <p className="text-[#166534] text-sm leading-relaxed font-medium">
+            <div className="bg-[#DCFCE7] p-8 rounded-[2rem] text-center mb-8 border-none w-full">
+              <h3 className="text-[#15803D] font-black text-2xl mb-2">Mudança para sempre</h3>
+              <p className="text-[#15803D] text-sm leading-relaxed font-medium">
                 Assim que atingir o seu peso ideal, utilizaremos as últimas semanas do seu programa para o ajudar a criar hábitos saudáveis que lhe permitam manter o seu peso!
               </p>
             </div>
 
-            <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-full shadow-xl shadow-primary/30 uppercase tracking-widest bg-primary text-white hover:scale-[1.02] transition-all">
+            <Button onClick={nextStep} className="w-full py-8 text-xl font-bold rounded-2xl shadow-xl shadow-primary/30 uppercase tracking-widest bg-primary text-white hover:scale-[1.02] transition-all">
               CONTINUAR
             </Button>
           </div>
@@ -1257,9 +1256,6 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
             <div className="max-w-4xl mx-auto px-4 py-10 space-y-16">
               
               <section className="text-center space-y-6">
-                <Badge variant="secondary" className="bg-primary/10 text-primary border-none px-4 py-1 rounded-full font-bold uppercase tracking-wider text-[10px]">
-                  Acesso Imediato Liberado
-                </Badge>
                 <h1 className="text-4xl md:text-6xl font-black text-foreground leading-[1.1] tracking-tight">
                   Seu plano feminino personalizado <span className="text-primary italic">está pronto!</span>
                 </h1>
@@ -1275,9 +1271,6 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                   </Badge>
                 </div>
                 <Card className="p-8 md:p-12 rounded-[3rem] border-4 border-primary/20 bg-white shadow-2xl shadow-primary/10 text-center space-y-8 overflow-hidden relative">
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -mr-16 -mt-16 blur-3xl" />
-                  <div className="absolute bottom-0 left-0 w-32 h-32 bg-primary/5 rounded-full -ml-16 -mb-16 blur-3xl" />
-                  
                   <div className="space-y-2">
                     <h3 className="text-2xl font-bold text-foreground">Plano Feminino de Silhueta</h3>
                     <div className="flex items-center justify-center gap-2 text-muted-foreground line-through text-lg">
@@ -1297,9 +1290,9 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     <p className="text-[#166534] font-black text-xl italic uppercase">R$ 0,93 por dia</p>
                   </div>
 
-                  <Button className="w-full py-10 text-xl md:text-2xl font-black rounded-3xl shadow-2xl shadow-primary/40 uppercase tracking-tight bg-primary text-white hover:scale-[1.02] transition-all group whitespace-normal h-auto leading-tight px-6">
+                  <Button className="w-full py-10 text-xl md:text-2xl font-black rounded-3xl shadow-2xl shadow-primary/40 uppercase tracking-tight bg-primary text-white hover:scale-[1.02] transition-all group h-auto px-6 whitespace-normal leading-tight">
                     OBTER MEU PLANO PERSONALIZADO AGORA!
-                    <ArrowRight className="w-6 h-6 ml-2 group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight className="w-6 h-6 ml-2" />
                   </Button>
 
                   <div className="flex items-center justify-center gap-4 pt-4 border-t border-dashed border-primary/20">
@@ -1340,33 +1333,28 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
               </section>
 
               <section className="space-y-12">
-                <h2 className="text-3xl md:text-4xl font-black text-center text-foreground uppercase tracking-tight">
-                  Transforme <span className="text-primary italic">seu corpo</span>
-                </h2>
-                <div className="space-y-6">
-                  {[
-                    { title: "Redução de gordura", desc: "O excesso de gordura afeta diretamente a autoestima e a confiança feminina. Com o plano personalizado, você poderá acelerar sua transformação corporal de forma prática e progressiva.", icon: Flame },
-                    { title: "Pernas e glúteos mais definidos", desc: "Exercícios específicos para modelar pernas e aumentar a firmeza dos glúteos sem precisar de academia ou equipamentos complexos.", icon: Target },
-                    { title: "Mais energia e disposição", desc: "Recupere sua disposição diária e volte a se sentir bem com seu próprio corpo através de uma rotina simples e eficiente.", icon: Zap },
-                    { title: "Melhora da postura e aparência", desc: "Uma postura mais bonita transmite mais confiança, feminilidade e presença. O plano inclui exercícios voltados para alinhamento corporal e definição.", icon: Heart },
-                    { title: "Menos ansiedade e descontrole alimentar", desc: "Rotinas femininas equilibradas ajudam diretamente na relação com alimentação, autoestima e controle emocional diário.", icon: Clock }
-                  ].map((benefit, i) => (
-                    <Card key={i} className="p-8 rounded-[2rem] border-none bg-white shadow-xl shadow-primary/5 flex flex-col md:flex-row gap-6 items-start transition-all hover:shadow-primary/10 hover:-translate-y-1">
-                      <div className="bg-primary/10 p-4 rounded-3xl shrink-0">
-                        <benefit.icon className="w-8 h-8 text-primary" />
-                      </div>
-                      <div className="space-y-2">
-                        <h4 className="text-xl font-black text-foreground">{benefit.title}</h4>
-                        <p className="text-muted-foreground leading-relaxed font-medium">{benefit.desc}</p>
-                      </div>
-                    </Card>
-                  ))}
-                </div>
+                {[
+                  { title: "Redução de gordura", desc: "O excesso de gordura afeta diretamente a autoestima e a confiança feminina. Com o plano personalizado, você poderá acelerar sua transformação corporal de forma prática e progressiva.", icon: Flame },
+                  { title: "Pernas e glúteos mais definidos", desc: "Exercícios específicos para modelar pernas e aumentar a firmeza dos glúteos sem precisar de academia ou equipamentos complexos.", icon: Target },
+                  { title: "Mais energia e disposição", desc: "Recupere sua disposição diária e volte a se sentir bem com seu próprio corpo através de uma rotina simples e eficiente.", icon: Zap },
+                  { title: "Melhora da postura e aparência", desc: "Uma postura mais bonita transmite mais confiança, feminilidade e presença. O plano inclui exercícios voltados para alinhamento corporal e definição.", icon: Heart },
+                  { title: "Menos ansiedade e descontrole alimentar", desc: "Rotinas femininas equilibradas ajudam diretamente na relação com alimentação, autoestima e controle emocional diário.", icon: Clock }
+                ].map((benefit, i) => (
+                  <Card key={i} className="p-8 rounded-[2rem] border-none bg-white shadow-xl shadow-primary/5 flex flex-col md:flex-row gap-6 items-start">
+                    <div className="bg-primary/10 p-4 rounded-3xl shrink-0">
+                      <benefit.icon className="w-8 h-8 text-primary" />
+                    </div>
+                    <div className="space-y-2">
+                      <h4 className="text-xl font-black text-foreground">{benefit.title}</h4>
+                      <p className="text-muted-foreground leading-relaxed font-medium">{benefit.desc}</p>
+                    </div>
+                  </Card>
+                ))}
               </section>
 
               <section className="space-y-12 bg-primary/5 -mx-4 px-4 py-16 rounded-[3rem]">
                 <h2 className="text-3xl md:text-4xl font-black text-center text-foreground uppercase tracking-tight">
-                  Alunas que <span className="text-primary italic">conseguiram</span>
+                  Confira os resultados de algumas das nossas alunas
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                   {[
@@ -1375,16 +1363,15 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     { name: "Juliana", loss: "-9kg", desc: "Perdeu 9kg em apenas 30 dias.", seed: "j3" },
                     { name: "Patrícia", loss: "-7kg", desc: "Perdeu 7kg em poucas semanas.", seed: "p4" }
                   ].map((res, i) => (
-                    <Card key={i} className="p-0 overflow-hidden rounded-[2rem] border-none shadow-xl bg-white text-center group">
+                    <Card key={i} className="p-0 overflow-hidden rounded-[2rem] border-none shadow-xl bg-white text-center">
                       <div className="relative w-full aspect-[4/5]">
-                        <Image src={`https://picsum.photos/seed/${res.seed}/400/500`} alt={res.name} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                        <Image src={`https://picsum.photos/seed/${res.seed}/400/500`} alt={res.name} fill className="object-cover" />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
                         <div className="absolute bottom-4 left-0 right-0">
-                           <div className="text-2xl font-black text-white italic">{res.loss}</div>
+                           <div className="text-2xl font-black text-white italic">{res.name} | {res.loss}</div>
                         </div>
                       </div>
-                      <div className="p-6 space-y-2">
-                        <h5 className="font-black text-xl text-foreground">{res.name}</h5>
+                      <div className="p-6">
                         <p className="text-sm text-muted-foreground font-medium leading-tight">{res.desc}</p>
                       </div>
                     </Card>
@@ -1415,9 +1402,6 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
 
               <section className="space-y-12">
                 <div className="text-center space-y-4">
-                  <Badge variant="secondary" className="bg-yellow-100 text-yellow-700 border-none px-6 py-1 rounded-full font-black uppercase italic tracking-widest">
-                    Presentes Exclusivos
-                  </Badge>
                   <h2 className="text-4xl md:text-5xl font-black text-foreground uppercase tracking-tight">+Bônus <span className="text-primary italic">Exclusivos</span></h2>
                   <p className="text-muted-foreground font-medium max-w-xl mx-auto">Além do plano completo, você também receberá bônus especiais para acelerar ainda mais sua transformação corporal.</p>
                 </div>
@@ -1429,7 +1413,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     { title: "Guia de Hábitos Femininos", desc: "Pequenas mudanças que ajudam diretamente na autoestima e consistência.", icon: CheckCircle2 },
                     { title: "Suporte Prioritário", desc: "Equipe pronta para ajudar você durante sua jornada.", icon: User }
                   ].map((bonus, i) => (
-                    <Card key={i} className="p-8 rounded-[2rem] border-2 border-primary/5 bg-white shadow-lg transition-all hover:border-primary/20 flex flex-col items-center text-center space-y-4">
+                    <Card key={i} className="p-8 rounded-[2rem] border-2 border-primary/5 bg-white shadow-lg flex flex-col items-center text-center space-y-4">
                       <div className="bg-primary/5 p-4 rounded-full">
                         <bonus.icon className="w-8 h-8 text-primary" />
                       </div>
@@ -1452,16 +1436,6 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 <Button className="w-full max-w-md py-10 text-2xl font-black rounded-3xl shadow-2xl shadow-primary/40 uppercase tracking-tight bg-primary text-white hover:scale-[1.05] transition-all h-auto px-8 leading-tight whitespace-normal italic">
                   QUERO COMEÇAR AGORA
                 </Button>
-                <div className="flex flex-col items-center gap-4 text-muted-foreground opacity-60">
-                   <div className="flex gap-2">
-                     {[1,2,3,4,5].map(i => <Star key={i} className="w-5 h-5 fill-primary text-primary" />)}
-                   </div>
-                   <p className="text-xs font-bold uppercase tracking-widest">Satisfação garantida ou seu dinheiro de volta</p>
-                   <div className="flex gap-8 mt-4">
-                     <Lock className="w-8 h-8" />
-                     <ShieldCheck className="w-8 h-8" />
-                   </div>
-                </div>
               </section>
 
             </div>
