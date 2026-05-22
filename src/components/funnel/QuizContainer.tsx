@@ -265,27 +265,6 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
     { day: "21 dias", weight: targetWeightValue },
   ];
 
-  const CustomWeightLabel = (props: any) => {
-    const { x, y, value, isTarget } = props;
-    if (x === undefined || y === undefined || isNaN(x) || isNaN(y)) return null;
-    return (
-      <foreignObject x={x - 30} y={y - 65} width={60} height={50} style={{ overflow: 'visible' }}>
-        <div className="flex flex-col items-center">
-          <div className={cn(
-            "px-2.5 py-1.5 rounded-xl text-lg font-black shadow-xl relative flex items-center justify-center min-w-[50px] whitespace-nowrap",
-            isTarget ? "bg-white text-slate-900 border border-slate-200" : "bg-[#ef4444] text-white"
-          )}>
-            {value}kg
-            <div className={cn(
-              "absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 rotate-45",
-              isTarget ? "bg-white border-b border-r border-slate-200" : "bg-[#ef4444]"
-            )} />
-          </div>
-        </div>
-      </foreignObject>
-    );
-  };
-
   const renderStep = () => {
     switch (stepId) {
       case 1:
@@ -961,53 +940,68 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
               </h2>
             </div>
             
-            <div className="relative w-full h-[320px] mt-8 bg-white rounded-[2.5rem] border border-slate-100 p-6 shadow-sm overflow-visible">
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={weightData} margin={{ top: 80, right: 30, left: 30, bottom: 20 }}>
-                  <defs>
-                    <linearGradient id="areaGradientStep20" x1="0" y1="0" x2="1" y2="0">
-                      <stop offset="0%" stopColor="#ef4444" stopOpacity={0.6}/>
-                      <stop offset="50%" stopColor="#facc15" stopOpacity={0.4}/>
-                      <stop offset="100%" stopColor="#22c55e" stopOpacity={0.2}/>
-                    </linearGradient>
-                  </defs>
-                  <XAxis 
-                    dataKey="day" 
-                    axisLine={false} 
-                    tickLine={false} 
-                    tick={{ fill: '#94a3b8', fontSize: 12, fontWeight: 700 }}
-                    padding={{ left: 10, right: 10 }}
-                  />
-                  <YAxis domain={['dataMin - 15', 'dataMax + 15']} hide />
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
-                  <Area 
-                    type="monotone" 
-                    dataKey="weight" 
-                    stroke="#ef4444" 
-                    strokeWidth={4} 
-                    fill="url(#areaGradientStep20)" 
-                    animationDuration={2000} 
-                  />
-                  <ReferenceDot 
-                    x="Hoje" 
-                    y={currentWeightValue} 
-                    r={6} 
-                    fill="#ef4444" 
-                    stroke="#fff" 
-                    strokeWidth={3} 
-                    label={<CustomWeightLabel value={currentWeightValue} isTarget={false} />}
-                  />
-                  <ReferenceDot 
-                    x="21 dias" 
-                    y={targetWeightValue} 
-                    r={6} 
-                    fill="#22c55e" 
-                    stroke="#fff" 
-                    strokeWidth={3} 
-                    label={<CustomWeightLabel value={targetWeightValue} isTarget={true} />}
-                  />
-                </AreaChart>
-              </ResponsiveContainer>
+            <div className="space-y-4">
+              <div className="flex justify-between items-end px-2">
+                <div className="flex flex-col items-start gap-1">
+                  <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">HOJE</span>
+                  <div className="bg-[#ef4444] text-white px-4 py-2 rounded-2xl font-black text-2xl shadow-xl shadow-red-500/20">
+                    {currentWeightValue}kg
+                  </div>
+                </div>
+                <div className="flex flex-col items-end gap-1">
+                  <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">META</span>
+                  <div className="bg-white text-slate-900 border-2 border-slate-100 px-4 py-2 rounded-2xl font-black text-2xl shadow-xl">
+                    {targetWeightValue}kg
+                  </div>
+                </div>
+              </div>
+              
+              <div className="relative w-full h-[320px] bg-white rounded-[2.5rem] border border-slate-100 p-6 shadow-sm overflow-visible">
+                <ResponsiveContainer width="100%" height="100%">
+                  <AreaChart data={weightData} margin={{ top: 40, right: 30, left: 30, bottom: 20 }}>
+                    <defs>
+                      <linearGradient id="areaGradientStep20" x1="0" y1="0" x2="1" y2="0">
+                        <stop offset="0%" stopColor="#ef4444" stopOpacity={0.6}/>
+                        <stop offset="50%" stopColor="#facc15" stopOpacity={0.4}/>
+                        <stop offset="100%" stopColor="#22c55e" stopOpacity={0.2}/>
+                      </linearGradient>
+                    </defs>
+                    <XAxis 
+                      dataKey="day" 
+                      axisLine={false} 
+                      tickLine={false} 
+                      tick={{ fill: '#94a3b8', fontSize: 12, fontWeight: 700 }}
+                      padding={{ left: 10, right: 10 }}
+                    />
+                    <YAxis domain={['dataMin - 15', 'dataMax + 15']} hide />
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
+                    <Area 
+                      type="monotone" 
+                      dataKey="weight" 
+                      stroke="#ef4444" 
+                      strokeWidth={4} 
+                      fill="url(#areaGradientStep20)" 
+                      animationDuration={2000} 
+                    />
+                    <ReferenceDot 
+                      x="Hoje" 
+                      y={currentWeightValue} 
+                      r={6} 
+                      fill="#ef4444" 
+                      stroke="#fff" 
+                      strokeWidth={3} 
+                    />
+                    <ReferenceDot 
+                      x="21 dias" 
+                      y={targetWeightValue} 
+                      r={6} 
+                      fill="#22c55e" 
+                      stroke="#fff" 
+                      strokeWidth={3} 
+                    />
+                  </AreaChart>
+                </ResponsiveContainer>
+              </div>
             </div>
 
             <div className="mt-8">
@@ -1058,53 +1052,68 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
               </h2>
             </div>
             
-            <div className="relative w-full h-[320px] bg-white rounded-[2.5rem] border border-slate-100 p-6 shadow-sm overflow-visible">
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={weightData} margin={{ top: 80, right: 30, left: 30, bottom: 20 }}>
-                  <defs>
-                    <linearGradient id="areaGradient24" x1="0" y1="0" x2="1" y2="0">
-                      <stop offset="0%" stopColor="#ef4444" stopOpacity={0.6}/>
-                      <stop offset="50%" stopColor="#facc15" stopOpacity={0.4}/>
-                      <stop offset="100%" stopColor="#22c55e" stopOpacity={0.2}/>
-                    </linearGradient>
-                  </defs>
-                  <XAxis 
-                    dataKey="day" 
-                    axisLine={false} 
-                    tickLine={false} 
-                    tick={{ fill: '#94a3b8', fontSize: 12, fontWeight: 700 }}
-                    padding={{ left: 10, right: 10 }}
-                  />
-                  <YAxis domain={['dataMin - 15', 'dataMax + 15']} hide />
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
-                  <Area 
-                    type="monotone" 
-                    dataKey="weight" 
-                    stroke="#ef4444" 
-                    strokeWidth={4} 
-                    fill="url(#areaGradient24)" 
-                    animationDuration={2500} 
-                  />
-                  <ReferenceDot 
-                    x="Hoje" 
-                    y={currentWeightValue} 
-                    r={6} 
-                    fill="#ef4444" 
-                    stroke="#fff" 
-                    strokeWidth={3} 
-                    label={<CustomWeightLabel value={currentWeightValue} isTarget={false} />}
-                  />
-                  <ReferenceDot 
-                    x="21 dias" 
-                    y={targetWeightValue} 
-                    r={6} 
-                    fill="#22c55e" 
-                    stroke="#fff" 
-                    strokeWidth={3} 
-                    label={<CustomWeightLabel value={targetWeightValue} isTarget={true} />}
-                  />
-                </AreaChart>
-              </ResponsiveContainer>
+            <div className="w-full space-y-4">
+              <div className="flex justify-between items-end px-2">
+                <div className="flex flex-col items-start gap-1">
+                  <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">HOJE</span>
+                  <div className="bg-[#ef4444] text-white px-4 py-2 rounded-2xl font-black text-2xl shadow-xl shadow-red-500/20">
+                    {currentWeightValue}kg
+                  </div>
+                </div>
+                <div className="flex flex-col items-end gap-1">
+                  <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">META</span>
+                  <div className="bg-white text-slate-900 border-2 border-slate-100 px-4 py-2 rounded-2xl font-black text-2xl shadow-xl">
+                    {targetWeightValue}kg
+                  </div>
+                </div>
+              </div>
+              
+              <div className="relative w-full h-[320px] bg-white rounded-[2.5rem] border border-slate-100 p-6 shadow-sm overflow-visible">
+                <ResponsiveContainer width="100%" height="100%">
+                  <AreaChart data={weightData} margin={{ top: 40, right: 30, left: 30, bottom: 20 }}>
+                    <defs>
+                      <linearGradient id="areaGradient24" x1="0" y1="0" x2="1" y2="0">
+                        <stop offset="0%" stopColor="#ef4444" stopOpacity={0.6}/>
+                        <stop offset="50%" stopColor="#facc15" stopOpacity={0.4}/>
+                        <stop offset="100%" stopColor="#22c55e" stopOpacity={0.2}/>
+                      </linearGradient>
+                    </defs>
+                    <XAxis 
+                      dataKey="day" 
+                      axisLine={false} 
+                      tickLine={false} 
+                      tick={{ fill: '#94a3b8', fontSize: 12, fontWeight: 700 }}
+                      padding={{ left: 10, right: 10 }}
+                    />
+                    <YAxis domain={['dataMin - 15', 'dataMax + 15']} hide />
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
+                    <Area 
+                      type="monotone" 
+                      dataKey="weight" 
+                      stroke="#ef4444" 
+                      strokeWidth={4} 
+                      fill="url(#areaGradient24)" 
+                      animationDuration={2500} 
+                    />
+                    <ReferenceDot 
+                      x="Hoje" 
+                      y={currentWeightValue} 
+                      r={6} 
+                      fill="#ef4444" 
+                      stroke="#fff" 
+                      strokeWidth={3} 
+                    />
+                    <ReferenceDot 
+                      x="21 dias" 
+                      y={targetWeightValue} 
+                      r={6} 
+                      fill="#22c55e" 
+                      stroke="#fff" 
+                      strokeWidth={3} 
+                    />
+                  </AreaChart>
+                </ResponsiveContainer>
+              </div>
             </div>
 
             <div className="text-center space-y-4 mb-8 mt-10">
