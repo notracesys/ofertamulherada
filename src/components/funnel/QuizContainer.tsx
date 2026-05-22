@@ -903,7 +903,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                   const isMajor = val % 10 === 0;
                   return (
                     <div key={val} className="flex flex-col items-center shrink-0 w-[10px]">
-                      <div className={cn("bg-muted-foreground/20", isMajor ? "h-10 w-0.5" : "h-6 w-0.5")} />
+                      <div className="bg-muted-foreground/20 h-6 w-0.5" />
                       {isMajor && <span className="text-xs text-muted-foreground mt-2 font-medium">{val}</span>}
                     </div>
                   );
