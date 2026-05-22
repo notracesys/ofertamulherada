@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
@@ -960,7 +959,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                   Perguntamos a sua idade para personalizar o seu plano
                 </p>
               </div>
-              <p className="text-[13px] text-[#3B82F6] leading-relaxed pl-7">
+              <p className="text-[13px] text-[#3B82F6] disabled:pointer-events-none leading-relaxed pl-7">
                 As pessoas mais velhas tendem a ter mais gordura corporal que os mais novos com o mesmo IMC
               </p>
             </div>
