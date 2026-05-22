@@ -1200,6 +1200,26 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
 
               <CTACard />
 
+              <section className="w-full max-w-2xl mx-auto px-4 py-10 space-y-8 flex flex-col items-center">
+                <div className="bg-[#DCFCE7] p-8 rounded-[2.5rem] text-center space-y-4 w-full border-none">
+                  <h3 className="text-[#15803D] font-black text-2xl">Garantia de 90 Dias</h3>
+                  <p className="text-[#15803D] text-base leading-relaxed font-medium">
+                    Se em até 90 dias você não estiver completamente satisfeita com os resultados, basta entrar em contato com a equipe, e nós devolvemos 100% do seu dinheiro, sem perguntas.
+                  </p>
+                  <p className="text-[#15803D] text-lg font-bold">
+                    Seu investimento é totalmente seguro!
+                  </p>
+                </div>
+                <div className="relative w-48 h-48 mt-4">
+                  <Image 
+                    src="/garantia.webp" 
+                    alt="Garantia de 90 Dias" 
+                    fill 
+                    className="object-contain"
+                  />
+                </div>
+              </section>
+
             </div>
           </div>
         );
