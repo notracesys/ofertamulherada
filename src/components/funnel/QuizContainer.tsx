@@ -5,27 +5,19 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { 
   Check, 
   ArrowRight, 
-  Star, 
   ChevronRight, 
-  Target, 
-  Clock,
-  Flame,
-  Zap,
-  Heart,
-  CheckCircle2
 } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { generatePersonalizedAfricanMethodPlan, type GeneratePersonalizedAfricanMethodPlanInput, type GeneratePersonalizedAfricanMethodPlanOutput } from "@/ai/flows/generate-personalized-african-method-plan";
+import { generatePersonalizedAfricanMethodPlan, type GeneratePersonalizedAfricanMethodPlanInput } from "@/ai/flows/generate-personalized-african-method-plan";
 import { QuizStep } from "./QuizStep";
 import { cn } from "@/lib/utils";
-import { Area, AreaChart, ResponsiveContainer, XAxis, YAxis, CartesianGrid, ReferenceDot } from "recharts";
+import { Area as RechartsArea, AreaChart, ResponsiveContainer, CartesianGrid, ReferenceDot } from "recharts";
 
 const TOTAL_STEPS = 25;
 const STORAGE_KEY = "fitness_fem_quiz_state";
@@ -58,12 +50,10 @@ interface QuizContainerProps {
 
 export function QuizContainer({ stepId }: QuizContainerProps) {
   const router = useRouter();
-  const [quizOutput, setQuizOutput] = useState<GeneratePersonalizedAfricanMethodPlanOutput | null>(null);
   const [isClient, setIsClient] = useState(false);
   const [state, setState] = useState<GeneratePersonalizedAfricanMethodPlanInput>(INITIAL_STATE);
   const [selectedLimitations, setSelectedLimitations] = useState<string[]>([]);
   const [heightUnit, setHeightUnit] = useState<"cm" | "pol">("cm");
-  const [targetWeightUnit, setTargetWeightUnit] = useState<"kg" | "lb">("kg");
   const [sliderPos, setSliderPos] = useState(50);
   
   const heightRulerRef = useRef<HTMLDivElement>(null);
@@ -178,8 +168,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
 
   const finishQuiz = async () => {
     try {
-      const result = await generatePersonalizedAfricanMethodPlan(state);
-      setQuizOutput(result);
+      await generatePersonalizedAfricanMethodPlan(state);
       setTimeout(() => router.push(`/step/24`), 2000);
     } catch (error) {
       console.error(error);
@@ -796,7 +785,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           <div className="space-y-8 text-center">
             <h2 className="text-3xl font-bold text-foreground tracking-tight px-6">E qual é seu objetivo de peso ideal?</h2>
             <div className="text-6xl font-black text-foreground flex items-baseline justify-center gap-1">
-              {state.targetWeight}<span className="text-2xl font-bold text-muted-foreground">{targetWeightUnit}</span>
+              {state.targetWeight}<span className="text-2xl font-bold text-muted-foreground">kg</span>
             </div>
             <div className="relative py-10 select-none">
               <div ref={targetWeightRulerRef} onScroll={handleTargetWeightScroll} onMouseDown={(e) => handleRulerDragStart(e, targetWeightRulerRef)} onMouseUp={handleRulerDragEnd} onMouseLeave={handleRulerDragEnd} onMouseMove={(e) => handleRulerDragMove(e, targetWeightRulerRef)} onTouchStart={(e) => handleRulerDragStart(e, targetWeightRulerRef)} onTouchEnd={handleRulerDragEnd} onTouchMove={(e) => handleRulerDragMove(e, targetWeightRulerRef)} className="w-full flex items-end gap-0 overflow-x-auto no-scrollbar px-[50%] py-4 scroll-smooth cursor-grab active:cursor-grabbing">
@@ -847,6 +836,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           <div className="space-y-6 text-center py-4 max-w-md mx-auto w-full px-4">
             <h2 className="text-3xl font-black leading-tight text-slate-900">Prepare-se para ver <span className="text-[#10B981]">{state.targetWeight}kg</span> no espelho!</h2>
             <div className="relative">
+              {/* Peso Labels Estáveis fora do SVG */}
               <div className="flex justify-between items-end px-8 relative z-20 pointer-events-none h-14">
                 <div className="text-left">
                   <span className="text-[10px] font-bold text-muted-foreground block uppercase leading-none mb-1">Seu peso</span>
@@ -857,6 +847,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                   <span className="text-[10px] font-bold text-primary mt-1 uppercase leading-none">3 semanas</span>
                 </div>
               </div>
+
               <div className="relative w-full h-[320px] mt-2 overflow-hidden bg-white rounded-[2.5rem] border border-primary/5 p-4 shadow-sm">
                 <ResponsiveContainer width="100%" height="100%">
                   <AreaChart data={weightData} margin={{ top: 20, right: 10, left: 10, bottom: 0 }}>
@@ -893,7 +884,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
 
       case 22:
         return (
-          <div className="space-y-10 py-6 text-center w-full max-w-lg mx-auto">
+          <div className="space-y-10 py-6 text-center w-full max-lg mx-auto">
             <div className="space-y-4 px-4">
                <div className="flex justify-between items-center mb-1">
                 <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Analizando o seu perfil...</span>
@@ -913,6 +904,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
         return (
           <div className="flex flex-col items-center w-full max-w-md mx-auto px-4 pb-10">
             <div className="relative w-full">
+              {/* Peso Labels Estáveis fora do SVG */}
               <div className="flex justify-between items-end px-8 relative z-20 pointer-events-none mt-20 h-14">
                 <div className="text-left">
                   <span className="text-[10px] font-bold text-muted-foreground block uppercase leading-none mb-1">Seu peso</span>
@@ -923,6 +915,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                   <span className="text-[10px] font-bold text-primary mt-1 uppercase leading-none">3 semanas</span>
                 </div>
               </div>
+
               <div className="relative w-full h-[320px] mt-2 overflow-hidden bg-white rounded-[2.5rem] border border-primary/5 p-4 shadow-sm">
                 <ResponsiveContainer width="100%" height="100%">
                   <AreaChart data={weightData} margin={{ top: 20, right: 10, left: 10, bottom: 0 }}>
@@ -955,27 +948,22 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           <div className="w-full bg-background overflow-x-hidden">
             <div className="max-w-4xl mx-auto px-4 py-10 space-y-12 flex flex-col items-center">
               
-              {/* Image Comparison Slider */}
+              {/* Slider de Comparação Antes/Depois */}
               <div 
                 ref={sliderRef}
                 className="relative w-full aspect-square max-w-[400px] rounded-[2.5rem] overflow-hidden shadow-2xl border-4 border-white cursor-ew-resize select-none"
                 onMouseMove={handleComparisonMove}
                 onTouchMove={handleComparisonMove}
               >
-                {/* Before Image (Base) */}
                 <div className="absolute inset-0">
                   <Image src="/foto1.png" alt="Antes" fill className="object-cover" priority />
                 </div>
-                
-                {/* After Image (Overlay) */}
                 <div 
                   className="absolute inset-0 z-10" 
                   style={{ clipPath: `inset(0 ${100 - sliderPos}% 0 0)` }}
                 >
                   <Image src="/foto2.png" alt="Depois" fill className="object-cover" priority />
                 </div>
-
-                {/* Slider Handle */}
                 <div 
                   className="absolute top-0 bottom-0 z-20 w-1 bg-white shadow-xl flex items-center justify-center"
                   style={{ left: `${sliderPos}%` }}
@@ -995,7 +983,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 </h1>
               </div>
 
-              {/* Pricing Card */}
+              {/* Card de Preço Premium */}
               <section className="relative w-full max-w-[440px] mx-auto px-2">
                 <div className="rounded-[2.5rem] border-2 border-[#22C55E] bg-white overflow-hidden shadow-2xl">
                   <div className="bg-[#22C55E] py-3 text-center">
@@ -1028,21 +1016,45 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 </div>
               </section>
 
-              {/* Benefits list */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
-                {[
-                  "Exercícios simples e eficazes em casa",
-                  "Foco em cintura, pernas e glúteos",
-                  "Aulas rápidas de 15 minutos",
-                  "Receitas para acelerar queima de gordura"
-                ].map((item, i) => (
-                  <div key={i} className="flex items-center gap-3 bg-secondary/30 p-4 rounded-2xl border border-primary/5">
-                    <CheckCircle2 className="w-5 h-5 text-primary shrink-0" />
-                    <span className="font-bold text-slate-700 text-sm">{item}</span>
-                  </div>
-                ))}
-              </div>
+              {/* Seção O que você vai receber */}
+              <section className="w-full max-w-2xl mx-auto space-y-10 py-10">
+                <h2 className="text-3xl font-black text-slate-900 text-center uppercase tracking-tight">
+                  O que você vai receber
+                </h2>
+                
+                <div className="space-y-5 px-4">
+                  {[
+                    "Exercícios fáceis, suaves e seguros para qualquer nível físico",
+                    "Exercícios para melhorar a flexibilidade, reduzir dores nos músculos e melhorar a circulação",
+                    "Stress e ansiedade reduzidos",
+                    "Melhoria da pressão arterial e da saúde das articulações",
+                    "Corpo forte, tonificado e definido",
+                    "+21 aulas para você assistir onde quiser",
+                    "Receitas Personalizadas para acelerar o seu emagrecimento"
+                  ].map((item, i) => (
+                    <div key={i} className="flex items-start gap-4">
+                      <div className="mt-1 bg-[#4ADE80] rounded-sm p-0.5 shrink-0">
+                        <Check className="w-3.5 h-3.5 text-white" strokeWidth={4} />
+                      </div>
+                      <span className="font-bold text-slate-800 text-lg leading-tight">
+                        {item}
+                      </span>
+                    </div>
+                  ))}
+                </div>
 
+                <div className="relative w-full aspect-[4/3] rounded-[2.5rem] overflow-hidden shadow-xl border-8 border-white bg-slate-100">
+                  <Image 
+                    src="/video.gif" 
+                    alt="Vídeo das aulas" 
+                    fill 
+                    className="object-cover"
+                    unoptimized
+                  />
+                </div>
+              </section>
+
+              {/* Antigo Benefits list substituído pela nova seção acima */}
             </div>
           </div>
         );
@@ -1120,3 +1132,10 @@ function LoadingScreen({ title, steps, onComplete, duration = 3000 }: { title: s
     </div>
   );
 }
+
+const Area = (props: any) => {
+  const { path } = props;
+  if (!path || path.includes('NaN')) return null;
+  return <RechartsArea {...props} />;
+};
+Area.displayName = "Area";
