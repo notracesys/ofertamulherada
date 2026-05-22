@@ -1062,7 +1062,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                   
                   <ReferenceDot x="SEMANA 1" y={currentWeightValue} r={6} fill="#fff" stroke="#EF4444" strokeWidth={3}>
                     <Label content={({ cx, cy }: any) => {
-                      if (isNaN(cx) || isNaN(cy)) return null;
+                      if (typeof cx !== 'number' || typeof cy !== 'number' || isNaN(cx) || isNaN(cy)) return null;
                       return (
                         <g>
                           <text x={cx} y={cy - 45} textAnchor="middle" fill="#64748b" fontSize="10" fontWeight="bold">SEU PESO</text>
@@ -1076,7 +1076,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                   
                   <ReferenceDot x="SEMANA 3" y={targetWeightValue} r={6} fill="#fff" stroke="#22C55E" strokeWidth={3}>
                     <Label content={({ cx, cy }: any) => {
-                      if (isNaN(cx) || isNaN(cy)) return null;
+                      if (typeof cx !== 'number' || typeof cy !== 'number' || isNaN(cx) || isNaN(cy)) return null;
                       return (
                         <g>
                           <rect x={cx - 30} y={cy - 65} width="60" height="20" rx="10" fill="#EC4899" />
@@ -1246,7 +1246,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                   
                   <ReferenceDot x="SEMANA 1" y={currentWeightValue} r={6} fill="#fff" stroke="#EF4444" strokeWidth={3}>
                     <Label content={({ cx, cy }: any) => {
-                      if (isNaN(cx) || isNaN(cy)) return null;
+                      if (typeof cx !== 'number' || typeof cy !== 'number' || isNaN(cx) || isNaN(cy)) return null;
                       return (
                         <g>
                           <text x={cx} y={cy - 45} textAnchor="middle" fill="#64748b" fontSize="10" fontWeight="bold">SEU PESO</text>
@@ -1260,7 +1260,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                   
                   <ReferenceDot x="SEMANA 3" y={targetWeightValue} r={6} fill="#fff" stroke="#22C55E" strokeWidth={3}>
                     <Label content={({ cx, cy }: any) => {
-                      if (isNaN(cx) || isNaN(cy)) return null;
+                      if (typeof cx !== 'number' || typeof cy !== 'number' || isNaN(cx) || isNaN(cy)) return null;
                       return (
                         <g>
                           <rect x={cx - 30} y={cy - 65} width="60" height="20" rx="10" fill="#EC4899" />
