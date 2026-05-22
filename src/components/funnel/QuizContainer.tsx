@@ -1189,6 +1189,21 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 </div>
               </section>
 
+              {/* Final CTA Section */}
+              <section className="w-full max-w-[440px] mx-auto px-4 py-10">
+                <div className="text-center space-y-6">
+                  <h2 className="text-2xl font-black text-slate-900 uppercase tracking-tight">
+                    Não perca mais tempo!
+                  </h2>
+                  <Button className="w-full py-10 text-xl font-black rounded-[1.8rem] bg-[#22C55E] hover:bg-[#1ead52] text-white shadow-xl shadow-green-200 uppercase tracking-tight h-auto">
+                    OBTER MEU PLANO AGORA
+                  </Button>
+                  <p className="text-slate-400 text-xs font-bold uppercase tracking-widest">
+                    Acesso imediato e vitalício
+                  </p>
+                </div>
+              </section>
+
             </div>
           </div>
         );
