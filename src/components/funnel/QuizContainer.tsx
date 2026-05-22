@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
@@ -837,7 +836,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           <div className="space-y-6 text-center py-4 max-w-md mx-auto w-full px-4">
             <h2 className="text-3xl font-black leading-tight text-slate-900">Prepare-se para ver <span className="text-[#10B981]">{state.targetWeight}kg</span> no espelho!</h2>
             <div className="relative">
-              {/* Identificadores de peso flutuantes */}
+              {/* Identificadores de peso flutuantes - Corrigido NaN */}
               <div className="flex justify-between items-end px-8 relative z-20 pointer-events-none h-14">
                 <div className="text-left">
                   <span className="text-[10px] font-bold text-muted-foreground block uppercase leading-none mb-1">Seu peso</span>
@@ -905,7 +904,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
         return (
           <div className="flex flex-col items-center w-full max-w-md mx-auto px-4 pb-10">
             <div className="relative w-full">
-              {/* Identificadores de peso flutuantes - Mesma lógica estável do Passo 20 */}
+              {/* Identificadores de peso flutuantes - Corrigido NaN */}
               <div className="flex justify-between items-end px-8 relative z-20 pointer-events-none mt-20 h-14">
                 <div className="text-left">
                   <span className="text-[10px] font-bold text-muted-foreground block uppercase leading-none mb-1">Seu peso</span>
@@ -981,11 +980,11 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
 
               <div className="text-center space-y-4 px-4">
                 <h1 className="text-2xl md:text-3xl font-black text-[#0F172A] leading-tight">
-                  Seu Programa Feminino de Definição personalizado está pronto!
+                  Seu programa feminino de definição personalizado está pronto!
                 </h1>
               </div>
 
-              {/* Card de Preço Premium da Referência */}
+              {/* Card de Preço Premium */}
               <section className="relative w-full max-w-[440px] mx-auto px-2">
                 <div className="rounded-[2.5rem] border-2 border-[#22C55E] bg-white overflow-hidden shadow-2xl">
                   <div className="bg-[#22C55E] py-3 text-center">
@@ -1057,29 +1056,52 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 </div>
               </section>
 
-              {/* Seção Descubra os Benefícios do Produto */}
+              {/* Seção Descubra os Benefícios */}
               <section className="w-full max-w-2xl mx-auto space-y-10 py-10 text-center px-4">
                 <h2 className="text-3xl font-black text-slate-900 uppercase tracking-tight leading-tight">
                   Descubra os benefícios do <br /> Programa Feminino de Definição
                 </h2>
                 
-                <div className="space-y-8">
-                  <div className="relative w-full max-w-[400px] mx-auto rounded-[2.5rem] overflow-hidden shadow-lg bg-slate-50">
-                    <Image 
-                      src="/perdadepeso.webp" 
-                      alt="Benefício Perda de Peso" 
-                      width={400}
-                      height={500}
-                      className="w-full h-auto object-contain"
-                    />
+                <div className="space-y-16">
+                  {/* Benefício 1: Perda de Peso */}
+                  <div className="space-y-8">
+                    <div className="relative w-full max-w-[400px] mx-auto rounded-[2.5rem] overflow-hidden shadow-lg bg-slate-50">
+                      <Image 
+                        src="/perdadepeso.webp" 
+                        alt="Benefício Perda de Peso" 
+                        width={400}
+                        height={500}
+                        className="w-full h-auto object-contain"
+                      />
+                    </div>
+                    <div className="space-y-4">
+                      <h3 className="text-2xl font-black text-slate-900">Perda de peso</h3>
+                      <p className="text-slate-500 text-lg leading-relaxed font-medium">
+                        O excesso de peso representa grandes riscos para a nossa autoestima e saúde geral. 
+                        Você pode se livrar do excesso de gordura de maneira rápida e efetiva com o nosso programa. 
+                        Você consegue se livrar rapidamente da gordura localizada com o plano personalizado.
+                      </p>
+                    </div>
                   </div>
-                  <div className="space-y-4">
-                    <h3 className="text-2xl font-black text-slate-900">Perda de peso</h3>
-                    <p className="text-slate-500 text-lg leading-relaxed font-medium">
-                      O excesso de peso representa grandes riscos para a nossa autoestima e saúde geral. 
-                      Você pode se livrar do excesso de gordura de maneira rápida e efetiva com o nosso programa. 
-                      Você consegue se livrar rapidamente da gordura localizada com o plano personalizado.
-                    </p>
+
+                  {/* Benefício 2: Força e Definição */}
+                  <div className="space-y-8">
+                    <div className="relative w-full max-w-[400px] mx-auto rounded-[2.5rem] overflow-hidden shadow-lg bg-slate-50">
+                      <Image 
+                        src="/forca.webp" 
+                        alt="Benefício Força e Definição" 
+                        width={400}
+                        height={500}
+                        className="w-full h-auto object-contain"
+                      />
+                    </div>
+                    <div className="space-y-4">
+                      <h3 className="text-2xl font-black text-slate-900">Força e Definição</h3>
+                      <p className="text-slate-500 text-lg leading-relaxed font-medium">
+                        Você se encontra constantemente sem energia ou força para fazer as coisas que costumava fazer? 
+                        Esse plano personalizado irá te ajudar a se sentir mais enérgico e aumentar sua força rapidamente com apenas 10 minutos por dia.
+                      </p>
+                    </div>
                   </div>
                 </div>
               </section>
@@ -1162,7 +1184,7 @@ function LoadingScreen({ title, steps, onComplete, duration = 3000 }: { title: s
   );
 }
 
-// Estabilização para evitar erro de NaN no Recharts
+// Estabilização renomeada para evitar conflito
 const CustomArea = (props: any) => {
   const { path } = props;
   if (!path || path.includes('NaN')) return null;
