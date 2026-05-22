@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
@@ -31,6 +32,13 @@ import { generatePersonalizedAfricanMethodPlan, type GeneratePersonalizedAfrican
 import { QuizStep } from "./QuizStep";
 import { cn } from "@/lib/utils";
 import { Area, AreaChart, ResponsiveContainer, XAxis, YAxis, CartesianGrid, ReferenceDot } from "recharts";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 const TOTAL_STEPS = 25;
 const STORAGE_KEY = "fitness_fem_quiz_state";
@@ -1026,7 +1034,8 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
             </div>
 
             <div className="relative">
-              <div className="flex justify-between items-end px-8 mb-[-60px] relative z-20 pointer-events-none">
+              {/* ID de Peso customizada acima do gráfico */}
+              <div className="flex justify-between items-end px-8 relative z-20 pointer-events-none h-14">
                 <div className="text-left">
                   <span className="text-[10px] font-bold text-muted-foreground block uppercase leading-none mb-1">Seu peso</span>
                   <span className="text-2xl font-black text-slate-900 leading-none">{currentWeightValue}kg</span>
@@ -1039,7 +1048,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 </div>
               </div>
 
-              <div className="relative w-full h-[320px] mt-20 overflow-hidden bg-white rounded-[2.5rem] border border-primary/5 p-4 shadow-sm">
+              <div className="relative w-full h-[320px] mt-2 overflow-hidden bg-white rounded-[2.5rem] border border-primary/5 p-4 shadow-sm">
                 <ResponsiveContainer width="100%" height="100%">
                   <AreaChart data={weightData} margin={{ top: 20, right: 10, left: 10, bottom: 0 }}>
                     <defs>
@@ -1175,7 +1184,8 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
         return (
           <div className="flex flex-col items-center w-full max-w-md mx-auto px-4 pb-10">
             <div className="relative w-full">
-              <div className="flex justify-between items-end px-8 mb-[-60px] relative z-20 pointer-events-none mt-20">
+              {/* Identificação de peso robusta fora do SVG */}
+              <div className="flex justify-between items-end px-8 relative z-20 pointer-events-none mt-20 h-14">
                 <div className="text-left">
                   <span className="text-[10px] font-bold text-muted-foreground block uppercase leading-none mb-1">Seu peso</span>
                   <span className="text-2xl font-black text-slate-900 leading-none">{currentWeightValue}kg</span>
@@ -1188,7 +1198,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 </div>
               </div>
 
-              <div className="relative w-full h-[320px] mt-10 overflow-hidden bg-white rounded-[2.5rem] border border-primary/5 p-4 shadow-sm">
+              <div className="relative w-full h-[320px] mt-2 overflow-hidden bg-white rounded-[2.5rem] border border-primary/5 p-4 shadow-sm">
                 <ResponsiveContainer width="100%" height="100%">
                   <AreaChart data={weightData} margin={{ top: 20, right: 10, left: 10, bottom: 0 }}>
                     <defs>
@@ -1240,35 +1250,52 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           <div className="w-full bg-background overflow-x-hidden">
             <div className="max-w-4xl mx-auto px-4 py-10 space-y-12">
               
-              {/* Transformation Image Comparison */}
+              {/* Transformation Image Carousel */}
               <section className="space-y-8">
                 <div className="relative w-full aspect-square max-w-[400px] mx-auto rounded-[2.5rem] overflow-hidden shadow-2xl bg-white border-4 border-white">
-                  <div className="absolute inset-0 flex">
-                    <div className="relative flex-1">
-                       <Image src="/foto1.png" alt="Before" fill className="object-cover" />
+                  <Carousel className="w-full h-full">
+                    <CarouselContent className="h-full">
+                      <CarouselItem className="relative h-full">
+                        <Image 
+                          src="/foto1.png" 
+                          alt="Antes" 
+                          fill 
+                          className="object-cover"
+                          priority
+                        />
+                        <div className="absolute top-6 left-6 bg-black/40 backdrop-blur-sm text-white px-4 py-1.5 rounded-full font-black uppercase tracking-widest text-xs">
+                          Antes
+                        </div>
+                      </CarouselItem>
+                      <CarouselItem className="relative h-full">
+                        <Image 
+                          src="/foto2.png" 
+                          alt="Depois" 
+                          fill 
+                          className="object-cover"
+                          priority
+                        />
+                        <div className="absolute top-6 left-6 bg-primary text-white px-4 py-1.5 rounded-full font-black uppercase tracking-widest text-xs shadow-lg shadow-primary/20">
+                          Depois
+                        </div>
+                      </CarouselItem>
+                    </CarouselContent>
+                    <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+                      <div className="w-2 h-2 rounded-full bg-white opacity-100" />
+                      <div className="w-2 h-2 rounded-full bg-white opacity-40" />
                     </div>
-                    <div className="relative flex-1">
-                       <Image src="/foto2.png" alt="After" fill className="object-cover" />
-                    </div>
-                  </div>
-                  <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-1.5 bg-white shadow-xl flex items-center justify-center">
-                    <div className="w-10 h-10 rounded-full bg-white shadow-2xl flex items-center justify-center border border-slate-100">
-                      <div className="flex gap-0.5">
-                        <ChevronLeft className="w-4 h-4 text-slate-400" />
-                        <ChevronRight className="w-4 h-4 text-slate-400" />
-                      </div>
-                    </div>
-                  </div>
+                  </Carousel>
                 </div>
 
                 <div className="text-center space-y-4 px-4">
                   <h1 className="text-3xl md:text-5xl font-black text-[#0F172A] leading-[1.1] tracking-tight">
                     Seu plano de treino personalizado de Pilates na parede está pronto!
                   </h1>
+                  <p className="text-slate-500 font-medium">Arraste a imagem para o lado para ver a transformação</p>
                 </div>
               </section>
 
-              {/* Specific Pricing Card from Image */}
+              {/* Specific Pricing Card */}
               <section className="relative max-w-[440px] mx-auto px-2">
                 <div className="rounded-[2.5rem] border-2 border-[#22C55E] bg-white overflow-hidden shadow-2xl shadow-green-100">
                   <div className="bg-[#22C55E] py-3 text-center">
@@ -1301,7 +1328,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 </div>
               </section>
 
-              {/* Features and Benefits below the hero */}
+              {/* Features and Benefits */}
               <section className="space-y-12 pt-8">
                 <h2 className="text-3xl md:text-4xl font-black text-center text-foreground uppercase tracking-tight">
                   O que você <span className="text-primary italic">vai receber</span>
