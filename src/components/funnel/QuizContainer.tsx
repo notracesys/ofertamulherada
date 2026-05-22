@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
@@ -1122,6 +1121,66 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                         A definição da parte inferior do corpo é um dos pilares do nosso programa. 
                         Com exercícios de ativação muscular profunda, você vai tonificar glúteos e pernas, combatendo a flacidez e esculpindo suas curvas de forma natural e eficiente.
                       </p>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              {/* Seção de Comprovações / Resultados */}
+              <section className="w-full max-w-2xl mx-auto space-y-12 py-10 text-center px-4">
+                <h2 className="text-2xl md:text-3xl font-black text-slate-900 leading-tight">
+                  Confira os resultados de algumas das nossas alunas que aplicaram o método
+                </h2>
+
+                <div className="space-y-12">
+                  {/* Resultado 1 */}
+                  <div className="space-y-4">
+                    <div className="space-y-1">
+                      <h3 className="text-xl font-bold text-primary">Marta | -9kg</h3>
+                      <p className="font-bold text-slate-900">Perdeu 9kg em apenas 17 dias.</p>
+                    </div>
+                    <div className="relative w-full max-w-[400px] mx-auto rounded-[2.5rem] overflow-hidden shadow-lg border-4 border-white">
+                      <Image 
+                        src="/feedback1.webp" 
+                        alt="Resultado Marta" 
+                        width={400}
+                        height={500}
+                        className="w-full h-auto object-cover"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Resultado 2 */}
+                  <div className="space-y-4">
+                    <div className="space-y-1">
+                      <h3 className="text-xl font-bold text-primary">Adriana | -9kg</h3>
+                      <p className="font-bold text-slate-900">Perdeu 9kg em apenas 19 dias.</p>
+                    </div>
+                    <div className="relative w-full max-w-[400px] mx-auto rounded-[2.5rem] overflow-hidden shadow-lg border-4 border-white">
+                      <Image 
+                        src="/feedback2.webp" 
+                        alt="Resultado Adriana" 
+                        width={400}
+                        height={500}
+                        className="w-full h-auto object-cover"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Resultado 3 */}
+                  <div className="space-y-4">
+                    <div className="space-y-1">
+                      <h3 className="text-xl font-bold text-primary">Juliana | -6kg</h3>
+                      <p className="font-bold text-slate-900">Perdeu 6kg em apenas 14 dias.</p>
+                    </div>
+                    <div className="relative w-full max-w-[400px] mx-auto rounded-[2.5rem] overflow-hidden shadow-lg border-4 border-white">
+                      <Image 
+                        src="/feedback3.webp" 
+                        alt="Resultado Juliana" 
+                        width={400}
+                        height={500}
+                        className="w-full h-auto object-cover"
+                      />
                     </div>
                   </div>
                 </div>
