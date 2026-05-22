@@ -999,7 +999,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
       case 21:
         return (
           <div className="space-y-12 text-center px-4">
-            <h2 className="text-2xl font-bold text-[#0F172A] leading-tight px-6">Quanto tempo você deseja dedicar em seu corpo no dia?</h2>
+            <h2 className="text-2xl font-bold text-[#0F172A] font-headline leading-tight px-6">Quanto tempo você deseja dedicar em seu corpo no dia?</h2>
             <div className="grid grid-cols-2 gap-4">
               {["5 minutos", "10 minutos", "15 minutos", "30 minutos"].map((opt) => (
                 <Button key={opt} variant={state.dedicationTime === opt ? "default" : "outline"} className={cn("h-20 rounded-2xl border-2 transition-all flex flex-col justify-center items-center gap-1 bg-white", state.dedicationTime === opt ? "border-primary shadow-lg ring-1 ring-primary" : "border-primary/10 hover:border-primary/40")} onClick={() => { updateState("dedicationTime", opt); setTimeout(nextStep, 300); }}>
@@ -1158,7 +1158,7 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     <p className="text-[8px] font-black text-slate-400 uppercase leading-none tracking-widest mt-1">POR DIA</p>
                   </div>
                 </div>
-                <button className="w-full py-10 text-xl font-black rounded-[1.8rem] bg-primary hover:bg-primary/90 text-white shadow-xl shadow-primary/20 uppercase tracking-tight h-auto">
+                <button className="w-full py-10 text-xl font-black rounded-[1.8rem] bg-[#22c55e] hover:bg-[#16a34a] text-white shadow-xl shadow-green-500/20 uppercase tracking-tight h-auto">
                   OBTER MEU PLANO AGORA
                 </button>
               </div>
