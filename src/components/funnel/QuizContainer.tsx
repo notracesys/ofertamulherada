@@ -850,7 +850,6 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           <div className="space-y-6 text-center py-4 max-w-md mx-auto w-full px-4">
             <h2 className="text-3xl font-black leading-tight text-slate-900">Prepare-se para ver <span className="text-[#10B981]">{state.targetWeight}kg</span> no espelho!</h2>
             <div className="relative">
-              {/* Identificadores de peso flutuantes - Corrigido NaN */}
               <div className="flex justify-between items-end px-8 relative z-20 pointer-events-none h-14">
                 <div className="text-left">
                   <span className="text-[10px] font-bold text-muted-foreground block uppercase leading-none mb-1">Seu peso</span>
@@ -920,7 +919,6 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
         return (
           <div className="flex flex-col items-center w-full max-w-md mx-auto px-4 pb-10">
             <div className="relative w-full">
-              {/* Identificadores de peso flutuantes - Corrigido NaN */}
               <div className="flex justify-between items-end px-8 relative z-20 pointer-events-none mt-20 h-14">
                 <div className="text-left">
                   <span className="text-[10px] font-bold text-muted-foreground block uppercase leading-none mb-1">Seu peso</span>
@@ -966,7 +964,6 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
           <div className="w-full bg-background overflow-x-hidden">
             <div className="max-w-4xl mx-auto px-4 py-10 space-y-12 flex flex-col items-center">
               
-              {/* Slider de Comparação Antes/Depois com Arraste */}
               <div 
                 ref={sliderRef}
                 className="relative w-full aspect-square max-w-[400px] rounded-[2.5rem] overflow-hidden shadow-2xl border-4 border-white cursor-ew-resize select-none"
@@ -982,7 +979,6 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 >
                   <Image src="/foto2.png" alt="Depois" fill className="object-cover" priority />
                 </div>
-                {/* Divisor arrastável */}
                 <div 
                   className="absolute top-0 bottom-0 z-20 w-1 bg-white shadow-xl flex items-center justify-center"
                   style={{ left: `${sliderPos}%` }}
@@ -1002,7 +998,6 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 </h1>
               </div>
 
-              {/* Card de Preço Premium */}
               <section className="relative w-full max-w-[440px] mx-auto px-2">
                 <div className="rounded-[2.5rem] border-2 border-[#22C55E] bg-white overflow-hidden shadow-2xl">
                   <div className="bg-[#22C55E] py-3 text-center">
@@ -1035,7 +1030,6 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 </div>
               </section>
 
-              {/* Seção O que você vai receber com Vídeo GIF */}
               <section className="w-full max-w-2xl mx-auto space-y-10 py-10">
                 <h2 className="text-3xl font-black text-slate-900 text-center uppercase tracking-tight">
                   O que você vai receber
@@ -1062,7 +1056,6 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                   ))}
                 </div>
 
-                {/* Mockup do Vídeo GIF */}
                 <div className="relative w-full aspect-[4/3] rounded-[2.5rem] overflow-hidden shadow-xl border-8 border-white bg-slate-100">
                   <Image 
                     src="/videos.gif" 
@@ -1074,14 +1067,12 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 </div>
               </section>
 
-              {/* Seção Descubra os Benefícios */}
               <section className="w-full max-w-2xl mx-auto space-y-10 py-10 text-center px-4">
                 <h2 className="text-3xl font-black text-slate-900 uppercase tracking-tight leading-tight">
                   Descubra os benefícios do <br /> Programa Feminino de Definição
                 </h2>
                 
                 <div className="space-y-16">
-                  {/* Benefício 1: Perda de Peso */}
                   <div className="space-y-8">
                     <div className="relative w-full max-w-[400px] mx-auto rounded-[2.5rem] overflow-hidden shadow-lg bg-slate-50">
                       <Image 
@@ -1102,7 +1093,6 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     </div>
                   </div>
 
-                  {/* Benefício 2: Força e Definição */}
                   <div className="space-y-8">
                     <div className="relative w-full max-w-[400px] mx-auto rounded-[2.5rem] overflow-hidden shadow-lg bg-slate-50">
                       <Image 
@@ -1122,7 +1112,6 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     </div>
                   </div>
 
-                  {/* Benefício 3: Glúteos e Pernas */}
                   <div className="space-y-8">
                     <div className="relative w-full max-w-[400px] mx-auto rounded-[2.5rem] overflow-hidden shadow-lg bg-slate-50">
                       <Image 
@@ -1144,14 +1133,12 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                 </div>
               </section>
 
-              {/* Seção de Comprovações / Resultados */}
               <section className="w-full max-w-2xl mx-auto space-y-12 py-10 text-center px-4">
                 <h2 className="text-2xl md:text-3xl font-black text-slate-900 leading-tight">
                   Confira os resultados de algumas das nossas alunas que aplicaram o método
                 </h2>
 
                 <div className="space-y-12">
-                  {/* Resultado 1 */}
                   <div className="space-y-4">
                     <div className="space-y-1">
                       <h3 className="text-xl font-bold text-primary">Marta | -9kg</h3>
@@ -1168,7 +1155,6 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     </div>
                   </div>
 
-                  {/* Resultado 2 */}
                   <div className="space-y-4">
                     <div className="space-y-1">
                       <h3 className="text-xl font-bold text-primary">Adriana | -9kg</h3>
@@ -1185,11 +1171,10 @@ export function QuizContainer({ stepId }: QuizContainerProps) {
                     </div>
                   </div>
 
-                  {/* Resultado 3 */}
                   <div className="space-y-4">
                     <div className="space-y-1">
                       <h3 className="text-xl font-bold text-primary">Juliana | -6kg</h3>
-                      <p className="font-bold text-slate-900">perdeu 10kg em 23 dias</p>
+                      <p className="font-bold text-slate-900">Perdeu 10kg em apenas 23 dias</p>
                     </div>
                     <div className="relative w-full max-w-[400px] mx-auto rounded-[2.5rem] overflow-hidden shadow-lg border-4 border-white">
                       <Image 
@@ -1282,7 +1267,6 @@ function LoadingScreen({ title, steps, onComplete, duration = 3000 }: { title: s
   );
 }
 
-// Estabilização renomeada para evitar conflito com importações globais
 const CustomArea = (props: any) => {
   const { path } = props;
   if (!path || path.includes('NaN')) return null;
